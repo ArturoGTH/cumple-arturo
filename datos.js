@@ -16,10 +16,10 @@
 window.DATOS = {
 
   // Cámbialo cada vez que edites: así sabes si la página ya se actualizó.
-  actualizado: "11 de octubre, 2026",
+  actualizado: "12 de octubre, 2026",
 
   // true = muestra el aviso "Borrador con datos de ejemplo". Ponlo en false al publicar.
-  borrador: true,
+  borrador: false,
 
   fiesta: {
     anfitrion: "Juan Arturo",
@@ -76,7 +76,7 @@ window.DATOS = {
 
   // Conexión automática con tu hoja de Google (pega aquí la URL que termina en /exec).
   // Vacío = todo funciona igual, pero los avisos llegan solo por WhatsApp.
-  api: "",
+  api: "https://script.google.com/macros/s/AKfycbx2qsXNSszXxuxhOUYJgwr0bM8lu69yZPCBdySOzYAbDdV3YTF-wK4PP0wlUTn9OsXY/exec",
 
   // Música: pega un enlace de Spotify (canción, álbum, playlist o artista).
   // Se abre en un panel al tocar el botón "Música". (Alternativa: archivo .mp3 en "archivo").
@@ -131,7 +131,8 @@ window.DATOS = {
   // "medida" = presentación (botella de 3 L, bolsa de 5 kg…). En piqueos no hace falta.
   // Cuando ya tengas suficiente de algo, cambia  completado: false  por  completado: true
   // y en la página saldrá "¡Completado!" (ya no se podrá marcar).
-  // Quién trae qué y cuánto lo anotas en tu Excel de control.
+  // Con la hoja de Google conectada, quién trae qué se anota solo y "¡Completado!" sale
+  // al llegar a la meta (pestaña "Lista"). Esta lista solo se usa si la hoja no responde.
   paraLlevar: {
     titulo: "¿Prefieres llevar algo?",
     subtitulo: "Si te provoca aportar con un trago o algo para picar, aquí está lo que nos falta.",

@@ -1,0 +1,1116 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mi cumpleaños · Juan Arturo</title>
+<meta name="description" content="Sábado 7 de noviembre, desde las 6:00 p. m. ¡Te espero! Confirma tu asistencia aquí.">
+<meta name="theme-color" content="#0d0a0b">
+<!-- Vista previa al compartir el enlace (WhatsApp, Facebook, etc.).
+     IMPORTANTE: og:image y og:url deben ser la dirección completa de la página publicada. -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_PE">
+<meta property="og:title" content="Mi cumpleaños · Juan Arturo">
+<meta property="og:description" content="Sábado 7 de noviembre, desde las 6:00 p. m. ¡Te espero! Confirma tu asistencia aquí.">
+<meta property="og:image" content="fotos/portada-whatsapp.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0a0b;            /* negro cálido */
+    --surface: #1a1013;       /* negro vino */
+    --surface-2: #2a141c;
+    --line: rgba(201, 204, 211, .16);   /* plata */
+    --text: #f6f1ec;
+    --muted: #c3c6ce;          /* plata */
+    --accent: #d9b46a;         /* dorado champán */
+    --accent-ink: #231806;
+    --vino: #8c1a37;           /* burdeos */
+    --ok: #d9b46a;
+    --ok-ink: #231806;
+    --coral: #ff6f59;          /* coral */
+    --wa: #25d366;
+    --radius: 18px;
+    --display: "Fraunces", Georgia, "Times New Roman", serif;
+    --body: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(900px 560px at 85% -10%, rgba(140, 26, 55, .55), transparent 62%),
+      radial-gradient(700px 480px at 0% 10%, rgba(255, 111, 89, .14), transparent 60%),
+      var(--bg);
+    background-repeat: no-repeat;
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  .wrap { max-width: 660px; margin: 0 auto; padding: 0 16px 64px; }
+
+  .aviso {
+    margin: 12px auto 0; max-width: 660px; padding: 8px 14px;
+    border: 1px dashed var(--accent); border-radius: 12px;
+    color: var(--accent); font-size: 13.5px; text-align: center;
+  }
+
+  /* ---------- Portada ---------- */
+  header { padding: 44px 0 8px; text-align: center; position: relative; }
+  header > *:not(.brillos) { position: relative; z-index: 1; }
+  .brillos { position: absolute; top: 0; left: calc(50% - 50vw); width: 100vw; height: 100%; z-index: 0; pointer-events: none; }
+  .confeti { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 50; pointer-events: none; }
+  body { overflow-x: hidden; }
+  .foto {
+    width: 112px; height: 112px; margin: 0 auto 22px; border-radius: 50%;
+    display: grid; place-items: center; overflow: hidden;
+    background: linear-gradient(140deg, var(--vino), var(--coral) 60%, var(--accent));
+    color: #fff8ef;
+    font-family: var(--display); font-size: 52px; font-weight: 600;
+    box-shadow: 0 0 0 5px var(--bg), 0 0 0 6px var(--line);
+  }
+  .foto img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .foto.con-img {
+    width: 148px; height: 148px; padding: 0; background: var(--bg); overflow: visible;
+    box-shadow:
+      0 0 0 4px var(--bg),
+      0 0 0 6px #d9b46a,
+      0 0 0 11px rgba(13, 10, 11, 0),
+      0 0 0 12px rgba(243, 220, 166, .75),
+      0 0 46px 14px rgba(217, 180, 106, .22);
+  }
+  .foto.con-img img { border-radius: 50%; }
+  /* ---------- Tira de fotos tipo película ---------- */
+  .filme {
+    position: relative; overflow: hidden; margin-top: 14px;
+    background: #050405; border-block: 1px solid rgba(201, 204, 211, .12);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  }
+  .cinta { display: flex; width: max-content; }
+  .cuadro {
+    --alto: clamp(150px, 42vw, 210px);
+    flex: none; padding: 20px 7px;
+    /* perforaciones de la película, arriba y abajo */
+    background-image:
+      linear-gradient(90deg, transparent 5px, rgba(230, 232, 236, .78) 5px 15px, transparent 15px),
+      linear-gradient(90deg, transparent 5px, rgba(230, 232, 236, .78) 5px 15px, transparent 15px);
+    background-size: 20px 9px, 20px 9px;
+    background-position: left 0 top 6px, left 0 bottom 6px;
+    background-repeat: round no-repeat, round no-repeat;
+  }
+  .marco {
+    width: max-content; margin: 0; padding: 6px;
+    background: #fbfaf7; border-radius: 2px;
+  }
+  .marco .img { height: calc(var(--alto) * .82); overflow: hidden; background: #e9e6e1; }
+  .marco img { height: 100%; width: auto; display: block; }
+  .marco .vacia { width: calc(var(--alto) * .82); }
+  .marco .vacia {
+    width: 100%; height: 100%; display: grid; place-items: center; text-align: center;
+    background: linear-gradient(150deg, var(--vino), var(--coral) 75%, var(--accent));
+    color: rgba(255, 248, 239, .9); font-size: 12.5px; font-weight: 500;
+  }
+  .marco figcaption {
+    width: 0; min-width: 100%;
+    height: 26px; padding: 4px 2px 0; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-family: "Caveat", "Segoe Script", cursive; font-size: 19px; line-height: 28px; color: #2a1a20;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .cinta { animation: rodar var(--duracion, 30s) linear infinite; }
+    .filme:hover .cinta, .filme:active .cinta { animation-play-state: paused; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .filme { overflow-x: auto; }
+  }
+  @keyframes rodar { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  header.con-filme { padding-top: 30px; }
+  .ceja {
+    margin: 0 0 6px; color: var(--coral); font-size: 13px; font-weight: 700;
+    letter-spacing: .18em; text-transform: uppercase;
+  }
+  h1 {
+    margin: 0; font-family: var(--display); font-weight: 500; font-style: italic;
+    font-size: clamp(54px, 17vw, 96px); line-height: .95; letter-spacing: -.02em;
+    text-wrap: balance;
+    color: var(--accent);
+  }
+  @supports ((-webkit-background-clip: text) or (background-clip: text)) {
+    h1 {
+      background: linear-gradient(100deg, #f3dca6 0%, var(--accent) 45%, #e6e8ec 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      padding-bottom: .06em;
+    }
+  }
+  .sub { margin: 10px 0 0; font-family: var(--display); font-weight: 600; font-size: clamp(22px, 6vw, 30px); }
+  .mensaje { margin: 18px auto 0; max-width: 46ch; color: var(--muted); text-wrap: pretty; }
+  .sub.arriba {
+    margin: 0 0 6px; color: var(--coral); font-family: var(--body); font-weight: 700;
+    font-size: 14px; letter-spacing: .2em; text-transform: uppercase;
+  }
+  header .foto { margin: 24px auto 4px; }
+  .mensaje { color: var(--text) !important; font-size: 17px; }
+  .cita { margin: 18px auto 0; max-width: 40ch; padding: 0 8px; }
+  .cita p {
+    margin: 0; font-family: var(--display); font-style: italic; font-weight: 500;
+    font-size: 18px; line-height: 1.45; color: var(--muted); text-wrap: balance;
+  }
+  .cita cite { display: block; margin-top: 6px; font-style: normal; font-size: 13.5px; font-weight: 700; letter-spacing: .06em; color: var(--accent); }
+  .cita::before { content: ""; display: block; width: 44px; height: 1px; margin: 0 auto 16px; background: var(--accent); opacity: .7; }
+  .cuenta {
+    display: inline-block; margin-top: 20px; padding: 7px 16px; border-radius: 999px;
+    background: var(--surface-2); border: 1px solid var(--line); font-size: 14.5px; font-weight: 500;
+  }
+  .cuenta b { color: var(--accent); font-variant-numeric: tabular-nums; }
+
+  /* ---------- Secciones ---------- */
+  section { margin-top: 44px; }
+  h2 { margin: 0 0 4px; font-family: var(--display); font-weight: 600; font-size: 27px; line-height: 1.15; text-wrap: balance; }
+  .intro { margin: 0 0 18px; color: var(--muted); }
+  .tarjeta {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px;
+  }
+
+  .detalles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .detalles .tarjeta { padding: 16px; }
+  .detalles .ancho { grid-column: 1 / -1; }
+  .etq { margin: 0 0 3px; color: var(--muted); font-size: 12.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+  .val { margin: 0; font-size: 18px; font-weight: 700; line-height: 1.3; }
+  .nota { margin: 5px 0 0; color: var(--muted); font-size: 14.5px; }
+
+  /* ---------- Formulario ---------- */
+  label, legend { display: block; margin: 0 0 6px; font-size: 14.5px; font-weight: 700; padding: 0; }
+  .campo { margin-bottom: 16px; }
+  input[type="text"] {
+    width: 100%; padding: 13px 14px; border-radius: 12px; border: 1px solid var(--line);
+    background: var(--bg); color: var(--text); font: inherit;
+  }
+  input[type="text"]::placeholder { color: #858891; }
+  input[type="text"]:focus-visible, .opcion input:focus-visible + span, .boton:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
+  fieldset { border: 0; padding: 0; margin: 0 0 18px; min-width: 0; }
+  .opciones { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .opcion { margin: 0; cursor: pointer; }
+  .opcion input { position: absolute; opacity: 0; pointer-events: none; }
+  .opcion span {
+    display: block; padding: 12px 10px; border-radius: 12px; border: 1px solid var(--line);
+    background: var(--bg); text-align: center; font-weight: 500;
+  }
+  .opcion input:checked + span { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+  .botones { display: grid; gap: 10px; }
+  .boton {
+    display: flex; align-items: center; justify-content: center; gap: 9px; width: 100%;
+    padding: 14px 16px; border: 0; border-radius: 12px; cursor: pointer;
+    font: inherit; font-weight: 700; text-decoration: none;
+    background: var(--accent); color: var(--accent-ink);
+  }
+  .boton.wa { background: var(--wa); color: #03240f; }
+  .boton:disabled { opacity: .6; cursor: default; }
+  .boton svg { width: 20px; height: 20px; flex: none; }
+  .estado { margin: 14px 0 0; padding: 11px 14px; border-radius: 12px; font-size: 14.5px; display: none; }
+  .estado.ver { display: block; }
+  .estado.bien { background: rgba(217, 180, 106, .14); color: var(--ok); }
+  .estado.mal { background: rgba(255, 111, 89, .14); color: #ffab95; }
+  .privado { margin: 14px 0 0; color: var(--muted); font-size: 13.5px; }
+
+  /* ---------- Aportes ---------- */
+  .resumen { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+  .resumen .monto { font-family: var(--display); font-size: 30px; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
+  .resumen .de { color: var(--muted); font-size: 15px; }
+  .barra { height: 10px; border-radius: 999px; background: var(--surface-2); overflow: hidden; }
+  .barra i { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--vino), var(--coral)); }
+  .lista { display: grid; gap: 12px; margin-top: 14px; }
+  .item-cab { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .item h3 { margin: 0; font-size: 18px; line-height: 1.3; }
+  .item .det { margin: 2px 0 12px; color: var(--muted); font-size: 14.5px; }
+  .chip {
+    flex: none; padding: 4px 11px; border-radius: 999px; font-size: 12.5px; font-weight: 700;
+    border: 1px solid var(--line); color: var(--muted); white-space: nowrap;
+  }
+  .chip.ok { background: var(--ok); border-color: var(--ok); color: var(--ok-ink); }
+  .item .cifras { display: flex; justify-content: space-between; gap: 10px; margin-top: 8px; font-size: 14.5px; font-variant-numeric: tabular-nums; }
+  .item .cifras span:last-child { color: var(--muted); }
+  .gracias { margin: 10px 0 0; font-size: 14.5px; color: var(--muted); }
+  .gracias b { color: var(--text); font-weight: 500; }
+  .item.cerrado .barra i { background: var(--ok); }
+  .item.cerrado h3 { color: var(--ok); }
+
+  .traer { display: grid; gap: 0; padding: 4px 18px; }
+  .traer-fila { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; padding: 14px 0; border-top: 1px solid var(--line); align-items: center; }
+  .traer-fila:first-child { border-top: 0; }
+  .traer-fila strong { font-size: 16.5px; }
+  .traer-fila .quien { grid-column: 1 / -1; color: var(--muted); font-size: 14.5px; }
+  .traer-fila .cuanto { color: var(--muted); font-size: 14.5px; font-variant-numeric: tabular-nums; }
+  .traer-fila.cerrado strong { color: var(--ok); }
+
+  .botella { margin: 16px 0 0; padding: 14px 16px; border: 1px dashed var(--line); border-radius: 14px; color: var(--muted); font-size: 15px; text-align: center; }
+  .botella a { color: var(--accent); font-weight: 700; }
+  /* ---------- Ventana "llevar algo" ---------- */
+  .llevar-cta { margin-top: 16px; text-align: center; border-style: dashed; }
+  .llevar-t { margin: 0; font-family: var(--display); font-size: 21px; font-weight: 600; }
+  .llevar-s { margin: 4px 0 14px; color: var(--muted); font-size: 15px; }
+  html.sin-scroll { overflow: hidden; }
+  .ventana {
+    width: min(560px, calc(100% - 24px)); max-height: min(86vh, 760px); padding: 0;
+    border: 1px solid var(--line); border-radius: 20px; background: var(--surface); color: var(--text);
+    display: none; flex-direction: column; overflow: hidden;
+  }
+  .ventana[open] { display: flex; }
+  .ventana::backdrop { background: rgba(5, 3, 4, .72); backdrop-filter: blur(3px); }
+  .v-cab { display: flex; gap: 12px; align-items: flex-start; justify-content: space-between; padding: 18px 18px 10px; }
+  .v-cab h3 { margin: 0; font-family: var(--display); font-size: 23px; font-weight: 600; line-height: 1.2; }
+  .v-cab p { margin: 4px 0 0; color: var(--muted); font-size: 14.5px; }
+  .v-cerrar { flex: none; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); background: transparent; color: var(--text); font-size: 24px; line-height: 1; cursor: pointer; }
+  .ll-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 0 18px 6px; padding: 4px; background: var(--bg); border-radius: 12px; }
+  .ll-tab { padding: 10px; border: 0; border-radius: 9px; background: transparent; color: var(--muted); font: inherit; font-weight: 700; cursor: pointer; }
+  .ll-tab.activa { background: var(--surface-2); color: var(--accent); }
+  .v-cuerpo { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 4px 18px 8px; -webkit-overflow-scrolling: touch; }
+  .ll-nota { margin: 8px 0 6px; color: var(--muted); font-size: 13.5px; }
+  .ll-fila { display: grid; grid-template-columns: 24px 1fr auto; gap: 12px; align-items: center; padding: 12px 4px; border-top: 1px solid var(--line); cursor: pointer; margin: 0; position: relative; }
+  .ll-fila:first-of-type { border-top: 0; }
+  .ll-fila input { position: absolute; left: 4px; top: 50%; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+  .ll-check { width: 22px; height: 22px; border-radius: 7px; border: 2px solid var(--line); display: grid; place-items: center; }
+  .ll-fila input:checked + .ll-check { background: var(--accent); border-color: var(--accent); }
+  .ll-fila input:checked + .ll-check::after { content: ""; width: 6px; height: 11px; border: solid var(--accent-ink); border-width: 0 2.5px 2.5px 0; transform: rotate(45deg) translate(-1px, -1px); }
+  .ll-fila input:focus-visible + .ll-check { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .ll-txt { display: grid; gap: 1px; min-width: 0; }
+  .ll-txt strong { font-size: 16px; }
+  .ll-txt small { color: var(--muted); font-size: 13.5px; }
+  .ll-quien { color: var(--accent) !important; }
+  .ll-fila.cubierto { opacity: .55; cursor: default; }
+  .v-pie { padding: 12px 18px 16px; border-top: 1px solid var(--line); background: var(--surface); }
+  /* ---------- Cantidades, nombre en ventana, Yape aviso, música ---------- */
+  .stepper { display: inline-flex; align-items: center; gap: 4px; background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 3px; }
+  .stepper[hidden] { display: none; }
+  .st-b { width: 30px; height: 30px; border-radius: 50%; border: 0; background: var(--surface-2); color: var(--text); font: inherit; font-size: 18px; font-weight: 700; cursor: pointer; line-height: 1; }
+  .st-n { min-width: 22px; text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .ll-barra { display: block; height: 4px; margin-top: 6px; border-radius: 999px; background: var(--surface-2); overflow: hidden; max-width: 160px; }
+  .ll-barra i { display: block; height: 100%; background: linear-gradient(90deg, var(--vino), var(--coral)); }
+  .v-pie { display: grid; gap: 10px; }
+  .v-pie .estado { margin: 0; }
+  .v-nombre, .yape-aviso input, .yape-aviso select {
+    width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line);
+    background: var(--bg); color: var(--text); font: inherit; min-width: 0;
+  }
+  .v-wa { color: var(--accent); font-weight: 700; text-align: center; font-size: 14.5px; }
+  .ya-caja { margin-top: 12px; text-align: center; }
+  .ya-abrir { width: 100%; }
+  .yape-aviso { display: grid; gap: 10px; text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; }
+  .yape-aviso[hidden] { display: none; }
+  .ya-fila.dos { display: grid; grid-template-columns: 1fr 110px; gap: 10px; }
+  .silencio {
+    position: fixed; right: 132px; bottom: 16px; z-index: 20; width: 46px; height: 46px; border-radius: 50%;
+    display: grid; place-items: center; border: 1px solid rgba(217, 180, 106, .5);
+    background: rgba(26, 16, 19, .92); color: var(--accent); cursor: pointer; box-shadow: 0 8px 24px rgba(0, 0, 0, .5); backdrop-filter: blur(6px);
+  }
+  .silencio svg { width: 22px; height: 22px; }
+  .silencio.apagado { color: var(--muted); }
+  .sp-panel {
+    position: fixed; right: 16px; bottom: 74px; z-index: 21; width: min(360px, calc(100vw - 32px));
+    background: var(--surface); border: 1px solid rgba(217, 180, 106, .45); border-radius: 18px; padding: 12px;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, .6);
+    opacity: 0; transform: translateY(14px); pointer-events: none; visibility: hidden;
+    transition: opacity .2s ease, transform .2s ease, visibility 0s linear .2s;
+  }
+  .sp-panel.abierto { opacity: 1; transform: none; pointer-events: auto; visibility: visible; transition: opacity .2s ease, transform .2s ease; }
+  .sp-cab { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 0 2px 10px; font-family: var(--display); font-size: 18px; font-weight: 600; color: var(--accent); }
+  .sp-x { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line); background: transparent; color: var(--text); font-size: 20px; line-height: 1; cursor: pointer; }
+  .sp-marco { border-radius: 12px; overflow: hidden; background: #121212; }
+  .sp-marco iframe { display: block; border: 0; }
+  .sp-nota { margin: 8px 2px 0; color: var(--muted); font-size: 12.5px; }
+  body.con-musica .wrap { padding-bottom: 96px; }
+  .musica {
+    position: fixed; right: 16px; bottom: 16px; z-index: 20; display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 16px 10px 12px; border-radius: 999px; border: 1px solid rgba(217, 180, 106, .5);
+    background: rgba(26, 16, 19, .92); color: var(--accent); font: inherit; font-weight: 700; font-size: 14px; cursor: pointer;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .5); backdrop-filter: blur(6px);
+  }
+  .m-ico { display: inline-flex; align-items: flex-end; gap: 2px; height: 16px; }
+  .m-ico i { width: 3px; height: 6px; background: currentColor; border-radius: 2px; }
+  .musica.sonando .m-ico i { animation: eq .9s ease-in-out infinite; }
+  .musica.sonando .m-ico i:nth-child(2) { animation-delay: .2s; }
+  .musica.sonando .m-ico i:nth-child(3) { animation-delay: .4s; }
+  @keyframes eq { 0%, 100% { height: 4px; } 50% { height: 16px; } }
+  @media (prefers-reduced-motion: reduce) { .musica.sonando .m-ico i { animation: none; height: 12px; } }
+  /* ---------- Yape ---------- */
+  .yape { display: grid; grid-template-columns: 150px 1fr; gap: 18px; align-items: center; }
+  .qr {
+    width: 150px; height: 150px; border-radius: 14px; background: #fff; overflow: hidden;
+    display: grid; place-items: center; text-align: center; color: #5a5d66; font-size: 13.5px; padding: 12px;
+  }
+  .qr.lleno { padding: 6px; }
+  .qr img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .yape p { margin: 0 0 8px; }
+  .yape .titular { font-weight: 700; font-size: 17px; }
+
+  .qr-col { display: grid; justify-items: center; gap: 8px; }
+  .guardar-qr { color: var(--accent); font-size: 14px; font-weight: 700; }
+  .yape.sin-qr { grid-template-columns: 1fr; text-align: center; }
+  .yape-num { font-family: var(--display); font-size: 34px; font-weight: 600; letter-spacing: .04em; color: var(--accent); margin: 0 0 2px !important; font-variant-numeric: tabular-nums; }
+  .boton.sec { background: transparent; color: var(--text); border: 1px solid var(--line); font-weight: 600; }
+  .boton.sec:hover { border-color: var(--accent); }
+  .copiar { width: auto; display: inline-flex; margin: 10px 0 14px; padding: 12px 20px; }
+  .calendario { margin-top: 14px; }
+  .cal-t { margin: 0 0 8px; color: var(--muted); font-size: 14.5px; }
+  .cal-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .cal-btns .boton { padding: 12px 10px; font-size: 15px; }
+  footer { margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13.5px; text-align: center; }
+  .error-datos { margin: 40px 0; padding: 18px; border: 1px solid var(--coral); border-radius: var(--radius); color: #ffab95; }
+
+  @media (max-width: 420px) {
+    .yape { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+    .qr { width: 210px; height: 210px; }
+    .detalles { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .barra i { transition: width .6s ease; }
+  }
+</style>
+</head>
+<body>
+
+<div id="aviso"></div>
+<div id="filme"></div>
+<div class="wrap" id="app" aria-live="polite"></div>
+
+<!-- DATOS-INLINE -->
+<script>
+(function () {
+  "use strict";
+
+  // ---------- utilidades ----------
+  function el(tag, attrs) {
+    var n = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) {
+      var v = attrs[k];
+      if (v === null || v === undefined || v === false) return;
+      if (k === "class") n.className = v;
+      else if (k === "text") n.textContent = v;
+      else if (k.indexOf("on") === 0) n.addEventListener(k.slice(2), v);
+      else n.setAttribute(k, v === true ? "" : v);
+    });
+    function poner(c) {
+      if (c === null || c === undefined || c === false) return;
+      if (Array.isArray(c)) { c.forEach(poner); return; }
+      n.appendChild(typeof c === "string" ? document.createTextNode(c) : c);
+    }
+    for (var i = 2; i < arguments.length; i++) poner(arguments[i]);
+    return n;
+  }
+  function num(n) { n = Number(n); return isFinite(n) && n > 0 ? n : 0; }
+  function pct(a, b) { return b > 0 ? Math.max(0, Math.min(100, Math.round((a / b) * 100))) : 0; }
+  function lista(nombres) {
+    nombres = (nombres || []).filter(Boolean);
+    if (nombres.length < 2) return nombres.join("");
+    return nombres.slice(0, -1).join(", ") + " y " + nombres[nombres.length - 1];
+  }
+  function barra(p) {
+    var i = el("i"); i.style.width = p + "%";
+    return el("div", { class: "barra", role: "progressbar", "aria-valuemin": "0", "aria-valuemax": "100", "aria-valuenow": String(p) }, i);
+  }
+  var ICONO_WA = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 1.67c2.2 0 4.27.86 5.82 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24Zm-3.5 4.4c-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.13.17 1.76 2.67 4.25 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.16-.48-.29-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.8-.78.97-.14.16-.29.18-.54.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.16.04-.31-.02-.43-.06-.13-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.42Z"/></svg>';
+
+  // ---------- conexión automática (Google Sheets) ----------
+  var API_URL = "";
+  function wa(D, txt) { window.open("https://wa.me/" + String(D.whatsapp || "").replace(/\D/g, "") + "?text=" + encodeURIComponent(txt), "_blank", "noopener"); }
+  function enviarApi(obj) {
+    return fetch(API_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(obj) });
+  }
+  function guardarNombre(n) { try { localStorage.setItem("cumple-ja-nombre", n); } catch (e) {} }
+  function nombreGuardado() { try { return localStorage.getItem("cumple-ja-nombre") || ""; } catch (e) { return ""; } }
+  function norm(t) { return String(t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, " ").trim(); }
+  function validarNombre(n) {
+    n = String(n || "").trim().replace(/\s+/g, " ");
+    if (n.length < 3) return { error: "Cuéntame quién eres: escribe tu nombre y apellido." };
+    if (n.split(" ").length < 2) return { error: "¡Casi! Agrega también tu apellido." };
+    return { nombre: n };
+  }
+
+  // Mezcla lo que viene de la hoja de Google con los datos de la página
+  function aplicarEstado(D, E) {
+    if (!E || !E.ok) return;
+    (E.aportes || []).forEach(function (a) {
+      (D.gastos || []).forEach(function (g) { if (norm(g.nombre) === norm(a.nombre)) g.avance = a.avance; });
+    });
+    if (E.lista && E.lista.length) {
+      var L = D.paraLlevar = D.paraLlevar || {};
+      var viejos = {}; (L.grupos || []).forEach(function (g) { viejos[norm(g.nombre)] = g; });
+      var orden = [], grupos = {};
+      E.lista.forEach(function (it) {
+        var cat = it.categoria || "Otros";
+        if (!grupos[cat]) { grupos[cat] = { nombre: cat, nota: (viejos[norm(cat)] || {}).nota || "", items: [] }; orden.push(cat); }
+        grupos[cat].items.push({ nombre: it.nombre, medida: it.medida, meta: it.meta, comprometido: it.comprometido, completado: it.completado });
+      });
+      L.grupos = orden.map(function (c) { return grupos[c]; });
+    }
+  }
+
+  // ---------- secciones ----------
+  function portada(D) {
+    var f = D.fiesta || {};
+    var hayFotos = (f.fotos || []).length > 0;
+    var foto = null;
+    if (f.foto) {
+      foto = el("div", { class: "foto con-img" }, el("img", { src: f.foto, alt: "Foto de " + (f.anfitrion || "") }));
+    } else if (!hayFotos) {
+      foto = el("div", { class: "foto", "aria-hidden": "true", text: (f.anfitrion || "?").charAt(0).toUpperCase() });
+    }
+
+    var cuenta = null;
+    var t = Date.parse(f.fechaISO || "");
+    if (isFinite(t)) {
+      var falta = t - Date.now();
+      var dias = Math.ceil(falta / 86400000);
+      if (dias > 1) cuenta = el("div", { class: "cuenta" }, "Faltan ", el("b", { text: String(dias) }), " días para celebrar");
+      else if (falta > 0) cuenta = el("div", { class: "cuenta" }, el("b", { text: "¡Mañana celebramos!" }));
+      else if (falta > -43200000) cuenta = el("div", { class: "cuenta" }, el("b", { text: "¡Hoy es el día!" }));
+    }
+    var cab = el("header", { class: hayFotos ? "con-filme" : null },
+      f.titulo ? el("p", { class: "sub arriba", text: f.titulo }) : null,
+      el("h1", { text: f.anfitrion || "" }),
+      foto,
+      f.mensaje ? el("p", { class: "mensaje", text: f.mensaje }) : null,
+      (f.cita && f.cita.texto) ? el("blockquote", { class: "cita" },
+        el("p", { text: "“" + f.cita.texto + "”" }),
+        f.cita.referencia ? el("cite", { text: "(" + f.cita.referencia + ")" }) : null) : null,
+      cuenta
+    );
+    brillos(cab);
+    return cab;
+  }
+
+  // ---------- decoración: escarcha dorada y confeti ----------
+  var QUIETO = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var brilloAnim = 0, brilloResize = null;
+  function brillos(header) {
+    cancelAnimationFrame(brilloAnim);
+    if (brilloResize) window.removeEventListener("resize", brilloResize);
+    var cv = el("canvas", { class: "brillos", "aria-hidden": "true" });
+    header.insertBefore(cv, header.firstChild);
+    var ctx = cv.getContext("2d"), parts = [], W = 0, H = 0, dpr = Math.min(2, window.devicePixelRatio || 1);
+    function crear() {
+      if (!cv.isConnected) return;
+      var rc = cv.getBoundingClientRect(); W = rc.width; H = header.clientHeight;
+      cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      parts = [];
+      var n = Math.min(320, Math.round(W * H / 2400));
+      for (var i = 0; i < n; i++) {
+        parts.push({ x: Math.random() * W, y: Math.pow(Math.random(), 2.2) * H, r: Math.random() * 1.5 + .3, f: Math.random() * 6.3, v: .5 + Math.random() * 1.6 });
+      }
+      var foto = header.querySelector(".foto");
+      if (foto) {
+        var a = foto.getBoundingClientRect();
+        var cx = a.left - rc.left + a.width / 2, cy = a.top - rc.top + a.height / 2, R = a.width / 2;
+        for (var k = 0; k < 190; k++) {
+          var ang = Math.random() * 6.283, d = R + 16 + Math.pow(Math.random(), 1.8) * R * .95;
+          parts.push({ x: cx + Math.cos(ang) * d, y: cy + Math.sin(ang) * d, r: Math.random() * 1.3 + .3, f: Math.random() * 6.3, v: .6 + Math.random() * 1.8 });
+        }
+      }
+      for (var s = 0; s < Math.round(W / 60); s++) parts.push({ x: Math.random() * W, y: Math.random() * H * .55, r: 2.2 + Math.random() * 1.6, f: Math.random() * 6.3, v: .4 + Math.random(), estrella: true });
+    }
+    function dibujar(t) {
+      if (!cv.isConnected) return;
+      ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < parts.length; i++) {
+        var p = parts[i];
+        var al = QUIETO ? .75 : .25 + .75 * Math.abs(Math.sin(p.f + t / 1000 * p.v));
+        ctx.globalAlpha = al;
+        ctx.fillStyle = ctx.strokeStyle = p.r > 1.2 ? "#f3dca6" : "#d9b46a";
+        if (p.estrella) {
+          var L = p.r * 2.6 * (.6 + .4 * al);
+          ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(p.x - L, p.y); ctx.lineTo(p.x + L, p.y); ctx.moveTo(p.x, p.y - L); ctx.lineTo(p.x, p.y + L); ctx.stroke();
+          ctx.beginPath(); ctx.arc(p.x, p.y, 1.2, 0, 6.283); ctx.fill();
+        } else { ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.283); ctx.fill(); }
+      }
+      ctx.globalAlpha = 1;
+      if (!QUIETO) brilloAnim = requestAnimationFrame(dibujar);
+    }
+    requestAnimationFrame(function () {
+      crear(); dibujar(0);
+      var img = header.querySelector(".foto img");
+      if (img && !img.complete) img.addEventListener("load", crear);
+    });
+    var tmr; brilloResize = function () { clearTimeout(tmr); tmr = setTimeout(crear, 200); };
+    window.addEventListener("resize", brilloResize);
+  }
+
+  function confeti(cantidad) {
+    if (QUIETO) return;
+    var cv = el("canvas", { class: "confeti", "aria-hidden": "true" });
+    document.body.appendChild(cv);
+    var W = innerWidth, H = innerHeight, dpr = Math.min(2, window.devicePixelRatio || 1), ctx = cv.getContext("2d");
+    cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var colores = ["#d9b46a", "#f3dca6", "#b8893b", "#e6e8ec", "#ff6f59"];
+    var ps = [];
+    for (var i = 0; i < (cantidad || 110); i++) {
+      var cinta = Math.random() < .25;
+      ps.push({ x: Math.random() * W, y: -20 - Math.random() * H * .6, w: cinta ? 3 : 6 + Math.random() * 5, h: cinta ? 16 + Math.random() * 10 : 3 + Math.random() * 4,
+        vy: 1.6 + Math.random() * 2.6, vx: -.8 + Math.random() * 1.6, rot: Math.random() * 6.3, vr: -.15 + Math.random() * .3, c: colores[i % colores.length], bam: Math.random() * 6.3 });
+    }
+    var inicio = performance.now();
+    (function cuadro(t) {
+      var pasado = t - inicio;
+      ctx.clearRect(0, 0, W, H);
+      ctx.globalAlpha = pasado > 4800 ? Math.max(0, 1 - (pasado - 4800) / 900) : 1;
+      ps.forEach(function (p) {
+        p.y += p.vy; p.x += p.vx + Math.sin(p.bam + p.y / 40) * .6; p.rot += p.vr;
+        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.fillStyle = p.c;
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h * Math.abs(Math.cos(p.rot * 1.5)) + 1); ctx.restore();
+      });
+      if (pasado < 5700) requestAnimationFrame(cuadro); else cv.remove();
+    })(inicio);
+  }
+
+  function dato(etq, val, nota, ancho) {
+    return el("div", { class: "tarjeta" + (ancho ? " ancho" : "") },
+      el("p", { class: "etq", text: etq }),
+      el("p", { class: "val", text: val || "Por confirmar" }),
+      nota ? el("p", { class: "nota", text: nota }) : null
+    );
+  }
+  function detalles(D) {
+    var f = D.fiesta || {};
+    return el("section", { "aria-labelledby": "t-detalles" },
+      el("h2", { id: "t-detalles", text: "Aparta la fecha" }),
+      el("p", { class: "intro", text: "Ya está casi todo listo… solo faltas tú." }),
+      el("div", { class: "detalles" },
+        dato("¿Cuándo?", f.fechaTexto),
+        dato("¿A qué hora?", f.hora),
+        dato("¿Dónde?", f.lugar, f.notaLugar, true),
+        f.dressCode ? dato("Dress code", f.dressCode, f.notaDressCode, true) : null
+      ),
+      calendario(D)
+    );
+  }
+
+  function calendario(D) {
+    var f = D.fiesta || {};
+    var ini = new Date(f.fechaISO || ""), fin = new Date(f.fechaFinISO || "");
+    if (isNaN(ini)) return null;
+    if (isNaN(fin)) fin = new Date(ini.getTime() + 5 * 3600000);
+    function utc(d) { return d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, ""); }
+    var titulo = "Cumpleaños de " + (f.anfitrion || "");
+    var lugar = (f.lugar && f.lugar !== "Por confirmar") ? f.lugar : "";
+    var detalle = "¡Te espero para celebrar juntos! Invitación: " + location.href.split("#")[0];
+    var gcal = "https://calendar.google.com/calendar/render?action=TEMPLATE" +
+      "&text=" + encodeURIComponent(titulo) + "&dates=" + utc(ini) + "/" + utc(fin) +
+      "&details=" + encodeURIComponent(detalle) + (lugar ? "&location=" + encodeURIComponent(lugar) : "");
+    function esc(t) { return String(t).replace(/([,;\\])/g, "\\$1"); }
+    var ics = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Cumple//ES", "BEGIN:VEVENT",
+      "UID:cumple-" + utc(ini) + "@invitacion", "DTSTAMP:" + utc(new Date()),
+      "DTSTART:" + utc(ini), "DTEND:" + utc(fin), "SUMMARY:" + esc(titulo),
+      "DESCRIPTION:" + esc(detalle), lugar ? "LOCATION:" + esc(lugar) : "",
+      "BEGIN:VALARM", "TRIGGER:-P1D", "ACTION:DISPLAY", "DESCRIPTION:" + esc("Mañana es el cumpleaños de " + (f.anfitrion || "")), "END:VALARM",
+      "END:VEVENT", "END:VCALENDAR"].filter(Boolean).join("\r\n");
+    var icsUrl = "data:text/calendar;charset=utf-8," + encodeURIComponent(ics);
+    return el("div", { class: "calendario" },
+      el("p", { class: "cal-t", text: "Guárdalo en tu calendario para que no se te pase:" }),
+      el("div", { class: "cal-btns" },
+        el("a", { class: "boton sec", href: gcal, target: "_blank", rel: "noopener", text: "Google Calendar" }),
+        el("a", { class: "boton sec", href: icsUrl, download: "cumple-juan-arturo.ics", text: "iPhone y otros" })
+      )
+    );
+  }
+
+  function confirmar(D) {
+    var f = D.fiesta || {};
+    var F = D.formulario || {};
+    var nombre = el("input", { type: "text", id: "nombre", name: "nombre", autocomplete: "name", placeholder: "Ej.: María Pérez", required: true, value: nombreGuardado() || null });
+    var estado = el("p", { class: "estado", role: "status" });
+
+    function opcion(valor, texto, marcado) {
+      return el("label", { class: "opcion" },
+        el("input", { type: "radio", name: "asistencia", value: valor, checked: marcado }),
+        el("span", { text: texto })
+      );
+    }
+    function decir(texto, bien) { estado.textContent = texto; estado.className = "estado ver " + (bien ? "bien" : "mal"); }
+    function leer() {
+      var a = form.querySelector('input[name="asistencia"]:checked').value;
+      var v = validarNombre(nombre.value);
+      if (v.error) { decir(v.error, false); nombre.focus(); return null; }
+      guardarNombre(v.nombre);
+      return { nombre: v.nombre, asistencia: a };
+    }
+
+    var btnEnviar = el("button", { type: "submit", class: "boton", text: "Confirmar aquí" });
+    var btnWa = el("button", { type: "button", class: "boton wa" });
+    btnWa.innerHTML = ICONO_WA;
+    btnWa.appendChild(document.createTextNode("Confirmar por WhatsApp"));
+
+    btnWa.addEventListener("click", function () {
+      var v = leer(); if (!v) return;
+      var va = v.asistencia.indexOf("Sí") === 0;
+      var fecha = (f.fechaTexto || "").toLowerCase();
+      var txt = va
+        ? "¡Hola, " + (f.anfitrion || "") + "! Soy " + v.nombre + " y confirmo que voy a tu cumpleaños el " + fecha + ". ¡Ahí nos vemos!"
+        : "¡Hola, " + (f.anfitrion || "") + "! Soy " + v.nombre + ". Esta vez no podré ir a tu cumpleaños del " + fecha + ", pero te mando un abrazo enorme.";
+      window.open("https://wa.me/" + String(D.whatsapp || "").replace(/\D/g, "") + "?text=" + encodeURIComponent(txt), "_blank", "noopener");
+      decir("Te abrí WhatsApp con el mensaje listo. Solo dale enviar.", true);
+    });
+
+    var form = el("form", { class: "tarjeta", novalidate: true },
+      el("div", { class: "campo" }, el("label", { for: "nombre", text: "Tu nombre y apellido" }), nombre),
+      el("fieldset", null,
+        el("legend", { text: "¿Te apuntas?" }),
+        el("div", { class: "opciones" }, opcion("Sí, voy", "¡Sí, ahí estaré!", true), opcion("No podré ir", "Esta vez no podré", false))
+      ),
+      el("div", { class: "botones" }, btnEnviar, btnWa),
+      estado
+    );
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var v = leer(); if (!v) return;
+      var envio;
+      if (API_URL) envio = enviarApi({ tipo: "confirmacion", nombre: v.nombre, asistencia: v.asistencia });
+      else if (F.urlEnvio && F.campoNombre) {
+        var cuerpo = new URLSearchParams();
+        cuerpo.append(F.campoNombre, v.nombre);
+        if (F.campoAsistencia) cuerpo.append(F.campoAsistencia, v.asistencia);
+        envio = fetch(F.urlEnvio, { method: "POST", mode: "no-cors", body: cuerpo });
+      } else {
+        decir("Esta opción se activa muy pronto. Por ahora confírmame con el botón de WhatsApp.", false);
+        return;
+      }
+      btnEnviar.disabled = true; btnEnviar.textContent = "Enviando…";
+      envio
+        .then(function () {
+          if (v.asistencia.indexOf("Sí") === 0) confeti();
+          decir(v.asistencia.indexOf("Sí") === 0 ? "¡Qué alegría, " + v.nombre.split(" ")[0] + "! Ya estás en la lista. Nos vemos el 7." : "Gracias por avisarme, " + v.nombre.split(" ")[0] + ". Te voy a extrañar; ya celebraremos juntos.", true);
+          btnEnviar.textContent = "Confirmar aquí"; btnEnviar.disabled = false;
+        })
+        .catch(function () {
+          decir("Uy, no se pudo enviar. Revisa tu conexión o confírmame por WhatsApp.", false);
+          btnEnviar.textContent = "Confirmar aquí"; btnEnviar.disabled = false;
+        });
+    });
+
+    return el("section", { "aria-labelledby": "t-confirmar" },
+      el("h2", { id: "t-confirmar", text: "¿Me acompañas?" }),
+      el("p", { class: "intro", text: "Cuéntame si vienes para guardarte tu lugar. Confirma aquí o por WhatsApp, como te sea más fácil." }),
+      form
+    );
+  }
+
+  function aportes(D) {
+    var gastos = D.gastos || [];
+    var traer = D.paraTraer || [];
+    if (!gastos.length && !traer.length) return null;
+
+    var total = 0, junto = 0;
+    var tarjetas = gastos.map(function (g) {
+      var p, definido = true;
+      if (g.avance !== undefined) { p = Math.max(0, Math.min(100, Math.round(Number(g.avance) || 0))); }
+      else { var costo = num(g.costo), rec = num(g.recaudado); definido = costo > 0; p = pct(rec, costo); }
+      var cerrado = g.completado === true || p >= 100;
+      if (cerrado) p = 100;
+      if (definido) { total += 100; junto += p; }
+      var estado = cerrado ? "¡Listo!" : (definido ? (p > 0 ? p + "% listo" : "Por armar") : "Por definir");
+      return el("div", { class: "tarjeta item" + (cerrado ? " cerrado" : "") },
+        el("div", { class: "item-cab" },
+          el("h3", { text: g.nombre || "" }),
+          el("span", { class: "chip" + (cerrado ? " ok" : ""), text: estado })
+        ),
+        g.detalle ? el("p", { class: "det", text: g.detalle }) : null,
+        barra(p),
+        (g.aportaron && g.aportaron.length) ? el("p", { class: "gracias" }, "Gracias a ", el("b", { text: lista(g.aportaron) })) : null
+      );
+    });
+
+    var filas = traer.map(function (t) {
+      var nec = num(t.necesarias), con = num(t.conseguidas);
+      var cerrado = t.completado === true || (nec > 0 && con >= nec);
+      return el("div", { class: "traer-fila" + (cerrado ? " cerrado" : "") },
+        el("div", null, el("strong", { text: t.nombre || "" }), " ",
+          el("span", { class: "cuanto", text: Math.min(con, nec) + " de " + nec + " " + (t.unidad || "") })),
+        el("span", { class: "chip" + (cerrado ? " ok" : ""), text: cerrado ? "Completado" : "Faltan " + (nec - con) }),
+        (t.traen && t.traen.length) ? el("span", { class: "quien", text: "Trae" + (t.traen.length > 1 ? "n" : "") + ": " + lista(t.traen) }) : null
+      );
+    });
+
+    return el("section", { "aria-labelledby": "t-aportes" },
+      el("h2", { id: "t-aportes", text: "¡Armemos una fiesta a todo dar!" }),
+      el("p", { class: "intro", text: "Tu presencia es mi mejor regalo. Y si además quieres sumarte a armar la fiesta, esto es lo que estamos juntando entre todos:" }),
+      (gastos.length && junto > 0) ? el("div", { class: "tarjeta" },
+        el("div", { class: "resumen" },
+          el("span", { class: "monto", text: pct(junto, total) + "%" }),
+          el("span", { class: "de", text: "de la fiesta ya está armado" })
+        ),
+        barra(pct(junto, total))
+      ) : null,
+      gastos.length ? el("div", { class: "lista" }, tarjetas) : null,
+      traer.length ? el("h2", { text: "¿Prefieres aportar con tragos?", style: "margin-top:32px;font-size:22px" }) : null,
+      traer.length ? el("div", { class: "tarjeta traer" }, filas) : null,
+      llevarCTA(D)
+    );
+  }
+
+  // ---------- "¿Prefieres llevar algo?" (ventana emergente) ----------
+  function llevarCTA(D) {
+    var L = D.paraLlevar || {};
+    var grupos = (L.grupos || []).filter(function (g) { return g.items && g.items.length; });
+    if (!grupos.length) return null;
+    var dlg = ventanaLlevar(D, L, grupos);
+    var btn = el("button", { type: "button", class: "boton", text: "Ver lista de tragos y piqueos" });
+    btn.addEventListener("click", function () {
+      var n = dlg.querySelector(".v-nombre"); if (n && !n.value) n.value = nombreGuardado();
+      abrir(dlg);
+    });
+    return el("div", { class: "tarjeta llevar-cta" },
+      el("p", { class: "llevar-t", text: L.titulo || "¿Prefieres llevar algo?" }),
+      el("p", { class: "llevar-s", text: L.subtitulo || "" }),
+      btn
+    );
+  }
+
+  function abrir(dlg) {
+    if (typeof dlg.showModal === "function") dlg.showModal(); else dlg.setAttribute("open", "");
+    document.documentElement.classList.add("sin-scroll");
+  }
+  function cerrar(dlg) {
+    if (typeof dlg.close === "function") dlg.close(); else dlg.removeAttribute("open");
+    document.documentElement.classList.remove("sin-scroll");
+  }
+
+  function ventanaLlevar(D, L, grupos) {
+    var anfitrion = (D.fiesta || {}).anfitrion || "";
+    var elegidos = {};
+    var dlg = el("dialog", { class: "ventana", "aria-labelledby": "v-titulo" });
+    var nombre = el("input", { type: "text", class: "v-nombre", autocomplete: "name", placeholder: "Tu nombre y apellido", "aria-label": "Tu nombre y apellido", value: nombreGuardado() || null });
+    var msg = el("p", { class: "estado", role: "status" });
+    var btnEnviar = el("button", { type: "button", class: API_URL ? "boton" : "boton wa", disabled: true });
+    var etiqueta = el("span", { text: "Elige lo que llevarás" });
+    if (!API_URL) btnEnviar.innerHTML = ICONO_WA;
+    btnEnviar.appendChild(etiqueta);
+    function decir(t, bien) { msg.textContent = t; msg.className = "estado ver " + (bien ? "bien" : "mal"); }
+
+    function actualizar() {
+      var n = Object.keys(elegidos).length;
+      btnEnviar.disabled = n === 0;
+      etiqueta.textContent = n === 0 ? "Elige lo que llevarás" : (API_URL ? "Anotarme (" + n + ")" : "Avisar por WhatsApp (" + n + ")");
+    }
+    function texto(e) { return e.nombre + (e.medida ? " (" + e.medida + ")" : "") + (e.cantidad > 1 ? " × " + e.cantidad : ""); }
+
+    var paneles = [], pestanas = [];
+    grupos.forEach(function (g, gi) {
+      var filas = g.items.map(function (it, ii) {
+        var cubierto = it.completado === true;
+        var id = "ll-" + gi + "-" + ii;
+        var chk = el("input", { type: "checkbox", id: id, disabled: cubierto });
+        var cant = el("span", { class: "st-n", text: "1" });
+        var menos = el("button", { type: "button", class: "st-b", "aria-label": "Menos", text: "−" });
+        var mas = el("button", { type: "button", class: "st-b", "aria-label": "Más", text: "+" });
+        var stepper = el("span", { class: "stepper", hidden: true }, menos, cant, mas);
+        function setCant(n) {
+          n = Math.max(1, Math.min(20, n)); cant.textContent = String(n);
+          if (elegidos[id]) elegidos[id].cantidad = n;
+        }
+        menos.addEventListener("click", function (e) { e.preventDefault(); setCant((elegidos[id] || {}).cantidad - 1 || 1); });
+        mas.addEventListener("click", function (e) { e.preventDefault(); setCant(((elegidos[id] || {}).cantidad || 1) + 1); });
+        chk.addEventListener("change", function () {
+          if (chk.checked) elegidos[id] = { nombre: it.nombre, medida: it.medida || "", cantidad: 1 };
+          else delete elegidos[id];
+          cant.textContent = "1"; stepper.hidden = !chk.checked;
+          actualizar();
+        });
+        var meta = num(it.meta), comp = num(it.comprometido);
+        var mini = (!cubierto && meta > 0 && comp > 0) ? el("span", { class: "ll-barra" }, (function () { var i = el("i"); i.style.width = pct(comp, meta) + "%"; return i; })()) : null;
+        return el("label", { class: "ll-fila" + (cubierto ? " cubierto" : ""), for: id },
+          chk,
+          el("span", { class: "ll-check", "aria-hidden": "true" }),
+          el("span", { class: "ll-txt" },
+            el("strong", { text: it.nombre || "" }),
+            it.medida ? el("small", { text: it.medida }) : null,
+            mini),
+          cubierto ? el("span", { class: "chip ok", text: "¡Completado!" }) : stepper
+        );
+      });
+      var panel = el("div", { class: "ll-panel", role: "tabpanel", id: "ll-p" + gi, hidden: gi > 0 },
+        g.nota ? el("p", { class: "ll-nota", text: g.nota }) : null,
+        filas);
+      var tab = el("button", { type: "button", class: "ll-tab" + (gi === 0 ? " activa" : ""), role: "tab", "aria-selected": gi === 0 ? "true" : "false", "aria-controls": "ll-p" + gi, text: g.nombre });
+      tab.addEventListener("click", function () {
+        paneles.forEach(function (p, k) { p.hidden = k !== gi; });
+        pestanas.forEach(function (t, k) { t.classList.toggle("activa", k === gi); t.setAttribute("aria-selected", k === gi ? "true" : "false"); });
+      });
+      paneles.push(panel); pestanas.push(tab);
+    });
+
+    btnEnviar.addEventListener("click", function () {
+      var lista_e = Object.keys(elegidos).map(function (k) { return elegidos[k]; });
+      if (!lista_e.length) return;
+      var v = validarNombre(nombre.value);
+      if (v.error) { decir(v.error, false); nombre.focus(); return; }
+      guardarNombre(v.nombre);
+      var txt = "¡Hola, " + anfitrion + "! Soy " + v.nombre + ". Para tu cumpleaños me animo a llevar:\n" +
+        lista_e.map(function (e) { return "• " + texto(e); }).join("\n") + "\n¡Nos vemos!";
+      if (!API_URL) { wa(D, txt); return; }
+      btnEnviar.disabled = true; etiqueta.textContent = "Anotando…";
+      enviarApi({ tipo: "llevar", nombre: v.nombre, items: lista_e })
+        .then(function () {
+          confeti(80);
+          decir("¡Anotado, " + v.nombre.split(" ")[0] + "! Gracias por sumarte. Si quieres, avísame también por WhatsApp.", true);
+          etiqueta.textContent = "¡Listo!";
+          var link = el("a", { href: "#", class: "v-wa", text: "Avisar también por WhatsApp" });
+          link.addEventListener("click", function (e) { e.preventDefault(); wa(D, txt); });
+          if (!msg.nextSibling) msg.parentNode.appendChild(link);
+        })
+        .catch(function () { decir("Uy, no se pudo anotar. Revisa tu conexión o avísame por WhatsApp.", false); actualizar(); });
+    });
+
+    var x = el("button", { type: "button", class: "v-cerrar", "aria-label": "Cerrar", text: "×" });
+    x.addEventListener("click", function () { cerrar(dlg); });
+    dlg.addEventListener("click", function (e) { if (e.target === dlg) cerrar(dlg); });
+    dlg.addEventListener("close", function () { document.documentElement.classList.remove("sin-scroll"); });
+
+    dlg.appendChild(el("div", { class: "v-cab" },
+      el("div", null,
+        el("h3", { id: "v-titulo", text: L.ventanaTitulo || "¿Qué te animas a llevar?" }),
+        el("p", { text: L.ventanaTexto || "Marca lo que quieras llevar, elige cuántas y te lo anoto." })),
+      x));
+    if (grupos.length > 1) dlg.appendChild(el("div", { class: "ll-tabs", role: "tablist" }, pestanas));
+    dlg.appendChild(el("div", { class: "v-cuerpo" }, paneles));
+    dlg.appendChild(el("div", { class: "v-pie" }, nombre, btnEnviar, msg));
+    document.body.appendChild(dlg);
+    return dlg;
+  }
+
+  function yape(D) {
+    var Y = D.yape || {};
+    var numero = String(Y.numero || "");
+    var qr = Y.qr ? el("div", { class: "qr-col" },
+      el("div", { class: "qr lleno" }, el("img", { src: Y.qr, alt: "Código QR de Yape" })),
+      el("a", { class: "guardar-qr", href: Y.qr, download: "qr-yape-juan-arturo.png", text: "Guardar QR" })) : null;
+    var btnCopiar = null;
+    if (numero) {
+      btnCopiar = el("button", { type: "button", class: "boton copiar", text: "Copiar número de Yape" });
+      btnCopiar.addEventListener("click", function () {
+        var limpio = numero.replace(/\D/g, "");
+        function ok() { btnCopiar.textContent = "¡Copiado! Pégalo en Yape"; setTimeout(function () { btnCopiar.textContent = "Copiar número de Yape"; }, 2500); }
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(limpio).then(ok, function () { manual(limpio); ok(); });
+        else { manual(limpio); ok(); }
+      });
+    }
+    function manual(t) {
+      var x = document.createElement("textarea"); x.value = t; x.setAttribute("readonly", ""); x.style.position = "fixed"; x.style.opacity = "0";
+      document.body.appendChild(x); x.select(); try { document.execCommand("copy"); } catch (e) {} document.body.removeChild(x);
+    }
+    return el("section", { "aria-labelledby": "t-yape" },
+      el("h2", { id: "t-yape", text: "Súmate por Yape" }),
+      el("p", { class: "intro", text: "Con lo que nazca de tu corazón: todo suma para que la fiesta sea inolvidable." }),
+      el("div", { class: "tarjeta yape" + (qr ? "" : " sin-qr") },
+        qr,
+        el("div", { class: "yape-datos" },
+          Y.titular ? el("p", { class: "titular", text: Y.titular }) : null,
+          btnCopiar,
+          el("p", { class: "nota", text: qr
+            ? "Escanea el QR, o copia el número y pégalo en Yape."
+            : "Copia el número y pégalo en Yape." })
+        )
+      ),
+      avisoYape(D)
+    );
+  }
+
+  function avisoYape(D) {
+    var f = D.fiesta || {};
+    var opciones = (D.gastos || []).map(function (g) { return g.nombre; }).concat(["Para la fiesta en general"]);
+    var nombre = el("input", { type: "text", autocomplete: "name", placeholder: "Tu nombre y apellido", "aria-label": "Tu nombre y apellido", value: nombreGuardado() || null });
+    var para = el("select", { "aria-label": "¿Para qué es?" }, opciones.map(function (o) { return el("option", { value: o, text: o }); }));
+    var monto = el("input", { type: "number", inputmode: "decimal", min: "1", step: "1", placeholder: "S/", "aria-label": "Monto en soles" });
+    var msg = el("p", { class: "estado", role: "status" });
+    var btn = el("button", { type: "submit", class: "boton", text: API_URL ? "Avisar que ya yapeé" : "Avisar por WhatsApp" });
+    function decir(t, bien) { msg.textContent = t; msg.className = "estado ver " + (bien ? "bien" : "mal"); }
+    var form = el("form", { class: "yape-aviso", novalidate: true, hidden: true },
+      el("div", { class: "ya-fila" }, nombre),
+      el("div", { class: "ya-fila dos" }, para, monto),
+      btn, msg);
+    var abrirBtn = el("button", { type: "button", class: "boton sec ya-abrir", text: "¿Ya yapeaste? Avísame aquí" });
+    abrirBtn.addEventListener("click", function () { if (!nombre.value) nombre.value = nombreGuardado(); form.hidden = false; abrirBtn.hidden = true; (nombre.value ? monto : nombre).focus(); });
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var v = validarNombre(nombre.value);
+      if (v.error) { decir(v.error, false); nombre.focus(); return; }
+      var m = Number(monto.value);
+      if (!(m > 0)) { decir("Escribe cuánto yapeaste (solo el número).", false); monto.focus(); return; }
+      guardarNombre(v.nombre);
+      var txt = "¡Hola, " + (f.anfitrion || "") + "! Soy " + v.nombre + ". Te yapeé S/ " + m + " para: " + para.value + ". ¡Que sea una fiesta a todo dar!";
+      if (!API_URL) { wa(D, txt); decir("Te abrí WhatsApp con el mensaje listo.", true); return; }
+      btn.disabled = true; btn.textContent = "Enviando…";
+      enviarApi({ tipo: "aporte", nombre: v.nombre, para: para.value, monto: m })
+        .then(function () { confeti(80); decir("¡Gracias, " + v.nombre.split(" ")[0] + "! Tu aporte quedó anotado y las barras se actualizan solas.", true); btn.textContent = "¡Enviado!"; monto.value = ""; setTimeout(function () { btn.disabled = false; btn.textContent = "Avisar que ya yapeé"; }, 3000); })
+        .catch(function () { decir("Uy, no se pudo enviar. Avísame por WhatsApp, porfa.", false); btn.disabled = false; btn.textContent = "Avisar que ya yapeé"; });
+    });
+    return el("div", { class: "ya-caja" }, abrirBtn, form);
+  }
+
+  function filme(D) {
+    var fotos = ((D.fiesta || {}).fotos || []).filter(Boolean);
+    if (!fotos.length) return null;
+    function cuadro(x, i, copia) {
+      var img = el("div", { class: "img" });
+      if (x.archivo) img.appendChild(el("img", { src: x.archivo, alt: copia ? "" : (x.pie || "Foto con amigos " + (i + 1)) }));
+      else img.appendChild(el("div", { class: "vacia", text: "Foto " + (i + 1) }));
+      return el("div", { class: "cuadro", "aria-hidden": copia ? "true" : null },
+        el("figure", { class: "marco" }, img, x.pie ? el("figcaption", { text: x.pie }) : null));
+    }
+    // se repite la tira para que el giro sea continuo y llene pantallas anchas
+    var veces = Math.max(2, Math.ceil(10 / fotos.length) * 2);
+    if (veces % 2) veces++;
+    var cuadros = [];
+    for (var v = 0; v < veces; v++) fotos.forEach(function (x, i) { cuadros.push(cuadro(x, i, v > 0)); });
+    var cinta = el("div", { class: "cinta" }, cuadros);
+    cinta.style.setProperty("--duracion", (fotos.length * veces / 2 * 4.5) + "s");
+    return el("div", { class: "filme", role: "region", "aria-label": "Fotos con amigos" }, cinta);
+  }
+
+  // ---------- música (opcional, solo al tocar) ----------
+  var ICO_SON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+  var ICO_MUDO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="m22 9-6 6"/><path d="m16 9 6 6"/></svg>';
+
+  // Botón para silenciar / activar (aparece cuando la música está sonando o pausada)
+  function botonSilencio(alternar) {
+    var b = el("button", { type: "button", id: "btn-silencio", class: "silencio", hidden: true });
+    function pintar(sonando) {
+      b.innerHTML = sonando ? ICO_SON : ICO_MUDO;
+      b.setAttribute("aria-label", sonando ? "Silenciar música" : "Activar música");
+      b.title = sonando ? "Silenciar" : "Activar música";
+      b.classList.toggle("apagado", !sonando);
+    }
+    b.addEventListener("click", alternar);
+    document.body.appendChild(b);
+    return { mostrar: function (sonando) { b.hidden = false; pintar(sonando); } };
+  }
+
+  function spotifyEmbed(url) {
+    var m = String(url || "").match(/open\.spotify\.com\/(?:intl-[a-z-]+\/)?(track|album|playlist|artist|episode|show)\/([A-Za-z0-9]+)/);
+    return m ? { tipo: m[1], uri: "spotify:" + m[1] + ":" + m[2], src: "https://open.spotify.com/embed/" + m[1] + "/" + m[2] + "?utm_source=generator&theme=0" } : null;
+  }
+
+  function musica(D) {
+    var M = D.musica || {};
+    if (document.getElementById("btn-musica")) return;
+    var sp = spotifyEmbed(M.spotify);
+    if (sp) {
+      var alto = (sp.tipo === "track" || sp.tipo === "episode") ? 152 : 352;
+      var marco = el("div", { class: "sp-marco", style: "height:" + alto + "px" });
+      var cerrarP = el("button", { type: "button", class: "sp-x", "aria-label": "Cerrar música", text: "×" });
+      var panel = el("div", { class: "sp-panel", id: "panel-musica", role: "dialog", "aria-label": "Música de la fiesta", "aria-hidden": "true" },
+        el("div", { class: "sp-cab" }, el("span", { text: M.titulo || "La música de la noche" }), cerrarP),
+        marco,
+        el("p", { class: "sp-nota", text: "Dale play a la canción que quieras. Puedes seguir viendo la invitación mientras suena." }));
+      var boton = el("button", { type: "button", id: "btn-musica", class: "musica", "aria-controls": "panel-musica", "aria-expanded": "false" },
+        el("span", { class: "m-ico", "aria-hidden": "true" }, el("i"), el("i"), el("i")),
+        el("span", { class: "m-txt", text: M.etiqueta || "Música" }));
+      var control = null, sonando = false;
+      var silencio = botonSilencio(function () { if (control) control.togglePlay(); });
+      function iframeSimple() {
+        if (marco.querySelector("iframe")) return;
+        marco.innerHTML = "";
+        marco.appendChild(el("iframe", { src: sp.src, title: "Reproductor de Spotify", width: "100%", height: String(alto), frameborder: "0", loading: "lazy",
+          allow: "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" }));
+      }
+      function cargarReproductor() {
+        var destino = el("div"); marco.appendChild(destino);
+        var listo = false;
+        var plan_b = setTimeout(function () { if (!listo) iframeSimple(); }, 7000);
+        window.onSpotifyIframeApiReady = function (IFrameAPI) {
+          IFrameAPI.createController(destino, { uri: sp.uri, width: "100%", height: alto }, function (ctrl) {
+            listo = true; clearTimeout(plan_b); control = ctrl;
+            ctrl.addListener("playback_update", function (e) {
+              var d = (e && e.data) || {};
+              var ahora = !d.isPaused && !d.isBuffering;
+              if (d.isBuffering) return;
+              sonando = ahora; silencio.mostrar(sonando);
+              boton.classList.toggle("sonando", sonando);
+            });
+          });
+        };
+        var s = document.createElement("script");
+        s.src = "https://open.spotify.com/embed/iframe-api/v1"; s.async = true;
+        s.onerror = function () { clearTimeout(plan_b); iframeSimple(); };
+        document.body.appendChild(s);
+      }
+      function toggle(abrir) {
+        if (abrir && !marco.firstChild) cargarReproductor();
+        panel.classList.toggle("abierto", abrir);
+        panel.setAttribute("aria-hidden", abrir ? "false" : "true");
+        boton.setAttribute("aria-expanded", abrir ? "true" : "false");
+      }
+      boton.addEventListener("click", function () { toggle(!panel.classList.contains("abierto")); });
+      cerrarP.addEventListener("click", function () { toggle(false); });
+      document.body.appendChild(panel);
+      document.body.appendChild(boton);
+      document.body.classList.add("con-musica");
+      return;
+    }
+    if (!M.archivo) return;
+    var audio = new Audio(M.archivo); audio.loop = true; audio.preload = "none"; audio.volume = 0.7;
+    var btn = el("button", { type: "button", id: "btn-musica", class: "musica", "aria-label": "Reproducir música", "aria-pressed": "false" },
+      el("span", { class: "m-ico", "aria-hidden": "true" }, el("i"), el("i"), el("i")),
+      el("span", { class: "m-txt", text: M.etiqueta || "Música" }));
+    var sil = botonSilencio(function () { audio.muted = !audio.muted; sil.mostrar(!audio.muted); });
+    btn.addEventListener("click", function () {
+      if (audio.paused) { audio.play().then(function () { sil.mostrar(!audio.muted); btn.classList.add("sonando"); btn.setAttribute("aria-pressed", "true"); btn.setAttribute("aria-label", "Pausar música"); }).catch(function () {}); }
+      else { audio.pause(); btn.classList.remove("sonando"); btn.setAttribute("aria-pressed", "false"); btn.setAttribute("aria-label", "Reproducir música"); }
+    });
+    document.body.appendChild(btn);
+    document.body.classList.add("con-musica");
+  }
+
+  // ---------- arranque ----------
+  function render(D) {
+    var app = document.getElementById("app");
+    var nombreEscrito = (document.getElementById("nombre") || {}).value;
+    Array.prototype.forEach.call(document.querySelectorAll("dialog.ventana"), function (d) { if (!d.open) d.remove(); });
+    app.innerHTML = "";
+    [portada, detalles, confirmar, aportes, yape].forEach(function (fn) { var n = fn(D); if (n) app.appendChild(n); });
+    app.appendChild(el("footer", null, "Hecho con cariño para celebrar juntos", D.actualizado ? el("br") : null, D.actualizado ? "Actualizado: " + D.actualizado : null));
+    if (nombreEscrito && document.getElementById("nombre")) document.getElementById("nombre").value = nombreEscrito;
+  }
+
+  function iniciar() {
+    var D = window.DATOS;
+    var app = document.getElementById("app");
+    if (!D || typeof D !== "object") {
+      app.appendChild(el("div", { class: "error-datos" },
+        el("strong", { text: "No se pudieron leer los datos. " }),
+        "Revisa datos.js: suele ser una coma o una comilla que falta en la última línea que editaste."));
+      return;
+    }
+    API_URL = String(D.api || "").trim();
+    if (D.borrador) document.getElementById("aviso").appendChild(el("div", { class: "aviso", text: "Borrador: la página aún no está publicada." }));
+    if (D.fiesta && D.fiesta.anfitrion) document.title = "Mi cumpleaños · " + D.fiesta.anfitrion;
+    var tira = filme(D); if (tira) document.getElementById("filme").appendChild(tira);
+    render(D);
+    musica(D);
+    setTimeout(function () { confeti(90); }, 700);
+    if (API_URL) {
+      fetch(API_URL + (API_URL.indexOf("?") < 0 ? "?" : "&") + "accion=estado&t=" + Date.now())
+        .then(function (r) { return r.json(); })
+        .then(function (E) { if (E && E.ok) { aplicarEstado(D, E); render(D); } })
+        .catch(function () {});
+    }
+  }
+
+  if (window.DATOS) { iniciar(); return; }
+  // datos.js se pide siempre "fresco" para que los cambios se vean al instante
+  var s = document.createElement("script");
+  s.src = "datos.js?v=" + Date.now();
+  s.onload = iniciar;
+  s.onerror = iniciar;
+  document.head.appendChild(s);
+})();
+</script>
+</body>
+</html>

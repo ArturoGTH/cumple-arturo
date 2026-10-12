@@ -12,7 +12,9 @@
 <meta property="og:locale" content="es_PE">
 <meta property="og:title" content="Mi cumpleaños · Juan Arturo">
 <meta property="og:description" content="Sábado 7 de noviembre, desde las 6:00 p. m. ¡Te espero! Confirma tu asistencia aquí.">
-<meta property="og:image" content="fotos/portada-whatsapp.jpg">
+<meta property="og:url" content="https://arturogth.github.io/cumple-arturo/">
+<meta property="og:image" content="https://arturogth.github.io/cumple-arturo/fotos/portada-whatsapp.jpg">
+<meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -123,13 +125,9 @@
     height: 26px; padding: 4px 2px 0; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     font-family: "Caveat", "Segoe Script", cursive; font-size: 19px; line-height: 28px; color: #2a1a20;
   }
-  @media (prefers-reduced-motion: no-preference) {
-    .cinta { animation: rodar var(--duracion, 30s) linear infinite; }
-    .filme:hover .cinta, .filme:active .cinta { animation-play-state: paused; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .filme { overflow-x: auto; }
-  }
+  /* La tira siempre avanza sola (también con "reducir animaciones" o ahorro de batería) */
+  .cinta { animation: rodar var(--duracion, 30s) linear infinite; will-change: transform; }
+  .filme:hover .cinta, .filme:active .cinta, .filme.pausa .cinta { animation-play-state: paused; }
   @keyframes rodar { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   header.con-filme { padding-top: 30px; }
   .ceja {
@@ -204,7 +202,8 @@
     display: block; padding: 12px 10px; border-radius: 12px; border: 1px solid var(--line);
     background: var(--bg); text-align: center; font-weight: 500;
   }
-  .opcion input:checked + span { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+  .opcion input:checked + span { background: rgba(217, 180, 106, .14); border: 2px solid var(--accent); color: var(--accent); font-weight: 700; }
+  .opcion input:checked + span::before { content: "✓ "; }
   .botones { display: grid; gap: 10px; }
   .boton {
     display: flex; align-items: center; justify-content: center; gap: 9px; width: 100%;
@@ -362,6 +361,23 @@
   .cal-t { margin: 0 0 8px; color: var(--muted); font-size: 14.5px; }
   .cal-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .cal-btns .boton { padding: 12px 10px; font-size: 15px; }
+  /* ---------- Botones con color propio ---------- */
+  .boton svg { width: 20px; height: 20px; flex: none; }
+  .cal-btns .boton { padding: 13px 10px; font-size: 15px; }
+  .cal-g { background: var(--vino); color: #fff8ef; }
+  .cal-i { background: #c9ccd3; color: #1a1013; }
+  .copiar { background: #742284; color: #fff; }
+  .copiar.hecho { background: var(--ok); color: var(--ok-ink); }
+  .ya-abrir { background: transparent; color: var(--coral); border: 1.5px solid var(--coral); }
+  .llevar-cta .boton { background: linear-gradient(100deg, var(--coral), var(--accent)); color: #241006; }
+  .boton:not(:disabled):active { transform: translateY(1px); filter: brightness(.95); }
+  @media (max-width: 560px) {
+    .musica { padding: 0; width: 46px; height: 46px; justify-content: center; right: 12px; bottom: 12px; }
+    .musica .m-txt { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    .silencio { right: 66px; bottom: 12px; }
+    .sp-panel { right: 12px; bottom: 66px; width: calc(100vw - 24px); }
+    body.con-musica .wrap { padding-bottom: 80px; }
+  }
   footer { margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13.5px; text-align: center; }
   .error-datos { margin: 40px 0; padding: 18px; border: 1px solid var(--coral); border-radius: var(--radius); color: #ffab95; }
 
@@ -592,6 +608,11 @@
     );
   }
 
+  var ICO_CAL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="17" rx="2.5"/><path d="M16 2.5v4M8 2.5v4M3 10h18"/><path d="M12 13.5v5M9.5 16h5"/></svg>';
+  var ICO_COPIAR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>';
+  var ICO_CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+  function conIcono(nodo, svg, texto) { nodo.innerHTML = svg; nodo.appendChild(el("span", { text: texto })); return nodo; }
+
   function calendario(D) {
     var f = D.fiesta || {};
     var ini = new Date(f.fechaISO || ""), fin = new Date(f.fechaFinISO || "");
@@ -615,8 +636,8 @@
     return el("div", { class: "calendario" },
       el("p", { class: "cal-t", text: "Guárdalo en tu calendario para que no se te pase:" }),
       el("div", { class: "cal-btns" },
-        el("a", { class: "boton sec", href: gcal, target: "_blank", rel: "noopener", text: "Google Calendar" }),
-        el("a", { class: "boton sec", href: icsUrl, download: "cumple-juan-arturo.ics", text: "iPhone y otros" })
+        conIcono(el("a", { class: "boton cal-g", href: gcal, target: "_blank", rel: "noopener" }), ICO_CAL, "Google Calendar"),
+        conIcono(el("a", { class: "boton cal-i", href: icsUrl, download: "cumple-juan-arturo.ics" }), ICO_CAL, "iPhone y otros")
       )
     );
   }
@@ -893,10 +914,10 @@
       el("a", { class: "guardar-qr", href: Y.qr, download: "qr-yape-juan-arturo.png", text: "Guardar QR" })) : null;
     var btnCopiar = null;
     if (numero) {
-      btnCopiar = el("button", { type: "button", class: "boton copiar", text: "Copiar número de Yape" });
+      btnCopiar = conIcono(el("button", { type: "button", class: "boton copiar" }), ICO_COPIAR, "Copiar número de Yape");
       btnCopiar.addEventListener("click", function () {
         var limpio = numero.replace(/\D/g, "");
-        function ok() { btnCopiar.textContent = "¡Copiado! Pégalo en Yape"; setTimeout(function () { btnCopiar.textContent = "Copiar número de Yape"; }, 2500); }
+        function ok() { conIcono(btnCopiar, ICO_CHECK, "¡Copiado! Pégalo en Yape"); btnCopiar.classList.add("hecho"); setTimeout(function () { conIcono(btnCopiar, ICO_COPIAR, "Copiar número de Yape"); btnCopiar.classList.remove("hecho"); }, 2500); }
         if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(limpio).then(ok, function () { manual(limpio); ok(); });
         else { manual(limpio); ok(); }
       });
@@ -935,7 +956,7 @@
       el("div", { class: "ya-fila" }, nombre),
       el("div", { class: "ya-fila dos" }, para, monto),
       btn, msg);
-    var abrirBtn = el("button", { type: "button", class: "boton sec ya-abrir", text: "¿Ya yapeaste? Avísame aquí" });
+    var abrirBtn = el("button", { type: "button", class: "boton ya-abrir", text: "¿Ya yapeaste? Avísame aquí" });
     abrirBtn.addEventListener("click", function () { if (!nombre.value) nombre.value = nombreGuardado(); form.hidden = false; abrirBtn.hidden = true; (nombre.value ? monto : nombre).focus(); });
     form.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -971,7 +992,9 @@
     for (var v = 0; v < veces; v++) fotos.forEach(function (x, i) { cuadros.push(cuadro(x, i, v > 0)); });
     var cinta = el("div", { class: "cinta" }, cuadros);
     cinta.style.setProperty("--duracion", (fotos.length * veces / 2 * 4.5) + "s");
-    return el("div", { class: "filme", role: "region", "aria-label": "Fotos con amigos" }, cinta);
+    var tira = el("div", { class: "filme", role: "region", "aria-label": "Fotos con amigos" }, cinta);
+    tira.addEventListener("click", function () { tira.classList.toggle("pausa"); });
+    return tira;
   }
 
   // ---------- música (opcional, solo al tocar) ----------

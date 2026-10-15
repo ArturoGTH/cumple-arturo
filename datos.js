@@ -127,7 +127,9 @@ window.DATOS = {
     intro: "Para añadirte a la lista, escribe tu nombre y apellido.",
     nota: "🎁 ¿Regalos? ¡No te preocupes! El mejor regalo que me puedes dar es tu presencia en este día tan especial.\n\nPara poder celebrarlo todos juntos, te pido una pequeña colaboración que se invertirá en la barra, la música y los piqueos de la noche. ¡Te espero! 🥂",
     pregunta: "Elige tu colaboración:",
-    montos: [30, 40, 50],
+    montos: [30],                             // montos fijos (botones)
+    otroMonto: true,                          // botón "Otro monto": escriben un monto mayor al de arriba
+    otroTexto: "Otro monto",
     boton: "Confirmar y guardar mi lugar",
   },
 

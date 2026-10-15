@@ -517,6 +517,15 @@
   .monto-op input:checked + span { border-color: var(--accent); background: rgba(217, 180, 106, .16); color: var(--accent); transform: scale(1.04); }
   .monto-op input:checked + span small { color: var(--accent); }
   .monto-op input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .monto-op.otro > span { font-family: var(--body); font-size: 17px; font-weight: 700; padding: 18px 6px; line-height: 1.1; }
+  .otro-caja { display: flex; align-items: center; gap: 10px; margin: -6px 0 18px; padding: 10px 14px; border-radius: 14px; border: 1.5px solid var(--accent); background: rgba(217, 180, 106, .08); }
+  .otro-caja[hidden] { display: none; }
+  .otro-sol { font-family: var(--display); font-size: 24px; font-weight: 600; color: var(--accent); }
+  .otro-caja input { flex: 1 1 auto; min-width: 0; width: 100%; padding: 8px 4px; border: 0; background: transparent; color: var(--text); font-family: var(--display); font-size: 26px; font-weight: 600; outline: none; -moz-appearance: textfield; }
+  .otro-caja input::-webkit-outer-spin-button, .otro-caja input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .otro-caja input::placeholder { color: rgba(195, 198, 206, .35); }
+  .otro-nota { flex: none; color: var(--muted); font-size: 13px; }
+  .con-error.otro-caja { border-color: var(--coral); }
   .ayuda { margin: 10px 0 0; color: var(--muted); font-size: 13.5px; text-align: center; }
   .no-ire-p { margin: 12px 0 0; text-align: center; }
   .no-ire { color: var(--muted); font-size: 14px; }
@@ -1063,18 +1072,54 @@
   }
 
   // ---------- confirmación: un solo botón (hoja de Google + WhatsApp) ----------
+  // Selector de colaboración: montos fijos + "Otro monto" (escrito, mayor al mínimo)
+  function selectorMonto(C, grupo, previo, etiqueta) {
+    var fijos = (C.montos || []).map(Number);
+    var minimo = Math.max.apply(null, fijos.concat([0]));
+    var esOtro = previo && fijos.indexOf(previo) < 0;
+    var opciones = fijos.map(function (m) {
+      return el("label", { class: "monto-op" },
+        el("input", { type: "radio", name: grupo, value: String(m), checked: previo === m }),
+        el("span", null, el("small", { text: "S/" }), String(m)));
+    });
+    var radioOtro = null, campoOtro = null, cajaOtro = null;
+    if (C.otroMonto) {
+      radioOtro = el("input", { type: "radio", name: grupo, value: "otro", checked: !!esOtro });
+      opciones.push(el("label", { class: "monto-op otro" }, radioOtro, el("span", { text: C.otroTexto || "Otro monto" })));
+      campoOtro = el("input", { type: "number", inputmode: "numeric", min: String(minimo + 1), max: "1000", step: "1", placeholder: String(minimo + 10),
+        "aria-label": "Escribe tu monto en soles", value: esOtro ? String(previo) : null });
+      cajaOtro = el("div", { class: "otro-caja con-burbuja", hidden: !esOtro },
+        el("span", { class: "otro-sol", text: "S/" }), campoOtro,
+        el("span", { class: "otro-nota", text: "Mayor a S/ " + minimo }));
+    }
+    var grupoEl = el("div", { class: "montos con-burbuja", role: "radiogroup", "aria-labelledby": etiqueta, style: "grid-template-columns:repeat(" + opciones.length + ",1fr)" }, opciones);
+    var nodo = el("div", { class: "selector-monto" }, grupoEl, cajaOtro);
+    grupoEl.addEventListener("change", function () {
+      if (!cajaOtro) return;
+      var abierto = radioOtro.checked; cajaOtro.hidden = !abierto;
+      if (abierto) setTimeout(function () { try { campoOtro.focus({ preventScroll: true }); } catch (e) { campoOtro.focus(); } }, 30);
+    });
+    function leer() {
+      var sel = grupoEl.querySelector("input:checked");
+      if (!sel) return { error: "Elige tu colaboración: S/ " + fijos.join(", ") + (C.otroMonto ? " u otro monto." : "."), campo: grupoEl.querySelector("input") };
+      if (sel.value !== "otro") return { monto: Number(sel.value) };
+      var v = Math.round(Number(String(campoOtro.value).replace(",", ".")));
+      if (!campoOtro.value || !v) return { error: "Escribe el monto que deseas aportar (mayor a S/ " + minimo + ").", campo: campoOtro };
+      if (v <= minimo) return { error: "Para «" + (C.otroTexto || "Otro monto") + "» escribe un monto mayor a S/ " + minimo + " 🙂 (o elige S/ " + minimo + ").", campo: campoOtro };
+      if (v > 1000) return { error: "Escribe un monto de hasta S/ 1000.", campo: campoOtro };
+      return { monto: v };
+    }
+    return { nodo: nodo, leer: leer };
+  }
+
   function confirmar(D) {
     var f = D.fiesta || {}, C = D.colaboracion || {};
     var nombre = el("input", { type: "text", id: "nombre", name: "nombre", autocomplete: "name", placeholder: "Ej.: María Pérez", value: nombreGuardado() || null });
     var estado = el("p", { class: "estado", role: "status" });
     function decir(t, bien) { estado.textContent = t; estado.className = "estado ver " + (bien ? "bien" : "mal"); }
     var previo = montoGuardado();
-    var montos = el("div", { class: "montos con-burbuja", role: "radiogroup", "aria-labelledby": "l-monto" },
-      (C.montos || []).map(function (m) {
-        return el("label", { class: "monto-op" },
-          el("input", { type: "radio", name: "monto", value: String(m), checked: previo === m }),
-          el("span", null, el("small", { text: "S/" }), String(m)));
-      }));
+    var selMonto = selectorMonto(C, "monto", previo, "l-monto");
+    var montos = selMonto.nodo;
     var btn = el("button", { type: "submit", class: "boton wa confirmar-btn" });
     btn.innerHTML = ICONO_WA; btn.appendChild(el("span", { text: C.boton || "Confirmar y guardar mi lugar" }));
     var noIre = el("a", { href: "#", class: "no-ire", text: "¿No podrás ir? Avísame aquí" });
@@ -1105,9 +1150,9 @@
       var limpio = String(nombre.value || "").trim().replace(/\s+/g, " ");
       if (limpio.length < 2) return burbuja(nombre, "Escribe tu nombre y apellido para confirmar.");
       if (limpio.split(" ").length < 2) return burbuja(nombre, "¡Falta tu apellido! Escribe nombre y apellido.");
-      var sel = form.querySelector('input[name="monto"]:checked');
-      if (!sel) return burbuja(montos.querySelector("input"), "Elige con cuánto deseas colaborar: S/ " + (C.montos || []).join(", ") + ".");
-      var m = Number(sel.value);
+      var r = selMonto.leer();
+      if (r.error) return burbuja(r.campo, r.error);
+      var m = r.monto;
       guardarNombre(limpio); guardarMonto(m);
       var txt = "¡Hola, " + (f.anfitrion || "") + "! Soy " + limpio + " y confirmo mi asistencia a tu cumpleaños del " +
         (f.fechaTexto || "").toLowerCase() + ". Mi colaboración será de S/ " + m + ". ¡Nos vemos! 🎉";
@@ -1175,10 +1220,8 @@
     dlg.addEventListener("close", function () { document.documentElement.classList.remove("sin-scroll"); });
 
     var suNombre = el("input", { type: "text", id: "inv-nombre", autocomplete: "off", placeholder: "Ej.: Carlos Ramírez", value: previo ? previo.nombre : null });
-    var montos = el("div", { class: "montos con-burbuja", role: "radiogroup", "aria-labelledby": "i-monto" },
-      (C.montos || []).map(function (m) {
-        return el("label", { class: "monto-op" }, el("input", { type: "radio", name: "monto-inv", value: String(m), checked: previo && previo.monto === m }), el("span", null, el("small", { text: "S/" }), String(m)));
-      }));
+    var selMonto = selectorMonto(C, "monto-inv", previo ? previo.monto : 0, "i-monto");
+    var montos = selMonto.nodo;
     var ok = el("input", { type: "checkbox", id: "inv-ok", checked: !!previo });
     var aviso = el("div", { class: "inv-aviso con-burbuja" },
       el("p", { class: "inv-aviso-t" }, el("span", { "aria-hidden": "true", text: "⚠️ " }), el("span", { text: I.alerta || "Solo puedes registrar a 1 acompañante." })),
@@ -1201,10 +1244,10 @@
       if (b.length < 2) return burbuja(suNombre, "Escribe el nombre y apellido de tu acompañante.");
       if (b.split(" ").length < 2) return burbuja(suNombre, "¡Falta el apellido de tu acompañante!");
       if (norm(yo) === norm(b)) return burbuja(suNombre, "Ese es tu nombre 🙂 Escribe el de tu acompañante.");
-      var sel = form.querySelector('input[name="monto-inv"]:checked');
-      if (!sel) return burbuja(montos.querySelector("input"), "Elige su colaboración: S/ " + (C.montos || []).join(", ") + ".");
+      var r = selMonto.leer();
+      if (r.error) return burbuja(r.campo, r.error.replace("Elige tu colaboración", "Elige su colaboración").replace("deseas aportar", "aportará"));
       if (!ok.checked) return burbuja(ok, "Marca la casilla para confirmar que vendrás con 1 acompañante.");
-      var m = Number(sel.value);
+      var m = r.monto;
       var cambio = previo && norm(previo.nombre) !== norm(b);
       wa(D, "¡Hola, " + (f.anfitrion || "") + "! Soy " + yo + " y " + (cambio ? "cambio a mi acompañante: ahora vendré con " : "vendré con un acompañante a tu cumpleaños del " + (f.fechaTexto || "").toLowerCase() + ": ") +
         b + ". Su colaboración será de S/ " + m + ". ¡Nos vemos! 🎉");

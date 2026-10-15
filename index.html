@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mi cumpleaños · Juan Arturo</title>
-<meta name="description" content="Sábado 7 de noviembre, desde las 6:00 p. m. ¡Te espero! Confirma tu asistencia aquí.">
+<title>Mi cumpleaños · Arturo</title>
+<meta name="description" content="Sábado 7 de noviembre, desde las 5:00 p. m. en San Borja. ¡Te espero! Confirma tu asistencia aquí.">
 <meta name="theme-color" content="#0d0a0b">
 <!-- Vista previa al compartir el enlace (WhatsApp, Facebook, etc.).
      IMPORTANTE: og:image y og:url deben ser la dirección completa de la página publicada. -->
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_PE">
-<meta property="og:title" content="Mi cumpleaños · Juan Arturo">
-<meta property="og:description" content="Sábado 7 de noviembre, desde las 6:00 p. m. ¡Te espero! Confirma tu asistencia aquí.">
+<meta property="og:title" content="Mi cumpleaños · Arturo">
+<meta property="og:description" content="Sábado 7 de noviembre, desde las 5:00 p. m. en San Borja. ¡Te espero! Confirma tu asistencia aquí.">
 <meta property="og:url" content="https://arturogth.github.io/cumple-arturo/">
-<meta property="og:image" content="https://arturogth.github.io/cumple-arturo/fotos/portada-whatsapp.jpg">
+<meta property="og:image" content="https://arturogth.github.io/cumple-arturo/fotos/portada-whatsapp-v2.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -125,10 +125,14 @@
     height: 26px; padding: 4px 2px 0; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     font-family: "Caveat", "Segoe Script", cursive; font-size: 19px; line-height: 28px; color: #2a1a20;
   }
-  /* La tira siempre avanza sola (también con "reducir animaciones" o ahorro de batería) */
-  .cinta { animation: rodar var(--duracion, 30s) linear infinite; will-change: transform; }
-  .filme:hover .cinta, .filme:active .cinta, .filme.pausa .cinta { animation-play-state: paused; }
-  @keyframes rodar { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  /* La tira avanza sola y además se puede deslizar con el dedo o arrastrar con el mouse */
+  .filme { overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; cursor: grab; touch-action: pan-x pan-y; }
+  .filme::-webkit-scrollbar { display: none; }
+  .filme.agarrando { cursor: grabbing; user-select: none; }
+  .filme img { -webkit-user-drag: none; user-select: none; }
+  #filme-abajo .filme { margin: 8px 0 0; }
+  #pie footer { margin-top: 24px; }
+  .wrap#app { padding-bottom: 24px; }
   header.con-filme { padding-top: 30px; }
   .ceja {
     margin: 0 0 6px; color: var(--coral); font-size: 13px; font-weight: 700;
@@ -378,6 +382,58 @@
     .sp-panel { right: 12px; bottom: 66px; width: calc(100vw - 24px); }
     body.con-musica .wrap { padding-bottom: 80px; }
   }
+  /* ---------- Colaboración, carta, confirmación, cierre ---------- */
+  .colab { text-align: center; }
+  .incluye li:last-child:nth-child(odd) { grid-column: 1 / -1; justify-content: center; }
+  .nota-regalo { white-space: pre-line; font-style: italic; margin: 2px 0 14px; padding: 12px 14px; border-radius: 12px; background: rgba(217, 180, 106, .09); border: 1px dashed rgba(217, 180, 106, .45); color: var(--text); font-size: 14.5px; line-height: 1.45; }
+  .colab-montos { margin: 0 0 14px; font-family: var(--display); font-size: 26px; color: var(--accent); }
+  .colab-montos b { font-weight: 600; }
+  .incluye { list-style: none; margin: 0 0 16px; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: left; }
+  .incluye li { display: flex; align-items: center; gap: 10px; padding: 11px 12px; border-radius: 12px; background: var(--bg); border: 1px solid var(--line); font-size: 14.5px; font-weight: 500; line-height: 1.3; }
+  .inc-ico { font-size: 20px; flex: none; }
+  .carta-btn { background: linear-gradient(100deg, var(--vino), var(--coral)); color: #fff8ef; }
+  .carta-btn span[aria-hidden] { font-size: 19px; }
+  .c-ceja { margin: 0; color: var(--coral); font-size: 12.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+  .c-lista { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 10px; }
+  .c-lista li { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 14px; background: var(--bg); border: 1px solid var(--line); font-family: var(--display); font-size: 20px; font-weight: 600; }
+  .c-ico { font-size: 26px; width: 34px; text-align: center; }
+  .c-nota { margin: 14px 0 6px; color: var(--muted); font-size: 14.5px; text-align: center; }
+  .etq-monto { margin: 4px 0 8px; font-size: 14.5px; font-weight: 700; }
+  .montos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; position: relative; }
+  .monto-op { margin: 0; cursor: pointer; }
+  .monto-op input { position: absolute; opacity: 0; pointer-events: none; }
+  .monto-op > span { display: block; padding: 14px 6px; border-radius: 14px; border: 1.5px solid var(--line); background: var(--bg); text-align: center; font-family: var(--display); font-size: 26px; font-weight: 600; line-height: 1; transition: transform .12s ease; }
+  .monto-op small { font-family: var(--body); font-size: 13px; font-weight: 700; color: var(--muted); margin-right: 3px; }
+  .monto-op input:checked + span { border-color: var(--accent); background: rgba(217, 180, 106, .16); color: var(--accent); transform: scale(1.04); }
+  .monto-op input:checked + span small { color: var(--accent); }
+  .monto-op input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .ayuda { margin: 10px 0 0; color: var(--muted); font-size: 13.5px; text-align: center; }
+  .no-ire-p { margin: 12px 0 0; text-align: center; }
+  .no-ire { color: var(--muted); font-size: 14px; }
+  .con-burbuja { position: relative; }
+  .burbuja {
+    position: absolute; left: 0; right: 0; top: calc(100% + 8px); z-index: 5; padding: 10px 14px; border-radius: 12px;
+    background: var(--coral); color: #2b0d06; font-size: 14.5px; font-weight: 700; box-shadow: 0 10px 24px rgba(0, 0, 0, .45);
+  }
+  .burbuja::before { content: ""; position: absolute; top: -7px; left: 22px; border: 7px solid transparent; border-top: 0; border-bottom-color: var(--coral); }
+  .con-error input[type="text"], .con-error .monto-op > span { border-color: var(--coral) !important; }
+  .montos .burbuja { grid-column: 1 / -1; }
+  .temblor { animation: temblor .4s ease; }
+  @keyframes temblor { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+  .mapa-btn { margin-top: 12px; background: var(--surface-2); color: var(--accent); border: 1px solid rgba(217, 180, 106, .45); }
+  .paso { margin: 4px 0 8px !important; font-weight: 700; font-size: 15px; }
+  .yape-datos .titular { color: var(--muted); font-weight: 500; font-size: 14.5px; }
+  .yape-datos .boton { width: 100%; margin: 4px 0 18px; }
+  .ya-abrir svg { width: 20px; height: 20px; }
+  .cierre { text-align: center; padding: 36px 8px 8px; }
+  .cierre-ceja { margin: 0; color: var(--coral); font-size: 13px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+  .cierre-t { font-style: italic; font-weight: 500; font-size: clamp(38px, 11vw, 60px); line-height: 1.05; margin: 8px 0 10px;
+    background: linear-gradient(100deg, #f3dca6, var(--accent) 45%, #e6e8ec); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .cierre-txt { margin: 0 auto 20px; max-width: 34ch; color: var(--text); font-size: 17px; }
+  .fiesta-btn { width: auto; display: inline-flex; padding: 14px 26px; background: linear-gradient(100deg, var(--coral), var(--accent)); color: #241006; font-size: 17px; }
+  /* Títulos y textos de cada sección, centrados */
+  section > h2, section > .intro { text-align: center; }
+  section > .intro { max-width: 46ch; margin-left: auto; margin-right: auto; }
   footer { margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13.5px; text-align: center; }
   .error-datos { margin: 40px 0; padding: 18px; border: 1px solid var(--coral); border-radius: var(--radius); color: #ffab95; }
 
@@ -396,6 +452,8 @@
 <div id="aviso"></div>
 <div id="filme"></div>
 <div class="wrap" id="app" aria-live="polite"></div>
+<div id="filme-abajo"></div>
+<div class="wrap" id="pie"></div>
 
 <!-- DATOS-INLINE -->
 <script>
@@ -601,7 +659,16 @@
       el("div", { class: "detalles" },
         dato("¿Cuándo?", f.fechaTexto),
         dato("¿A qué hora?", f.hora),
-        dato("¿Dónde?", f.lugar, f.notaLugar, true),
+        (function () {
+          var t = dato("¿Dónde?", f.lugar, f.notaLugar, true);
+          if (f.mapa) {
+            var a = el("a", { class: "boton mapa-btn", href: f.mapa, target: "_blank", rel: "noopener" });
+            a.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
+            a.appendChild(el("span", { text: "Cómo llegar · Google Maps" }));
+            t.appendChild(a);
+          }
+          return t;
+        })(),
         f.dressCode ? dato("Dress code", f.dressCode, f.notaDressCode, true) : null
       ),
       calendario(D)
@@ -639,87 +706,6 @@
         conIcono(el("a", { class: "boton cal-g", href: gcal, target: "_blank", rel: "noopener" }), ICO_CAL, "Google Calendar"),
         conIcono(el("a", { class: "boton cal-i", href: icsUrl, download: "cumple-juan-arturo.ics" }), ICO_CAL, "iPhone y otros")
       )
-    );
-  }
-
-  function confirmar(D) {
-    var f = D.fiesta || {};
-    var F = D.formulario || {};
-    var nombre = el("input", { type: "text", id: "nombre", name: "nombre", autocomplete: "name", placeholder: "Ej.: María Pérez", required: true, value: nombreGuardado() || null });
-    var estado = el("p", { class: "estado", role: "status" });
-
-    function opcion(valor, texto, marcado) {
-      return el("label", { class: "opcion" },
-        el("input", { type: "radio", name: "asistencia", value: valor, checked: marcado }),
-        el("span", { text: texto })
-      );
-    }
-    function decir(texto, bien) { estado.textContent = texto; estado.className = "estado ver " + (bien ? "bien" : "mal"); }
-    function leer() {
-      var a = form.querySelector('input[name="asistencia"]:checked').value;
-      var v = validarNombre(nombre.value);
-      if (v.error) { decir(v.error, false); nombre.focus(); return null; }
-      guardarNombre(v.nombre);
-      return { nombre: v.nombre, asistencia: a };
-    }
-
-    var btnEnviar = el("button", { type: "submit", class: "boton", text: "Confirmar aquí" });
-    var btnWa = el("button", { type: "button", class: "boton wa" });
-    btnWa.innerHTML = ICONO_WA;
-    btnWa.appendChild(document.createTextNode("Confirmar por WhatsApp"));
-
-    btnWa.addEventListener("click", function () {
-      var v = leer(); if (!v) return;
-      var va = v.asistencia.indexOf("Sí") === 0;
-      var fecha = (f.fechaTexto || "").toLowerCase();
-      var txt = va
-        ? "¡Hola, " + (f.anfitrion || "") + "! Soy " + v.nombre + " y confirmo que voy a tu cumpleaños el " + fecha + ". ¡Ahí nos vemos!"
-        : "¡Hola, " + (f.anfitrion || "") + "! Soy " + v.nombre + ". Esta vez no podré ir a tu cumpleaños del " + fecha + ", pero te mando un abrazo enorme.";
-      window.open("https://wa.me/" + String(D.whatsapp || "").replace(/\D/g, "") + "?text=" + encodeURIComponent(txt), "_blank", "noopener");
-      decir("Te abrí WhatsApp con el mensaje listo. Solo dale enviar.", true);
-    });
-
-    var form = el("form", { class: "tarjeta", novalidate: true },
-      el("div", { class: "campo" }, el("label", { for: "nombre", text: "Tu nombre y apellido" }), nombre),
-      el("fieldset", null,
-        el("legend", { text: "¿Te apuntas?" }),
-        el("div", { class: "opciones" }, opcion("Sí, voy", "¡Sí, ahí estaré!", true), opcion("No podré ir", "Esta vez no podré", false))
-      ),
-      el("div", { class: "botones" }, btnEnviar, btnWa),
-      estado
-    );
-
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var v = leer(); if (!v) return;
-      var envio;
-      if (API_URL) envio = enviarApi({ tipo: "confirmacion", nombre: v.nombre, asistencia: v.asistencia });
-      else if (F.urlEnvio && F.campoNombre) {
-        var cuerpo = new URLSearchParams();
-        cuerpo.append(F.campoNombre, v.nombre);
-        if (F.campoAsistencia) cuerpo.append(F.campoAsistencia, v.asistencia);
-        envio = fetch(F.urlEnvio, { method: "POST", mode: "no-cors", body: cuerpo });
-      } else {
-        decir("Esta opción se activa muy pronto. Por ahora confírmame con el botón de WhatsApp.", false);
-        return;
-      }
-      btnEnviar.disabled = true; btnEnviar.textContent = "Enviando…";
-      envio
-        .then(function () {
-          if (v.asistencia.indexOf("Sí") === 0) confeti();
-          decir(v.asistencia.indexOf("Sí") === 0 ? "¡Qué alegría, " + v.nombre.split(" ")[0] + "! Ya estás en la lista. Nos vemos el 7." : "Gracias por avisarme, " + v.nombre.split(" ")[0] + ". Te voy a extrañar; ya celebraremos juntos.", true);
-          btnEnviar.textContent = "Confirmar aquí"; btnEnviar.disabled = false;
-        })
-        .catch(function () {
-          decir("Uy, no se pudo enviar. Revisa tu conexión o confírmame por WhatsApp.", false);
-          btnEnviar.textContent = "Confirmar aquí"; btnEnviar.disabled = false;
-        });
-    });
-
-    return el("section", { "aria-labelledby": "t-confirmar" },
-      el("h2", { id: "t-confirmar", text: "¿Me acompañas?" }),
-      el("p", { class: "intro", text: "Cuéntame si vienes para guardarte tu lugar. Confirma aquí o por WhatsApp, como te sea más fácil." }),
-      form
     );
   }
 
@@ -906,94 +892,222 @@
     return dlg;
   }
 
+  // ---------- burbuja de aviso junto a un campo ----------
+  function burbuja(campo, texto) {
+    var cont = campo.closest(".con-burbuja") || campo.parentNode;
+    var b = cont.querySelector(".burbuja");
+    if (!b) { b = el("div", { class: "burbuja", role: "alert" }); cont.appendChild(b); }
+    b.textContent = texto;
+    cont.classList.remove("temblor"); void cont.offsetWidth; cont.classList.add("temblor", "con-error");
+    var base = parseFloat(getComputedStyle(cont).marginBottom) || 0;
+    if (!cont.dataset.mb) cont.dataset.mb = String(base);
+    cont.style.marginBottom = (Number(cont.dataset.mb) + b.offsetHeight + 14) + "px";
+    var quitar = function () { cont.classList.remove("con-error"); cont.style.marginBottom = ""; if (b.parentNode) b.remove(); };
+    campo.addEventListener("input", quitar, { once: true });
+    campo.addEventListener("change", quitar, { once: true });
+    if (campo.focus) try { campo.focus({ preventScroll: true }); } catch (e) { campo.focus(); }
+    cont.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+  function montoGuardado() { try { return Number(localStorage.getItem("cumple-ja-monto")) || 0; } catch (e) { return 0; } }
+  function guardarMonto(m) { try { localStorage.setItem("cumple-ja-monto", String(m)); } catch (e) {} }
+
+  // ---------- colaboración + carta de tragos ----------
+  function colaboracion(D) {
+    var C = D.colaboracion; if (!C) return null;
+    var dlg = ventanaCarta(D);
+    var btn = el("button", { type: "button", class: "boton carta-btn" });
+    btn.innerHTML = '<span aria-hidden="true">🍸</span>'; btn.appendChild(el("span", { text: (D.carta && D.carta.boton) || "Ver carta de tragos" }));
+    btn.addEventListener("click", function () { abrir(dlg); });
+    return el("section", { "aria-labelledby": "t-colab" },
+      el("h2", { id: "t-colab", text: C.titulo || "Colaboración" }),
+      el("p", { class: "intro", text: C.texto || "" }),
+      el("div", { class: "tarjeta colab" },
+        C.mostrarMontos ? el("p", { class: "colab-montos" }, (C.montos || []).map(function (m, i) {
+          return el("span", null, (i ? " · " : "") , el("b", { text: "S/ " + m }));
+        })) : null,
+        el("ul", { class: "incluye" }, (C.incluye || []).map(function (x) {
+          return el("li", null, el("span", { class: "inc-ico", "aria-hidden": "true", text: x.icono || "✦" }), el("span", { text: x.texto || x }));
+        })),
+        btn
+      )
+    );
+  }
+
+  function ventanaCarta(D) {
+    var K = D.carta || {};
+    var dlg = el("dialog", { class: "ventana carta", "aria-labelledby": "c-titulo" });
+    var x = el("button", { type: "button", class: "v-cerrar", "aria-label": "Cerrar", text: "×" });
+    x.addEventListener("click", function () { cerrar(dlg); });
+    dlg.addEventListener("click", function (e) { if (e.target === dlg) cerrar(dlg); });
+    dlg.addEventListener("close", function () { document.documentElement.classList.remove("sin-scroll"); });
+    dlg.appendChild(el("div", { class: "v-cab" },
+      el("div", null, el("p", { class: "c-ceja", text: K.ceja || "Barra libre" }), el("h3", { id: "c-titulo", text: K.titulo || "Carta de la barra" })), x));
+    dlg.appendChild(el("div", { class: "v-cuerpo" },
+      el("ul", { class: "c-lista" }, (K.tragos || []).map(function (t) {
+        return el("li", null, el("span", { class: "c-ico", "aria-hidden": "true", text: t.icono || "🍸" }), el("span", { text: t.nombre }));
+      })),
+      K.nota ? el("p", { class: "c-nota", text: K.nota }) : null));
+    document.body.appendChild(dlg);
+    return dlg;
+  }
+
+  // ---------- confirmación: un solo botón (hoja de Google + WhatsApp) ----------
+  function confirmar(D) {
+    var f = D.fiesta || {}, C = D.colaboracion || {};
+    var nombre = el("input", { type: "text", id: "nombre", name: "nombre", autocomplete: "name", placeholder: "Ej.: María Pérez", value: nombreGuardado() || null });
+    var estado = el("p", { class: "estado", role: "status" });
+    function decir(t, bien) { estado.textContent = t; estado.className = "estado ver " + (bien ? "bien" : "mal"); }
+    var previo = montoGuardado();
+    var montos = el("div", { class: "montos con-burbuja", role: "radiogroup", "aria-labelledby": "l-monto" },
+      (C.montos || []).map(function (m) {
+        return el("label", { class: "monto-op" },
+          el("input", { type: "radio", name: "monto", value: String(m), checked: previo === m }),
+          el("span", null, el("small", { text: "S/" }), String(m)));
+      }));
+    var btn = el("button", { type: "submit", class: "boton wa confirmar-btn" });
+    btn.innerHTML = ICONO_WA; btn.appendChild(el("span", { text: C.boton || "Confirmar y guardar mi lugar" }));
+    var noIre = el("a", { href: "#", class: "no-ire", text: "¿No podrás ir? Avísame aquí" });
+    noIre.addEventListener("click", function (e) {
+      e.preventDefault();
+      var v = validarNombre(nombre.value);
+      var quien = v.nombre ? "Soy " + v.nombre + ". " : "";
+      wa(D, "¡Hola, " + (f.anfitrion || "") + "! " + quien + "Esta vez no podré ir a tu cumpleaños, pero te mando un abrazo enorme. 🎉");
+      if (API_URL && v.nombre) enviarApi({ tipo: "confirmacion", nombre: v.nombre, asistencia: "No podré ir", colaboracion: 0 });
+    });
+    var form = el("form", { class: "tarjeta", novalidate: true },
+      el("div", { class: "campo con-burbuja" }, el("label", { for: "nombre", text: "Tu nombre y apellido" }), nombre),
+      C.nota ? el("p", { class: "nota-regalo", text: C.nota }) : null,
+      el("p", { class: "etq-monto", id: "l-monto", text: C.pregunta || "¿Con cuánto deseas colaborar?" }),
+      montos,
+      el("div", { class: "botones" }, btn),
+      el("p", { class: "ayuda", text: "Al confirmar, tu lugar queda registrado y se abre WhatsApp para avisarme." }),
+      estado,
+      el("p", { class: "no-ire-p" }, noIre)
+    );
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var limpio = String(nombre.value || "").trim().replace(/\s+/g, " ");
+      if (limpio.length < 2) return burbuja(nombre, "Escribe tu nombre y apellido para confirmar.");
+      if (limpio.split(" ").length < 2) return burbuja(nombre, "¡Falta tu apellido! Escribe nombre y apellido.");
+      var sel = form.querySelector('input[name="monto"]:checked');
+      if (!sel) return burbuja(montos.querySelector("input"), "Elige con cuánto deseas colaborar: S/ " + (C.montos || []).join(", ") + ".");
+      var m = Number(sel.value);
+      guardarNombre(limpio); guardarMonto(m);
+      var txt = "¡Hola, " + (f.anfitrion || "") + "! Soy " + limpio + " y confirmo mi asistencia a tu cumpleaños del " +
+        (f.fechaTexto || "").toLowerCase() + ". Mi colaboración será de S/ " + m + ". ¡Nos vemos! 🎉";
+      wa(D, txt);                       // se abre de inmediato (los celulares bloquean ventanas que se abren tarde)
+      if (API_URL) enviarApi({ tipo: "confirmacion", nombre: limpio, asistencia: "Sí, voy", colaboracion: m }).catch(function () {});
+      confeti();
+      decir("¡Qué alegría, " + limpio.split(" ")[0] + "! Tu lugar quedó registrado con S/ " + m + ". Ahora envía tu colaboración por Yape o Plin aquí abajo 👇", true);
+      var yp = document.getElementById("t-yape"); if (yp) setTimeout(function () { yp.scrollIntoView({ behavior: "smooth", block: "start" }); }, 1800);
+    });
+    return el("section", { "aria-labelledby": "t-confirmar" },
+      el("h2", { id: "t-confirmar", text: "¿Me acompañas?" }),
+      el("p", { class: "intro", text: C.intro || "Para guardar tu lugar, escribe tu nombre y apellido." }),
+      form
+    );
+  }
+
+  // ---------- Yape: copiar número + avisar por WhatsApp ----------
   function yape(D) {
-    var Y = D.yape || {};
+    var Y = D.yape || {}, f = D.fiesta || {};
     var numero = String(Y.numero || "");
-    var qr = Y.qr ? el("div", { class: "qr-col" },
-      el("div", { class: "qr lleno" }, el("img", { src: Y.qr, alt: "Código QR de Yape" })),
-      el("a", { class: "guardar-qr", href: Y.qr, download: "qr-yape-juan-arturo.png", text: "Guardar QR" })) : null;
-    var btnCopiar = null;
-    if (numero) {
-      btnCopiar = conIcono(el("button", { type: "button", class: "boton copiar" }), ICO_COPIAR, "Copiar número de Yape");
-      btnCopiar.addEventListener("click", function () {
-        var limpio = numero.replace(/\D/g, "");
-        function ok() { conIcono(btnCopiar, ICO_CHECK, "¡Copiado! Pégalo en Yape"); btnCopiar.classList.add("hecho"); setTimeout(function () { conIcono(btnCopiar, ICO_COPIAR, "Copiar número de Yape"); btnCopiar.classList.remove("hecho"); }, 2500); }
-        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(limpio).then(ok, function () { manual(limpio); ok(); });
-        else { manual(limpio); ok(); }
-      });
-    }
+    var btnCopiar = conIcono(el("button", { type: "button", class: "boton copiar" }), ICO_COPIAR, "Copiar número");
+    btnCopiar.addEventListener("click", function () {
+      var limpio = numero.replace(/\D/g, "");
+      function ok() { conIcono(btnCopiar, ICO_CHECK, "¡Copiado! Pégalo en Yape o Plin"); btnCopiar.classList.add("hecho"); setTimeout(function () { conIcono(btnCopiar, ICO_COPIAR, "Copiar número"); btnCopiar.classList.remove("hecho"); }, 2500); }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(limpio).then(ok, function () { manual(limpio); ok(); });
+      else { manual(limpio); ok(); }
+    });
     function manual(t) {
       var x = document.createElement("textarea"); x.value = t; x.setAttribute("readonly", ""); x.style.position = "fixed"; x.style.opacity = "0";
       document.body.appendChild(x); x.select(); try { document.execCommand("copy"); } catch (e) {} document.body.removeChild(x);
     }
+    var btnAviso = el("button", { type: "button", class: "boton ya-abrir" });
+    btnAviso.innerHTML = ICONO_WA; btnAviso.appendChild(el("span", { text: "Ya envié · Avisar por WhatsApp" }));
+    btnAviso.addEventListener("click", function () {
+      var n = nombreGuardado(), m = montoGuardado();
+      var txt = "¡Hola, " + (f.anfitrion || "") + "! " + (n ? "Soy " + n + ". " : "") + "Ya te envié " + (m ? "S/ " + m + " de " : "") + "mi colaboración para tu cumpleaños. 🥳";
+      wa(D, txt);
+      if (API_URL && n && m) enviarApi({ tipo: "aporte", nombre: n, para: "Colaboración", monto: m }).catch(function () {});
+    });
     return el("section", { "aria-labelledby": "t-yape" },
-      el("h2", { id: "t-yape", text: "Súmate por Yape" }),
-      el("p", { class: "intro", text: "Con lo que nazca de tu corazón: todo suma para que la fiesta sea inolvidable." }),
-      el("div", { class: "tarjeta yape" + (qr ? "" : " sin-qr") },
-        qr,
+      el("h2", { id: "t-yape", text: Y.titulo || "Yape o Plin" }),
+      el("p", { class: "intro", text: Y.texto || "Copia mi número, yapea tu colaboración y avísame con un toque." }),
+      el("div", { class: "tarjeta yape sin-qr" },
         el("div", { class: "yape-datos" },
-          Y.titular ? el("p", { class: "titular", text: Y.titular }) : null,
+          el("p", { class: "paso", text: "1. Copia el número y pégalo en Yape o Plin" }),
+          Y.titular ? el("p", { class: "titular", text: "A nombre de " + Y.titular }) : null,
           btnCopiar,
-          el("p", { class: "nota", text: qr
-            ? "Escanea el QR, o copia el número y pégalo en Yape."
-            : "Copia el número y pégalo en Yape." })
+          el("p", { class: "paso", text: "2. Cuando ya lo hayas enviado, avísame" }),
+          btnAviso,
+          Y.limite ? el("p", { class: "nota", text: Y.limite }) : null
         )
-      ),
-      avisoYape(D)
+      )
     );
   }
 
-  function avisoYape(D) {
-    var f = D.fiesta || {};
-    var opciones = (D.gastos || []).map(function (g) { return g.nombre; }).concat(["Para la fiesta en general"]);
-    var nombre = el("input", { type: "text", autocomplete: "name", placeholder: "Tu nombre y apellido", "aria-label": "Tu nombre y apellido", value: nombreGuardado() || null });
-    var para = el("select", { "aria-label": "¿Para qué es?" }, opciones.map(function (o) { return el("option", { value: o, text: o }); }));
-    var monto = el("input", { type: "number", inputmode: "decimal", min: "1", step: "1", placeholder: "S/", "aria-label": "Monto en soles" });
-    var msg = el("p", { class: "estado", role: "status" });
-    var btn = el("button", { type: "submit", class: "boton", text: API_URL ? "Avisar que ya yapeé" : "Avisar por WhatsApp" });
-    function decir(t, bien) { msg.textContent = t; msg.className = "estado ver " + (bien ? "bien" : "mal"); }
-    var form = el("form", { class: "yape-aviso", novalidate: true, hidden: true },
-      el("div", { class: "ya-fila" }, nombre),
-      el("div", { class: "ya-fila dos" }, para, monto),
-      btn, msg);
-    var abrirBtn = el("button", { type: "button", class: "boton ya-abrir", text: "¿Ya yapeaste? Avísame aquí" });
-    abrirBtn.addEventListener("click", function () { if (!nombre.value) nombre.value = nombreGuardado(); form.hidden = false; abrirBtn.hidden = true; (nombre.value ? monto : nombre).focus(); });
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var v = validarNombre(nombre.value);
-      if (v.error) { decir(v.error, false); nombre.focus(); return; }
-      var m = Number(monto.value);
-      if (!(m > 0)) { decir("Escribe cuánto yapeaste (solo el número).", false); monto.focus(); return; }
-      guardarNombre(v.nombre);
-      var txt = "¡Hola, " + (f.anfitrion || "") + "! Soy " + v.nombre + ". Te yapeé S/ " + m + " para: " + para.value + ". ¡Que sea una fiesta a todo dar!";
-      if (!API_URL) { wa(D, txt); decir("Te abrí WhatsApp con el mensaje listo.", true); return; }
-      btn.disabled = true; btn.textContent = "Enviando…";
-      enviarApi({ tipo: "aporte", nombre: v.nombre, para: para.value, monto: m })
-        .then(function () { confeti(80); decir("¡Gracias, " + v.nombre.split(" ")[0] + "! Tu aporte quedó anotado y las barras se actualizan solas.", true); btn.textContent = "¡Enviado!"; monto.value = ""; setTimeout(function () { btn.disabled = false; btn.textContent = "Avisar que ya yapeé"; }, 3000); })
-        .catch(function () { decir("Uy, no se pudo enviar. Avísame por WhatsApp, porfa.", false); btn.disabled = false; btn.textContent = "Avisar que ya yapeé"; });
-    });
-    return el("div", { class: "ya-caja" }, abrirBtn, form);
+  // ---------- cierre festivo ----------
+  function cierre(D) {
+    var K = D.cierre; if (!K) return null;
+    var b = el("button", { type: "button", class: "boton fiesta-btn", text: K.boton || "🎉 ¡A celebrar!" });
+    b.addEventListener("click", function () { confeti(160); });
+    return el("section", { class: "cierre", "aria-labelledby": "t-cierre" },
+      el("p", { class: "cierre-ceja", text: K.ceja || "" }),
+      el("h2", { id: "t-cierre", class: "cierre-t", text: K.titulo || "¡Nos vemos!" }),
+      el("p", { class: "cierre-txt", text: K.texto || "" }),
+      b);
   }
 
-  function filme(D) {
+  // ---------- tira de fotos: avanza sola y también se desliza con el dedo ----------
+  function filme(D, inverso) {
     var fotos = ((D.fiesta || {}).fotos || []).filter(Boolean);
     if (!fotos.length) return null;
+    if (inverso) fotos = fotos.slice().reverse();
     function cuadro(x, i, copia) {
       var img = el("div", { class: "img" });
-      if (x.archivo) img.appendChild(el("img", { src: x.archivo, alt: copia ? "" : (x.pie || "Foto con amigos " + (i + 1)) }));
-      else img.appendChild(el("div", { class: "vacia", text: "Foto " + (i + 1) }));
-      return el("div", { class: "cuadro", "aria-hidden": copia ? "true" : null },
-        el("figure", { class: "marco" }, img, x.pie ? el("figcaption", { text: x.pie }) : null));
+      img.appendChild(el("img", { src: x.archivo, alt: copia ? "" : "Foto con amigos", draggable: "false", loading: inverso ? "lazy" : null }));
+      return el("div", { class: "cuadro", "aria-hidden": copia ? "true" : null }, el("figure", { class: "marco" }, img));
     }
-    // se repite la tira para que el giro sea continuo y llene pantallas anchas
-    var veces = Math.max(2, Math.ceil(10 / fotos.length) * 2);
-    if (veces % 2) veces++;
-    var cuadros = [];
-    for (var v = 0; v < veces; v++) fotos.forEach(function (x, i) { cuadros.push(cuadro(x, i, v > 0)); });
-    var cinta = el("div", { class: "cinta" }, cuadros);
-    cinta.style.setProperty("--duracion", (fotos.length * veces / 2 * 4.5) + "s");
-    var tira = el("div", { class: "filme", role: "region", "aria-label": "Fotos con amigos" }, cinta);
-    tira.addEventListener("click", function () { tira.classList.toggle("pausa"); });
+    var cinta = el("div", { class: "cinta" });
+    fotos.forEach(function (x, i) { cinta.appendChild(cuadro(x, i, false)); });
+    fotos.forEach(function (x, i) { cinta.appendChild(cuadro(x, i, true)); });   // copia para el giro continuo
+    var tira = el("div", { class: "filme" + (inverso ? " abajo" : ""), role: "region", "aria-label": "Fotos con amigos (desliza para ver)" }, cinta);
+
+    var vel = 38 * (inverso ? -1 : 1);   // píxeles por segundo
+    var x = 0, ult = 0, pausa = false, retomar = null, mitad = 0;
+    function medir() { mitad = cinta.scrollWidth / 2; if (inverso && x === 0) x = mitad; }
+    function envolver() {
+      if (!mitad) return;
+      if (tira.scrollLeft >= mitad) tira.scrollLeft -= mitad;
+      else if (tira.scrollLeft <= 0 && inverso) tira.scrollLeft += mitad;
+    }
+    function paso(t) {
+      if (!tira.isConnected) return;
+      var dt = ult ? Math.min(0.1, (t - ult) / 1000) : 0; ult = t;
+      if (!pausa && mitad) {
+        x += vel * dt;
+        if (x >= mitad) x -= mitad; if (x < 0) x += mitad;
+        tira.scrollLeft = x;
+      }
+      requestAnimationFrame(paso);
+    }
+    function parar() { pausa = true; clearTimeout(retomar); }
+    function seguir(ms) { clearTimeout(retomar); retomar = setTimeout(function () { envolver(); x = tira.scrollLeft; pausa = false; }, ms || 2500); }
+    tira.addEventListener("touchstart", parar, { passive: true });
+    tira.addEventListener("touchend", function () { seguir(2500); }, { passive: true });
+    tira.addEventListener("wheel", function () { parar(); seguir(1800); }, { passive: true });
+    tira.addEventListener("scroll", function () { if (pausa) envolver(); }, { passive: true });
+    // arrastre con el mouse en la computadora
+    var arrastre = null;
+    tira.addEventListener("pointerdown", function (e) { if (e.pointerType !== "mouse") return; parar(); arrastre = { x: e.clientX, s: tira.scrollLeft }; tira.classList.add("agarrando"); });
+    window.addEventListener("pointermove", function (e) { if (!arrastre) return; tira.scrollLeft = arrastre.s - (e.clientX - arrastre.x); envolver(); });
+    window.addEventListener("pointerup", function () { if (!arrastre) return; arrastre = null; tira.classList.remove("agarrando"); seguir(1500); });
+    tira.addEventListener("mouseenter", function () { if (!arrastre) parar(); });
+    tira.addEventListener("mouseleave", function () { if (!arrastre) seguir(400); });
+    requestAnimationFrame(function () { medir(); requestAnimationFrame(paso); });
+    Array.prototype.forEach.call(cinta.querySelectorAll("img"), function (im) { if (!im.complete) im.addEventListener("load", medir); });
+    window.addEventListener("resize", medir);
     return tira;
   }
 
@@ -1097,8 +1211,11 @@
     var nombreEscrito = (document.getElementById("nombre") || {}).value;
     Array.prototype.forEach.call(document.querySelectorAll("dialog.ventana"), function (d) { if (!d.open) d.remove(); });
     app.innerHTML = "";
-    [portada, detalles, confirmar, aportes, yape].forEach(function (fn) { var n = fn(D); if (n) app.appendChild(n); });
-    app.appendChild(el("footer", null, "Hecho con cariño para celebrar juntos", D.actualizado ? el("br") : null, D.actualizado ? "Actualizado: " + D.actualizado : null));
+    [portada, detalles, colaboracion, confirmar, yape, cierre].forEach(function (fn) { var n = fn(D); if (n) app.appendChild(n); });
+    var abajo = document.getElementById("filme-abajo");
+    if (abajo && !abajo.firstChild) { var t2 = filme(D, true); if (t2) abajo.appendChild(t2); }
+    var pie = document.getElementById("pie"); pie.innerHTML = "";
+    pie.appendChild(el("footer", null, "Hecho con cariño para celebrar juntos", D.actualizado ? el("br") : null, D.actualizado ? "Actualizado: " + D.actualizado : null));
     if (nombreEscrito && document.getElementById("nombre")) document.getElementById("nombre").value = nombreEscrito;
   }
 

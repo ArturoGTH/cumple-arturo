@@ -16,7 +16,7 @@
 window.DATOS = {
 
   // Cámbialo cada vez que edites: así sabes si la página ya se actualizó.
-  actualizado: "12 de octubre, 2026",
+  actualizado: "15 de octubre, 2026",
 
   // true = muestra el aviso "Borrador con datos de ejemplo". Ponlo en false al publicar.
   borrador: false,
@@ -25,11 +25,12 @@ window.DATOS = {
     anfitrion: "Juan Arturo",
     titulo: "Mi cumpleaños",
     fechaTexto: "Sábado 7 de noviembre",
-    hora: "De 6:00 p. m. a 1:00 a. m.",
-    fechaISO: "2026-11-07T18:00:00-05:00",   // inicio (cuenta regresiva y calendario)
+    hora: "De 5:00 p. m. a 1:00 a. m.",
+    fechaISO: "2026-11-07T17:00:00-05:00",   // inicio (cuenta regresiva y calendario)
     fechaFinISO: "2026-11-08T01:00:00-05:00",// fin (para el calendario)
-    lugar: "Por confirmar",
-    notaLugar: "Te envío la ubicación exacta por WhatsApp apenas confirmes.",
+    lugar: "Calle Matier 360, San Borja",
+    notaLugar: "",
+    mapa: "https://maps.app.goo.gl/pR4uX8BZLLMTHr3y5",
     dressCode: "",                            // vacío = no se muestra
     notaDressCode: "",
     mensaje: "Hay personas que hacen la vida más bonita, y tú eres una de ellas. Eres parte de mi historia y quiero celebrar contigo un año más de vida.",
@@ -43,7 +44,9 @@ window.DATOS = {
     fotos: [
       { archivo: "fotos/foto-01.jpg", pie: "" },
       { archivo: "fotos/foto-02.jpg", pie: "" },
+      { archivo: "fotos/foto-20.jpg", pie: "" },
       { archivo: "fotos/foto-03.jpg", pie: "" },
+      { archivo: "fotos/foto-19.jpg", pie: "" },
       { archivo: "fotos/foto-04.jpg", pie: "" },
       { archivo: "fotos/foto-05.jpg", pie: "" },
       { archivo: "fotos/foto-06.jpg", pie: "" },
@@ -60,7 +63,6 @@ window.DATOS = {
       { archivo: "fotos/foto-17.jpg", pie: "" },
       { archivo: "fotos/foto-18.jpg", pie: "" },
       { archivo: "fotos/foto-19.jpg", pie: "" },
-      { archivo: "fotos/foto-20.jpg", pie: "" },
       { archivo: "fotos/foto-21.jpg", pie: "" },
       { archivo: "fotos/foto-22.jpg", pie: "" },
       { archivo: "fotos/foto-23.jpg", pie: "" },
@@ -90,7 +92,10 @@ window.DATOS = {
   whatsapp: "51993600528",                    // código de país + número, sin espacios ni "+"
 
   yape: {
-    qr: "fotos/yape.png",                     // tu QR de Yape
+    qr: "",                                   // sin QR: solo botón de copiar número
+    limite: "Envía tu colaboración hasta el 31 de octubre.",
+    titulo: "Yape o Plin",
+    texto: "Puedes enviarme tu colaboración por Yape o Plin.",
     titular: "Juan Arturo Machuca Ampuero",   // nombre que aparece al yapear
     numero: "993 600 528",                  // no se muestra: solo se copia con el botón
   },
@@ -102,70 +107,48 @@ window.DATOS = {
     campoAsistencia: "",
   },
 
-  // ----- APORTES VOLUNTARIOS -----
-  // "avance" = porcentaje cubierto, de 0 a 100. En 100 sale "¡Listo!".
-  // Los montos NO van aquí (este archivo es público). Tus costos y la tabla
-  // para calcular el % están en tus notas privadas del proyecto.
-  gastos: [
-    {
-      nombre: "DJ",
-      detalle: "Para que nadie se quede sentado: música y sonido toda la noche.",
-      avance: 0,
-      aportaron: [],
-    },
-    {
-      nombre: "Barman",
-      detalle: "Cinco horas de barra para que tu vaso nunca esté vacío.",
-      avance: 0,
-      aportaron: [],
-    },
-    {
-      nombre: "Cócteles y tragos",
-      detalle: "Todo lo que el barman necesita para hacer su magia: licores, hielo y frutas.",
-      avance: 0,
-      aportaron: [],
-    },
-  ],
-
-  // ----- "¿PREFIERES LLEVAR ALGO?" (se abre en una ventana) -----
-  // "medida" = presentación (botella de 3 L, bolsa de 5 kg…). En piqueos no hace falta.
-  // Cuando ya tengas suficiente de algo, cambia  completado: false  por  completado: true
-  // y en la página saldrá "¡Completado!" (ya no se podrá marcar).
-  // Con la hoja de Google conectada, quién trae qué se anota solo y "¡Completado!" sale
-  // al llegar a la meta (pestaña "Lista"). Esta lista solo se usa si la hoja no responde.
-  paraLlevar: {
-    titulo: "¿Prefieres llevar algo?",
-    subtitulo: "Si te provoca aportar con un trago o algo para picar, aquí está lo que nos falta.",
-    ventanaTitulo: "¿Qué te animas a llevar?",
-    ventanaTexto: "Marca lo que quieras llevar, elige cuántas y te lo anoto.",
-    grupos: [
-      {
-        nombre: "Tragos y hielo",
-        nota: "Con esto el barman prepara chilcanos, piña colada, mojito de maracuyá, daiquiri y laguna azul.",
-        items: [
-          { nombre: "Pisco",             medida: "Botella de 750 ml",  completado: false },
-          { nombre: "Ron blanco",        medida: "Botella de 750 ml",  completado: false },
-          { nombre: "Vodka",             medida: "Botella de 750 ml",  completado: false },
-          { nombre: "Curaçao azul",      medida: "Botella de 700 ml",  completado: false },
-          { nombre: "Ginger ale",        medida: "Botella de 1.5 L",   completado: false },
-          { nombre: "Sprite",            medida: "Botella de 3 L",     completado: false },
-          { nombre: "Inca Kola",         medida: "Botella de 3 L",     completado: false },
-          { nombre: "Coca-Cola",         medida: "Botella de 3 L",     completado: false },
-          { nombre: "Hielo",             medida: "Bolsa de 5 kg",      completado: false },
-        ],
-      },
-      {
-        nombre: "Piqueos",
-        nota: "Algo salado o dulce para compartir en la noche.",
-        items: [
-          { nombre: "Bocaditos salados",         completado: false },
-          { nombre: "Papitas, chifles y camotes", completado: false },
-          { nombre: "Canchita y maní",           completado: false },
-          { nombre: "Bocaditos dulces",          completado: false },
-          { nombre: "Chocotejas y trufas",       completado: false },
-        ],
-      },
+  // ----- COLABORACIÓN -----
+  colaboracion: {
+    titulo: "Ven a celebrar conmigo",
+    texto: "Lo mejor de cumplir un año más es celebrarlo con quienes hacen mi vida especial. ¡Te espero para bailar, brindar y reírnos juntos!",
+    mostrarMontos: false,
+    incluye: [
+      { icono: "🍸", texto: "Barra libre" },
+      { icono: "🎧", texto: "DJ toda la fiesta" },
+      { icono: "🍢", texto: "Piqueos y snacks" },
+      { icono: "🥤", texto: "Gaseosas y agua" },
+      { icono: "💃", texto: "Música y baile hasta la 1 a. m." },
     ],
+    // Formulario "¿Me acompañas?"
+    intro: "Para añadirte a la lista, escribe tu nombre y apellido.",
+    nota: "🎁 ¿Regalos? ¡No te preocupes! El mejor regalo que me puedes dar es tu presencia en este día tan especial.\n\nPara poder celebrarlo todos juntos, te pido una pequeña colaboración que se invertirá en la barra, la música y los piqueos de la noche. ¡Te espero! 🥂",
+    pregunta: "Elige tu colaboración:",
+    montos: [30, 40, 50],
+    boton: "Confirmar y guardar mi lugar",
+  },
+
+  // ----- CARTA DE TRAGOS (se abre en una ventana) -----
+  carta: {
+    boton: "Ver carta de tragos",
+    ceja: "Barra libre toda la noche",
+    titulo: "Carta de la barra",
+    tragos: [
+      { icono: "🍋", nombre: "Pisco sour" },
+      { icono: "🍹", nombre: "Chilcano" },
+      { icono: "🍍", nombre: "Piña colada" },
+      { icono: "🥭", nombre: "Mojito de maracuyá" },
+      { icono: "🍓", nombre: "Daiquiri de fresa" },
+      { icono: "💙", nombre: "Laguna azul" },
+    ],
+    nota: "Y además: piqueos, snacks, gaseosas y agua toda la noche.",
+  },
+
+  // ----- CIERRE FESTIVO -----
+  cierre: {
+    ceja: "Sábado 7 de noviembre · 5:00 p. m.",
+    titulo: "¡Nos vemos en la pista!",
+    texto: "Trae tus mejores pasos, tu sonrisa y muchas ganas de celebrar. ¡Esta noche la hacemos inolvidable juntos!",
+    boton: "🎉 ¡Que empiece la fiesta!",
   },
 
 };

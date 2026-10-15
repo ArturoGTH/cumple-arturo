@@ -343,6 +343,116 @@
   .musica.sonando .m-ico i:nth-child(3) { animation-delay: .4s; }
   @keyframes eq { 0%, 100% { height: 4px; } 50% { height: 16px; } }
   @media (prefers-reduced-motion: reduce) { .musica.sonando .m-ico i { animation: none; height: 12px; } }
+  /* ---------- Invitación a la música (círculo central) ---------- */
+  .mi-fondo {
+    position: fixed; inset: 0; z-index: 40; display: grid; place-items: center; padding: 16px;
+    background: rgba(8, 5, 6, .55); backdrop-filter: blur(3px);
+    opacity: 0; transition: opacity .35s ease;
+  }
+  .mi-fondo.visible { opacity: 1; }
+  .mi-fondo.saliendo { opacity: 0; pointer-events: none; }
+  .mi-envoltura { position: relative; width: 268px; height: 268px; }
+  .mi-circulo {
+    position: relative; width: 100%; height: 100%; border-radius: 50%; cursor: pointer;
+    display: grid; place-content: center; justify-items: center; gap: 4px; text-align: center; padding: 30px 34px;
+    color: #fff8ef; font: inherit;
+    background: radial-gradient(circle at 35% 28%, #b02a4c 0%, var(--vino) 48%, #4a0c1d 100%);
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 0 6px rgba(217, 180, 106, .14), 0 0 45px rgba(217, 180, 106, .35), 0 22px 60px rgba(0, 0, 0, .65);
+    transform: scale(.6); opacity: 0; transition: transform .45s cubic-bezier(.2, 1.4, .4, 1), opacity .3s ease;
+  }
+  .mi-fondo.visible .mi-circulo { transform: scale(1); opacity: 1; }
+  .mi-circulo:hover { filter: brightness(1.08); }
+  .mi-circulo::before, .mi-circulo::after {
+    content: ""; position: absolute; inset: -2px; border-radius: 50%; border: 2px solid rgba(217, 180, 106, .55);
+    animation: mi-onda 2.4s ease-out infinite; pointer-events: none;
+  }
+  .mi-circulo::after { animation-delay: 1.2s; }
+  @keyframes mi-onda { from { transform: scale(1); opacity: .9; } to { transform: scale(1.35); opacity: 0; } }
+  .mi-nota { display: flex; gap: 6px; font-size: 30px; line-height: 1; margin-bottom: 2px; }
+  .mi-nota span { display: inline-block; animation: mi-baile 1.6s ease-in-out infinite; }
+  .mi-nota span:nth-child(2) { animation-delay: .25s; }
+  .mi-nota span:nth-child(3) { animation-delay: .5s; animation-direction: reverse; }
+  .mi-chispas { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+  .mi-chispas span {
+    position: absolute; transform: translate(-50%, -50%); color: var(--accent); font-size: 18px;
+    text-shadow: 0 0 10px rgba(243, 220, 166, .9); animation: mi-brillo 2.2s ease-in-out infinite;
+  }
+  .mi-chispas span:nth-child(odd) { font-size: 13px; color: #f3dca6; }
+  @keyframes mi-brillo { 0%, 100% { opacity: .15; transform: translate(-50%, -50%) scale(.6) rotate(0deg); } 50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15) rotate(20deg); } }
+  @keyframes mi-baile { 0%, 100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(-5px) rotate(6deg); } }
+  .mi-t1 { font-family: var(--display); font-size: 27px; font-weight: 600; line-height: 1.05; color: var(--accent); text-shadow: 0 0 14px rgba(217, 180, 106, .45); }
+  .mi-t2 { font-family: var(--display); font-style: italic; font-size: 17px; line-height: 1.2; }
+  .mi-toca {
+    margin-top: 8px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px;
+    background: rgba(255, 248, 239, .14); border: 1px solid rgba(255, 248, 239, .35); font-size: 12.5px; font-weight: 700; letter-spacing: .02em;
+  }
+  .mi-toca svg { width: 12px; height: 12px; }
+  .mi-x {
+    position: absolute; top: 12px; right: 12px; z-index: 2; width: 38px; height: 38px; border-radius: 50%;
+    border: 1px solid rgba(217, 180, 106, .7); background: #1a1013; color: var(--text); font-size: 22px; line-height: 1; cursor: pointer;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, .5); opacity: 0; transition: opacity .3s ease .25s;
+  }
+  .mi-fondo.visible .mi-x { opacity: 1; }
+  .mi-x:hover { border-color: var(--accent); color: var(--accent); }
+  .mi-envoltura.minimizando { transition: transform .5s cubic-bezier(.5, 0, .75, 0), opacity .5s ease; opacity: 0; }
+  .musica.llamando { animation: mi-llama .6s ease 2; }
+  @keyframes mi-llama { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.18); box-shadow: 0 0 0 6px rgba(217, 180, 106, .3), 0 8px 24px rgba(0, 0, 0, .5); } }
+  @media (prefers-reduced-motion: reduce) {
+  }
+  /* ---------- Sorpresa del botón "¡Que empiece la fiesta!" ---------- */
+  .cierre-pista { display: block; margin: 0 0 8px; color: var(--accent); font-weight: 700; font-size: 15px; animation: fe-salto 1.4s ease-in-out infinite; }
+  @keyframes fe-salto { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+  .fiesta-btn { box-shadow: 0 0 0 0 rgba(255, 111, 89, .6); animation: fe-latido 2s ease-out infinite; }
+  @keyframes fe-latido { 0% { box-shadow: 0 0 0 0 rgba(255, 111, 89, .55); } 80%, 100% { box-shadow: 0 0 0 16px rgba(255, 111, 89, 0); } }
+  .fe-lluvia { position: fixed; inset: 0; z-index: 47; pointer-events: none; overflow: hidden; }
+  .fe-lluvia span { position: absolute; bottom: -60px; font-size: 34px; line-height: 1; animation: fe-sube linear forwards; will-change: transform, opacity; }
+  @keyframes fe-sube {
+    0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    50% { transform: translate(var(--dx), -55vh) rotate(var(--r)); }
+    90% { opacity: 1; }
+    100% { transform: translate(0, -115vh) rotate(0deg); opacity: 0; }
+  }
+  .fe-fondo { position: fixed; inset: 0; z-index: 48; display: grid; place-items: center; padding: 16px; background: rgba(8, 5, 6, .35); opacity: 0; transition: opacity .35s ease; }
+  .fe-fondo.visible { opacity: 1; }
+  .fe-caja {
+    position: relative; width: 290px; height: 290px; border-radius: 50%; display: grid; place-content: center; justify-items: center; gap: 6px; text-align: center; padding: 30px;
+    background: radial-gradient(circle at 35% 28%, #b02a4c 0%, var(--vino) 48%, #4a0c1d 100%); border: 2px solid var(--accent); color: #fff8ef;
+    box-shadow: 0 0 0 6px rgba(217, 180, 106, .14), 0 0 60px rgba(217, 180, 106, .4), 0 22px 60px rgba(0, 0, 0, .65);
+    transform: scale(.5) rotate(-8deg); opacity: 0; transition: transform .55s cubic-bezier(.2, 1.5, .4, 1), opacity .3s ease;
+  }
+  .fe-fondo.visible .fe-caja { transform: none; opacity: 1; }
+  .fe-emojis { display: flex; gap: 6px; font-size: 32px; line-height: 1; }
+  .fe-emojis span { display: inline-block; animation: mi-baile 1.4s ease-in-out infinite; }
+  .fe-emojis span:nth-child(2) { animation-delay: .2s; } .fe-emojis span:nth-child(3) { animation-delay: .4s; animation-direction: reverse; }
+  .fe-t { white-space: pre-line; font-family: var(--display); font-size: 31px; font-weight: 600; line-height: 1.02; color: var(--accent); text-shadow: 0 0 14px rgba(217, 180, 106, .45); margin: 2px 0; }
+  .fe-sub { white-space: pre-line; font-family: var(--display); font-style: italic; font-size: 16px; line-height: 1.25; }
+  .fe-ok { margin-top: 8px; padding: 9px 18px; border-radius: 999px; border: 0; cursor: pointer; font: inherit; font-weight: 700; font-size: 15px; background: linear-gradient(100deg, var(--coral), var(--accent)); color: #241006; }
+  .fe-caja .mi-chispas span { font-size: 20px; }
+  /* ---------- Invitado (ventana) ---------- */
+  .inv-cta { margin-top: 16px; text-align: center; border-style: dashed; }
+  .inv-cta .llevar-s { margin-bottom: 12px; }
+  .inv-btn { width: auto; display: inline-flex; padding: 12px 22px; background: transparent; color: var(--accent); border: 1.5px solid var(--accent); }
+  .inv-lista { list-style: none; margin: 0 0 14px; padding: 0; display: grid; gap: 8px; text-align: left; }
+  .inv-lista li { display: flex; justify-content: space-between; gap: 10px; align-items: center; padding: 10px 14px; border-radius: 12px; background: rgba(217, 180, 106, .1); border: 1px solid rgba(217, 180, 106, .3); }
+  .inv-lista b { color: var(--accent); white-space: nowrap; }
+  .ventana.inv .v-cuerpo { padding-top: 6px; }
+  .ventana.inv .campo input { width: 100%; }
+  .inv-quien { margin: 0 0 14px; color: var(--muted); font-size: 15px; }
+  .inv-quien b { color: var(--accent); }
+  .inv-mas-p { margin: 12px 0 0; }
+  .inv-mas { color: var(--muted); font-size: 14px; text-decoration: underline; text-underline-offset: 3px; }
+  .inv-mas:hover { color: var(--accent); }
+  .inv-aviso { margin: 0 0 16px; padding: 12px 14px; border-radius: 14px; background: rgba(255, 111, 89, .1); border: 1px solid rgba(255, 111, 89, .45); position: relative; }
+  .inv-aviso-t { margin: 0; font-weight: 700; color: #ffb4a6; font-size: 15px; }
+  .inv-aviso-s { margin: 3px 0 10px; color: var(--text); font-size: 14px; }
+  .inv-check { display: flex; align-items: center; gap: 10px; cursor: pointer; font-weight: 700; font-size: 14.5px; position: relative; }
+  .inv-check input { position: absolute; opacity: 0; width: 22px; height: 22px; margin: 0; }
+  .inv-caja { flex: none; width: 22px; height: 22px; border-radius: 7px; border: 2px solid var(--coral); display: grid; place-items: center; background: var(--bg); }
+  .inv-check input:checked + .inv-caja { background: var(--coral); border-color: var(--coral); }
+  .inv-check input:checked + .inv-caja::after { content: ""; width: 6px; height: 11px; border: solid #241006; border-width: 0 2.5px 2.5px 0; transform: rotate(45deg) translate(-1px, -1px); }
+  .inv-check input:focus-visible + .inv-caja { outline: 2px solid var(--accent); outline-offset: 2px; }
   /* ---------- Yape ---------- */
   .yape { display: grid; grid-template-columns: 150px 1fr; gap: 18px; align-items: center; }
   .qr {
@@ -617,8 +727,8 @@
     window.addEventListener("resize", brilloResize);
   }
 
-  function confeti(cantidad) {
-    if (QUIETO) return;
+  function confeti(cantidad, aunQuieto) {
+    if (QUIETO && !aunQuieto) return;
     var cv = el("canvas", { class: "confeti", "aria-hidden": "true" });
     document.body.appendChild(cv);
     var W = innerWidth, H = innerHeight, dpr = Math.min(2, window.devicePixelRatio || 1), ctx = cv.getContext("2d");
@@ -905,6 +1015,7 @@
     var quitar = function () { cont.classList.remove("con-error"); cont.style.marginBottom = ""; if (b.parentNode) b.remove(); };
     campo.addEventListener("input", quitar, { once: true });
     campo.addEventListener("change", quitar, { once: true });
+    cont.addEventListener("change", quitar, { once: true });
     if (campo.focus) try { campo.focus({ preventScroll: true }); } catch (e) { campo.focus(); }
     cont.scrollIntoView({ behavior: "smooth", block: "center" });
   }
@@ -972,7 +1083,12 @@
       var v = validarNombre(nombre.value);
       var quien = v.nombre ? "Soy " + v.nombre + ". " : "";
       wa(D, "¡Hola, " + (f.anfitrion || "") + "! " + quien + "Esta vez no podré ir a tu cumpleaños, pero te mando un abrazo enorme. 🎉");
-      if (API_URL && v.nombre) enviarApi({ tipo: "confirmacion", nombre: v.nombre, asistencia: "No podré ir", colaboracion: 0 });
+      if (API_URL && v.nombre) {
+        enviarApi({ tipo: "confirmacion", nombre: v.nombre, asistencia: "No podré ir", colaboracion: 0 }).catch(function () {});
+        invitadosGuardados().slice(0, 1).forEach(function (z) {
+          enviarApi({ tipo: "confirmacion", nombre: z.nombre, asistencia: "No irá (" + v.nombre.split(" ")[0] + ")", colaboracion: 0 }).catch(function () {});
+        });
+      }
     });
     var form = el("form", { class: "tarjeta", novalidate: true },
       el("div", { class: "campo con-burbuja" }, el("label", { for: "nombre", text: "Tu nombre y apellido" }), nombre),
@@ -1004,8 +1120,109 @@
     return el("section", { "aria-labelledby": "t-confirmar" },
       el("h2", { id: "t-confirmar", text: "¿Me acompañas?" }),
       el("p", { class: "intro", text: C.intro || "Para guardar tu lugar, escribe tu nombre y apellido." }),
-      form
+      form,
+      tarjetaInvitado(D, nombre)
     );
+  }
+
+  // ---------- "¿Vienes con alguien?": registrar invitados en una ventana ----------
+  function invitadosGuardados() { try { return JSON.parse(localStorage.getItem("cumple-ja-invitados") || "[]") || []; } catch (e) { return []; } }
+  function guardarInvitados(l) { try { localStorage.setItem("cumple-ja-invitados", JSON.stringify(l)); } catch (e) {} }
+
+  function tarjetaInvitado(D, campoNombre) {
+    var I = D.invitado; if (!I) return null;
+    var f = D.fiesta || {};
+    var lista = el("ul", { class: "inv-lista" });
+    var boton = el("button", { type: "button", class: "boton inv-btn" }, el("span", { "aria-hidden": "true", text: "➕ " }), el("span"));
+    var mas = el("a", { href: "#", class: "inv-mas", text: I.masTexto || "¿Quieres llevar a más personas? Escríbeme aquí" });
+    function limpiar(t) { return String(t || "").trim().replace(/\s+/g, " "); }
+    function miNombre() { return limpiar(campoNombre.value) || nombreGuardado(); }
+    function pintar() {
+      var l = invitadosGuardados().slice(0, 1); lista.innerHTML = ""; lista.hidden = !l.length;
+      l.forEach(function (x) { lista.appendChild(el("li", null, el("span", { text: "👥 " + x.nombre }), el("b", { text: "S/ " + x.monto }))); });
+      boton.firstChild.textContent = l.length ? "✏️ " : "➕ ";
+      boton.lastChild.textContent = l.length ? (I.botonCambiar || "Cambiar a mi acompañante") : (I.boton || "Agregar a mi acompañante");
+    }
+    var dlg = null;
+    boton.addEventListener("click", function () {
+      var yo = miNombre();
+      if (yo.length < 2 || yo.split(" ").length < 2) return burbuja(campoNombre, I.primero || "Primero escribe aquí tu nombre y apellido 👆 y luego agrega a tu acompañante.");
+      if (dlg) dlg.remove();
+      dlg = ventanaInvitado(D, I, yo, pintar);
+      abrir(dlg);
+    });
+    mas.addEventListener("click", function (e) {
+      e.preventDefault();
+      var yo = miNombre();
+      wa(D, "¡Hola, " + (f.anfitrion || "") + "! " + (yo ? "Soy " + yo + ". " : "") + "Quisiera llevar a más de un acompañante a tu cumpleaños, ¿se puede? 🙏");
+    });
+    var caja = el("div", { class: "tarjeta inv-cta" },
+      el("p", { class: "llevar-t", text: I.titulo || "¿Vienes con alguien?" }),
+      el("p", { class: "llevar-s", text: I.texto || "Puedes traer a 1 acompañante. Solo escribe su nombre y su colaboración." }),
+      lista, boton,
+      el("p", { class: "inv-mas-p" }, mas));
+    pintar();
+    return caja;
+  }
+
+  function ventanaInvitado(D, I, yo, alGuardar) {
+    var f = D.fiesta || {}, C = D.colaboracion || {};
+    var previo = invitadosGuardados()[0] || null;
+    var dlg = el("dialog", { class: "ventana inv", "aria-labelledby": "i-titulo" });
+    var x = el("button", { type: "button", class: "v-cerrar", "aria-label": "Cerrar", text: "×" });
+    x.addEventListener("click", function () { cerrar(dlg); });
+    dlg.addEventListener("click", function (e) { if (e.target === dlg) cerrar(dlg); });
+    dlg.addEventListener("close", function () { document.documentElement.classList.remove("sin-scroll"); });
+
+    var suNombre = el("input", { type: "text", id: "inv-nombre", autocomplete: "off", placeholder: "Ej.: Carlos Ramírez", value: previo ? previo.nombre : null });
+    var montos = el("div", { class: "montos con-burbuja", role: "radiogroup", "aria-labelledby": "i-monto" },
+      (C.montos || []).map(function (m) {
+        return el("label", { class: "monto-op" }, el("input", { type: "radio", name: "monto-inv", value: String(m), checked: previo && previo.monto === m }), el("span", null, el("small", { text: "S/" }), String(m)));
+      }));
+    var ok = el("input", { type: "checkbox", id: "inv-ok", checked: !!previo });
+    var aviso = el("div", { class: "inv-aviso con-burbuja" },
+      el("p", { class: "inv-aviso-t" }, el("span", { "aria-hidden": "true", text: "⚠️ " }), el("span", { text: I.alerta || "Solo puedes registrar a 1 acompañante." })),
+      el("p", { class: "inv-aviso-s", text: I.alertaTexto || "Si quieres invitar a más personas, comunícate con Arturo por WhatsApp." }),
+      el("label", { class: "inv-check", for: "inv-ok" }, ok, el("span", { class: "inv-caja", "aria-hidden": "true" }), el("span", { text: I.check || "Entendido, vendré con 1 acompañante" })));
+    var btn = el("button", { type: "submit", class: "boton wa confirmar-btn" });
+    btn.innerHTML = ICONO_WA; btn.appendChild(el("span", { text: I.botonVentana || "Registrar a mi acompañante" }));
+    var form = el("form", { novalidate: true },
+      el("p", { class: "inv-quien" }, el("span", { text: "Viene contigo, " }), el("b", { text: yo.split(" ")[0] }), el("span", { text: " 🥳" })),
+      el("div", { class: "campo con-burbuja" }, el("label", { for: "inv-nombre", text: "Nombre y apellido de tu acompañante" }), suNombre),
+      el("p", { class: "etq-monto", id: "i-monto", text: I.pregunta || "Su colaboración:" }),
+      montos,
+      aviso,
+      btn,
+      el("p", { class: "ayuda", text: "Queda registrado en la lista y se abre WhatsApp para avisarme." }));
+    function limpiar(t) { return String(t || "").trim().replace(/\s+/g, " "); }
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var b = limpiar(suNombre.value);
+      if (b.length < 2) return burbuja(suNombre, "Escribe el nombre y apellido de tu acompañante.");
+      if (b.split(" ").length < 2) return burbuja(suNombre, "¡Falta el apellido de tu acompañante!");
+      if (norm(yo) === norm(b)) return burbuja(suNombre, "Ese es tu nombre 🙂 Escribe el de tu acompañante.");
+      var sel = form.querySelector('input[name="monto-inv"]:checked');
+      if (!sel) return burbuja(montos.querySelector("input"), "Elige su colaboración: S/ " + (C.montos || []).join(", ") + ".");
+      if (!ok.checked) return burbuja(ok, "Marca la casilla para confirmar que vendrás con 1 acompañante.");
+      var m = Number(sel.value);
+      var cambio = previo && norm(previo.nombre) !== norm(b);
+      wa(D, "¡Hola, " + (f.anfitrion || "") + "! Soy " + yo + " y " + (cambio ? "cambio a mi acompañante: ahora vendré con " : "vendré con un acompañante a tu cumpleaños del " + (f.fechaTexto || "").toLowerCase() + ": ") +
+        b + ". Su colaboración será de S/ " + m + ". ¡Nos vemos! 🎉");
+      if (API_URL) {
+        if (cambio) enviarApi({ tipo: "confirmacion", nombre: previo.nombre, asistencia: "Cambiado (" + yo.split(" ")[0] + ")", colaboracion: 0 }).catch(function () {});
+        enviarApi({ tipo: "confirmacion", nombre: b, asistencia: "Acompaña a " + yo.split(" ")[0], colaboracion: m }).catch(function () {});
+      }
+      guardarInvitados([{ nombre: b, monto: m }]);
+      alGuardar();
+      cerrar(dlg);
+      confeti(90, true);
+    });
+    dlg.appendChild(el("div", { class: "v-cab" },
+      el("div", null, el("h3", { id: "i-titulo", text: I.ventanaTitulo || "Agrega a tu acompañante" }),
+        el("p", { text: I.ventanaTexto || "Solo escribe su nombre y elige su colaboración." })), x));
+    dlg.appendChild(el("div", { class: "v-cuerpo" }, form));
+    document.body.appendChild(dlg);
+    return dlg;
   }
 
   // ---------- Yape: copiar número + avisar por WhatsApp ----------
@@ -1026,10 +1243,20 @@
     var btnAviso = el("button", { type: "button", class: "boton ya-abrir" });
     btnAviso.innerHTML = ICONO_WA; btnAviso.appendChild(el("span", { text: "Ya envié · Avisar por WhatsApp" }));
     btnAviso.addEventListener("click", function () {
-      var n = nombreGuardado(), m = montoGuardado();
-      var txt = "¡Hola, " + (f.anfitrion || "") + "! " + (n ? "Soy " + n + ". " : "") + "Ya te envié " + (m ? "S/ " + m + " de " : "") + "mi colaboración para tu cumpleaños. 🥳";
+      var n = nombreGuardado(), m = montoGuardado(), invs = invitadosGuardados().slice(0, 1);
+      var extra = invs.reduce(function (t, z) { return t + (Number(z.monto) || 0); }, 0);
+      var txt;
+      if (invs.length) {
+        var total = m + extra;
+        txt = "¡Hola, " + (f.anfitrion || "") + "! " + (n ? "Soy " + n + ". " : "") + "Ya te envié S/ " + total + " para tu cumpleaños: " +
+          (m ? "mi colaboración (S/ " + m + ") y " : "") + (invs.length > 1 ? "la de mis acompañantes: " : "la de mi acompañante: ") +
+          invs.map(function (z) { return z.nombre + " (S/ " + z.monto + ")"; }).join(", ").replace(/, ([^,]*)$/, " y $1") + ". 🥳";
+        if (API_URL && n) enviarApi({ tipo: "aporte", nombre: n, para: "Colaboración + acompañante", monto: total }).catch(function () {});
+      } else {
+        txt = "¡Hola, " + (f.anfitrion || "") + "! " + (n ? "Soy " + n + ". " : "") + "Ya te envié " + (m ? "S/ " + m + " de " : "") + "mi colaboración para tu cumpleaños. 🥳";
+        if (API_URL && n && m) enviarApi({ tipo: "aporte", nombre: n, para: "Colaboración", monto: m }).catch(function () {});
+      }
       wa(D, txt);
-      if (API_URL && n && m) enviarApi({ tipo: "aporte", nombre: n, para: "Colaboración", monto: m }).catch(function () {});
     });
     return el("section", { "aria-labelledby": "t-yape" },
       el("h2", { id: "t-yape", text: Y.titulo || "Yape o Plin" }),
@@ -1051,12 +1278,49 @@
   function cierre(D) {
     var K = D.cierre; if (!K) return null;
     var b = el("button", { type: "button", class: "boton fiesta-btn", text: K.boton || "🎉 ¡A celebrar!" });
-    b.addEventListener("click", function () { confeti(160); });
+    b.addEventListener("click", function () { confeti(170, true); lluviaEmojis(); setTimeout(function () { sorpresa(D); }, 700); });
     return el("section", { class: "cierre", "aria-labelledby": "t-cierre" },
-      el("p", { class: "cierre-ceja", text: K.ceja || "" }),
+      el("p", { class: "cierre-ceja", text: String(K.ceja || "").replace(/p\. m\./g, "p.\u00a0m.") }),
       el("h2", { id: "t-cierre", class: "cierre-t", text: K.titulo || "¡Nos vemos!" }),
       el("p", { class: "cierre-txt", text: K.texto || "" }),
+      K.pista ? el("span", { class: "cierre-pista", text: K.pista }) : null,
       b);
+  }
+
+  // Emojis bailando que suben por toda la pantalla
+  function lluviaEmojis() {
+    var viejo = document.querySelector(".fe-lluvia"); if (viejo) viejo.remove();
+    var capa = el("div", { class: "fe-lluvia", "aria-hidden": "true" });
+    var lista = ["💃", "🕺", "🎉", "🥳", "🪩", "🎶", "✨", "🥂", "🍾", "🎊", "💃", "🕺"];
+    for (var i = 0; i < 34; i++) {
+      var dur = 3.2 + Math.random() * 2.6;
+      capa.appendChild(el("span", { text: lista[i % lista.length],
+        style: "left:" + (Math.random() * 92) + "%;font-size:" + (24 + Math.random() * 22) + "px;animation-duration:" + dur + "s;animation-delay:" + (Math.random() * 1.6) + "s;--dx:" + (-40 + Math.random() * 80) + "px;--r:" + (-30 + Math.random() * 60) + "deg" }));
+    }
+    document.body.appendChild(capa);
+    setTimeout(function () { capa.remove(); }, 8000);
+  }
+
+  // Ventana circular "¡Te espero en la fiesta!"
+  function sorpresa(D) {
+    if (document.querySelector(".fe-fondo")) return;
+    var K = D.cierre || {}, S = K.sorpresa || {};
+    var ok = el("button", { type: "button", class: "fe-ok", text: S.boton || "¡Ahí estaré! 🥂" });
+    var chispas = el("div", { class: "mi-chispas", "aria-hidden": "true" });
+    [["✦", 6, 28, 0], ["✨", 92, 18, .5], ["✧", 98, 60, 1.1], ["✦", 6, 78, 1.6], ["♪", 50, -3, .8], ["✨", 82, 92, 1.9], ["✧", 22, 6, 1.3], ["✦", 45, 102, .3]]
+      .forEach(function (c) { chispas.appendChild(el("span", { text: c[0], style: "left:" + c[1] + "%;top:" + c[2] + "%;animation-delay:" + c[3] + "s" })); });
+    var caja = el("div", { class: "fe-caja", role: "dialog", "aria-modal": "true", "aria-labelledby": "fe-t" },
+      chispas,
+      el("span", { class: "fe-emojis", "aria-hidden": "true" }, el("span", { text: "💃" }), el("span", { text: "🥳" }), el("span", { text: "🕺" })),
+      el("span", { id: "fe-t", class: "fe-t", text: S.titulo || "¡Te espero en la fiesta!" }),
+      S.texto ? el("span", { class: "fe-sub", text: String(S.texto).replace(/p\. m\./g, "p.\u00a0m.") }) : null,
+      ok);
+    var fondo = el("div", { class: "fe-fondo" }, caja);
+    function cerrar() { fondo.classList.remove("visible"); setTimeout(function () { fondo.remove(); }, 350); }
+    ok.addEventListener("click", function () { cerrar(); confeti(90, true); });
+    fondo.addEventListener("click", function (e) { if (e.target === fondo) cerrar(); });
+    document.body.appendChild(fondo);
+    requestAnimationFrame(function () { requestAnimationFrame(function () { fondo.classList.add("visible"); ok.focus({ preventScroll: true }); }); });
   }
 
   // ---------- tira de fotos: avanza sola y también se desliza con el dedo ----------
@@ -1134,6 +1398,52 @@
     return m ? { tipo: m[1], uri: "spotify:" + m[1] + ":" + m[2], src: "https://open.spotify.com/embed/" + m[1] + "/" + m[2] + "?utm_source=generator&theme=0" } : null;
   }
 
+  // Círculo central "Con música vive la experiencia": toca = abre Spotify; X = se minimiza al botón de la esquina.
+  function invitacionMusica(M, boton, abrirMusica) {
+    var CLAVE = "cumple-ja-musica-visto";
+    var visto = false;
+    try { visto = sessionStorage.getItem(CLAVE) === "1"; } catch (e) {}
+    if (visto || M.invitacion === "") return function () {};
+    var texto = String(M.invitacion || "Con música\nvive la experiencia").split("\n");
+    var x = el("button", { type: "button", class: "mi-x", "aria-label": "Ahora no, minimizar", title: "Ahora no", text: "×" });
+    var circulo = el("button", { type: "button", class: "mi-circulo", "aria-label": texto.join(" ") + ". Toca para escuchar." },
+      el("span", { class: "mi-nota", "aria-hidden": "true" }, el("span", { text: "💃" }), el("span", { text: "🎶" }), el("span", { text: "🕺" })),
+      texto[1] ? el("span", { class: "mi-t2", text: texto.slice(0, -1).join(" ") }) : null,
+      el("span", { class: "mi-t1", text: texto[texto.length - 1] }),
+      el("span", { class: "mi-toca" }, iconoPlay(), el("span", { text: M.invitacionBoton || "Toca para escuchar" })));
+    function iconoPlay() { var i = el("span"); i.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg>'; return i; }
+    var chispas = el("div", { class: "mi-chispas", "aria-hidden": "true" });
+    [["✦", 4, 30, 0], ["✧", 88, 12, .5], ["✨", 96, 62, 1.1], ["✦", 8, 80, 1.6], ["♪", -4, 52, .8], ["♫", 90, 90, 1.9], ["✧", 50, -4, 1.3], ["✦", 40, 101, .3]]
+      .forEach(function (c) { chispas.appendChild(el("span", { text: c[0], style: "left:" + c[1] + "%;top:" + c[2] + "%;animation-delay:" + c[3] + "s" })); });
+    var env = el("div", { class: "mi-envoltura" }, chispas, circulo, x);
+    var fondo = el("div", { class: "mi-fondo", role: "dialog", "aria-modal": "false", "aria-label": "Invitación a escuchar música" }, env);
+    var activo = true, temporizador;
+    function marcar() { try { sessionStorage.setItem(CLAVE, "1"); } catch (e) {} }
+    function cerrar(minimizar) {
+      if (!activo) return; activo = false; clearTimeout(temporizador); marcar();
+      if (!fondo.parentNode) return;
+      if (minimizar) {
+        var a = env.getBoundingClientRect(), b = boton.getBoundingClientRect();
+        var dx = (b.left + b.width / 2) - (a.left + a.width / 2), dy = (b.top + b.height / 2) - (a.top + a.height / 2);
+        env.classList.add("minimizando");
+        env.style.transform = "translate(" + dx + "px," + dy + "px) scale(.15)";
+        setTimeout(function () { boton.classList.add("llamando"); setTimeout(function () { boton.classList.remove("llamando"); }, 1300); }, 420);
+      }
+      fondo.classList.add("saliendo");
+      setTimeout(function () { fondo.remove(); }, minimizar ? 520 : 350);
+    }
+    circulo.addEventListener("click", function () { cerrar(false); abrirMusica(); });
+    x.addEventListener("click", function (e) { e.stopPropagation(); cerrar(true); });
+    fondo.addEventListener("click", function (e) { if (e.target === fondo) cerrar(true); });
+    document.addEventListener("keydown", function esc(e) { if (e.key === "Escape") { document.removeEventListener("keydown", esc); cerrar(true); } });
+    temporizador = setTimeout(function () {
+      if (!activo) return;
+      document.body.appendChild(fondo);
+      requestAnimationFrame(function () { requestAnimationFrame(function () { fondo.classList.add("visible"); }); });
+    }, typeof M.invitacionRetraso === "number" ? M.invitacionRetraso * 1000 : 1500);
+    return function () { cerrar(false); };
+  }
+
   function musica(D) {
     var M = D.musica || {};
     if (document.getElementById("btn-musica")) return;
@@ -1184,11 +1494,12 @@
         panel.setAttribute("aria-hidden", abrir ? "false" : "true");
         boton.setAttribute("aria-expanded", abrir ? "true" : "false");
       }
-      boton.addEventListener("click", function () { toggle(!panel.classList.contains("abierto")); });
+      boton.addEventListener("click", function () { quitarInvitacion(); toggle(!panel.classList.contains("abierto")); });
       cerrarP.addEventListener("click", function () { toggle(false); });
       document.body.appendChild(panel);
       document.body.appendChild(boton);
       document.body.classList.add("con-musica");
+      var quitarInvitacion = invitacionMusica(M, boton, function () { toggle(true); });
       return;
     }
     if (!M.archivo) return;

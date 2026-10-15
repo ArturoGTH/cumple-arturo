@@ -83,9 +83,13 @@ window.DATOS = {
   // Música: pega un enlace de Spotify (canción, álbum, playlist o artista).
   // Se abre en un panel al tocar el botón "Música". (Alternativa: archivo .mp3 en "archivo").
   musica: {
-    spotify: "https://open.spotify.com/intl-es/artist/2GTN6XbHSiew74AUQZJapn",
+    spotify: "https://open.spotify.com/intl-es/track/5hNyfArDlW7eHBMQ6eCXyH?si=b7b7fcdef2a84ec4",
     titulo: "La música de la noche",
     etiqueta: "Música",
+    // Círculo que aparece al centro. Lo que va después de \n sale grande en dorado. Vacío "" = no se muestra.
+    invitacion: "La vida se vive mejor cuando la celebramos\n¡bailando juntos!",
+    invitacionBoton: "Toca para escuchar",
+    invitacionRetraso: 1.5,                   // segundos antes de que aparezca
     archivo: "",
   },
 
@@ -127,6 +131,22 @@ window.DATOS = {
     boton: "Confirmar y guardar mi lugar",
   },
 
+  // ----- ACOMPAÑANTE (tarjeta debajo de "¿Me acompañas?" que abre una ventana) -----
+  invitado: {
+    titulo: "¿Vienes con alguien?",
+    texto: "Puedes traer a 1 acompañante. Solo escribe su nombre y su colaboración.",
+    boton: "Agregar a mi acompañante",
+    botonCambiar: "Cambiar a mi acompañante",
+    masTexto: "¿Quieres llevar a más personas? Escríbeme aquí",
+    ventanaTitulo: "Agrega a tu acompañante",
+    ventanaTexto: "Solo escribe su nombre y elige su colaboración.",
+    pregunta: "Su colaboración:",
+    alerta: "Solo puedes registrar a 1 acompañante.",
+    alertaTexto: "Si quieres invitar a más personas, comunícate con Arturo por WhatsApp.",
+    check: "Entendido, vendré con 1 acompañante",
+    botonVentana: "Registrar a mi acompañante",
+  },
+
   // ----- CARTA DE TRAGOS (se abre en una ventana) -----
   carta: {
     boton: "Ver carta de tragos",
@@ -148,7 +168,14 @@ window.DATOS = {
     ceja: "Sábado 7 de noviembre · 5:00 p. m.",
     titulo: "¡Nos vemos en la pista!",
     texto: "Trae tus mejores pasos, tu sonrisa y muchas ganas de celebrar. ¡Esta noche la hacemos inolvidable juntos!",
+    pista: "👇 Haz clic aquí",
     boton: "🎉 ¡Que empiece la fiesta!",
+    // Ventana sorpresa al tocar el botón (con confeti y emojis bailando). \n = salto de línea.
+    sorpresa: {
+      titulo: "¡Te espero\nen la fiesta!",
+      texto: "Sábado 7 de noviembre\n5:00 p. m.",
+      boton: "¡Ahí estaré! 🥂",
+    },
   },
 
 };

@@ -83,7 +83,7 @@ window.DATOS = {
   // Música: pega un enlace de Spotify (canción, álbum, playlist o artista).
   // Se abre en un panel al tocar el botón "Música". (Alternativa: archivo .mp3 en "archivo").
   musica: {
-    spotify: "https://open.spotify.com/intl-es/track/5hNyfArDlW7eHBMQ6eCXyH?si=b7b7fcdef2a84ec4",
+    spotify: "https://open.spotify.com/playlist/6ESX7sxFnfG94kNF4cwyZQ?si=WNFuenYhQQmexqIGUyIFjA",
     titulo: "La música de la noche",
     etiqueta: "Música",
     // Círculo que aparece al centro. Lo que va después de \n sale grande en dorado. Vacío "" = no se muestra.
@@ -91,6 +91,14 @@ window.DATOS = {
     invitacionBoton: "Toca para escuchar",
     invitacionRetraso: 1.5,                   // segundos antes de que aparezca
     archivo: "",
+  },
+
+  // Juego "Atrapa a Arturo" (botón flotante abajo a la izquierda). Bórralo entero para quitarlo.
+  juego: {
+    titulo: "🎯 Atrapa a Arturo",
+    botonCorto: "Jugar",
+    segundos: 30,
+    nombre: "Arturo",
   },
 
   whatsapp: "51993600528",                    // código de país + número, sin espacios ni "+"
@@ -127,7 +135,7 @@ window.DATOS = {
     intro: "Para añadirte a la lista, escribe tu nombre y apellido.",
     nota: "🎁 ¿Regalos? ¡No te preocupes! El mejor regalo que me puedes dar es tu presencia en este día tan especial.\n\nPara poder celebrarlo todos juntos, te pido una pequeña colaboración que se invertirá en la barra, la música y los piqueos de la noche. ¡Te espero! 🥂",
     pregunta: "Elige tu colaboración:",
-    montos: [30],                             // montos fijos (botones)
+    montos: [35],                             // montos fijos (botones)
     otroMonto: true,                          // botón "Otro monto": escriben un monto mayor al de arriba
     otroTexto: "Otro monto",
     boton: "Confirmar y guardar mi lugar",

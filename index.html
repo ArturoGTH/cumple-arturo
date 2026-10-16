@@ -337,6 +337,8 @@
     box-shadow: 0 8px 24px rgba(0, 0, 0, .5); backdrop-filter: blur(6px);
   }
   .m-ico { display: inline-flex; align-items: flex-end; gap: 2px; height: 16px; }
+  .musica:not(.sonando) .m-ico { display: none; }
+  .musica.sonando .m-nota { display: none; }
   .m-ico i { width: 3px; height: 6px; background: currentColor; border-radius: 2px; }
   .musica.sonando .m-ico i { animation: eq .9s ease-in-out infinite; }
   .musica.sonando .m-ico i:nth-child(2) { animation-delay: .2s; }
@@ -453,6 +455,78 @@
   .inv-check input:checked + .inv-caja { background: var(--coral); border-color: var(--coral); }
   .inv-check input:checked + .inv-caja::after { content: ""; width: 6px; height: 11px; border: solid #241006; border-width: 0 2.5px 2.5px 0; transform: rotate(45deg) translate(-1px, -1px); }
   .inv-check input:focus-visible + .inv-caja { outline: 2px solid var(--accent); outline-offset: 2px; }
+  /* ---------- Velocidad de fotos ---------- */
+  .vel { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px 10px; max-width: 640px; margin: 8px auto 0; padding: 0 16px; }
+  .vel-bs { display: flex; align-items: center; gap: 5px; }
+  .vel-t { font-size: 13px; font-weight: 700; color: var(--accent); margin-right: 2px; white-space: nowrap; }
+  .vel-desliza { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: var(--muted); white-space: nowrap; }
+  .vel-desliza i { font-style: normal; display: inline-block; animation: vel-mano 1.6s ease-in-out infinite; }
+  @keyframes vel-mano { 0%, 100% { transform: translateX(-4px) rotate(-10deg); } 50% { transform: translateX(6px) rotate(10deg); } }
+  .vel-b { min-width: 46px; padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line); background: rgba(26, 16, 19, .7); color: var(--muted); font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+  .vel-b.activa { border-color: var(--accent); color: #241006; background: var(--accent); }
+  /* ---------- Juego: Atrapa a Arturo ---------- */
+  .btn-juego {
+    position: fixed; left: 16px; bottom: 16px; z-index: 20; display: inline-flex; align-items: center; gap: 8px; padding: 4px 14px 4px 4px;
+    border-radius: 999px; border: 1px solid rgba(217, 180, 106, .6); background: rgba(26, 16, 19, .92); color: var(--accent);
+    font: inherit; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 8px 24px rgba(0, 0, 0, .5); backdrop-filter: blur(6px);
+    animation: bj-flota 3s ease-in-out infinite;
+  }
+  @keyframes bj-flota { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+  .btn-juego img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); }
+  .bj-ico { position: absolute; left: 28px; top: -6px; font-size: 16px; }
+  body.con-juego .wrap { padding-bottom: 96px; }
+  .jg-fondo { position: fixed; inset: 0; z-index: 45; display: grid; place-items: center; padding: 12px; background: rgba(5, 3, 4, .72); backdrop-filter: blur(3px); opacity: 0; transition: opacity .2s ease; }
+  .jg-fondo[hidden] { display: none; }
+  .jg-fondo.visible { opacity: 1; }
+  .jg-ventana { width: min(520px, 100%); height: min(640px, calc(100vh - 24px)); height: min(640px, calc(100dvh - 24px)); display: flex; flex-direction: column; border-radius: 20px; overflow: hidden; background: var(--surface); border: 1px solid rgba(217, 180, 106, .5); box-shadow: 0 20px 60px rgba(0, 0, 0, .6); }
+  .jg-ventana.max { position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100dvh; border-radius: 0; border: 0; }
+  .jg-cab { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px 10px 16px; border-bottom: 1px solid var(--line); }
+  .jg-cab strong { font-family: var(--display); font-size: 20px; font-weight: 600; color: var(--accent); }
+  .jg-acc { display: flex; gap: 8px; }
+  .jg-b { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); background: transparent; color: var(--text); font-size: 20px; line-height: 1; cursor: pointer; }
+  .jg-b:hover { border-color: var(--accent); color: var(--accent); }
+  .jg-hud { display: flex; justify-content: space-around; padding: 8px 12px; font-size: 15px; color: var(--muted); background: rgba(0, 0, 0, .2); }
+  .jg-hud b { color: var(--text); font-size: 18px; font-variant-numeric: tabular-nums; }
+  .jg-arena { position: relative; flex: 1 1 auto; overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none;
+    background: radial-gradient(circle at 50% 40%, rgba(140, 26, 55, .35), transparent 70%), repeating-linear-gradient(45deg, rgba(255, 255, 255, .02) 0 12px, transparent 12px 24px); }
+  .jg-cara { position: absolute; left: 0; top: 0; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent); box-shadow: 0 0 0 4px rgba(217, 180, 106, .25), 0 8px 20px rgba(0, 0, 0, .5); cursor: pointer; will-change: transform; -webkit-user-drag: none; }
+  .jg-cara[hidden] { display: none; }
+  .jg-cara.golpe { animation: jg-golpe .25s ease; }
+  @keyframes jg-golpe { 50% { filter: brightness(1.6) saturate(1.4); } }
+  .jg-globo { position: absolute; transform: translate(-50%, -50%); pointer-events: none; font-weight: 800; font-size: 16px; white-space: nowrap; animation: jg-sube .8s ease-out forwards; text-shadow: 0 2px 6px rgba(0, 0, 0, .7); }
+  .jg-globo.bien { color: var(--accent); }
+  .jg-globo.mal { color: #ffab95; font-size: 14px; }
+  @keyframes jg-sube { from { opacity: 1; margin-top: 0; } to { opacity: 0; margin-top: -46px; } }
+  .jg-capa { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 20px; background: rgba(13, 10, 11, .55); overflow-y: auto; }
+  .jg-pant { margin: auto; width: 100%; padding: 6px 0 12px; }
+  .jg-rank { margin: 16px auto 0; padding: 12px 14px; border-radius: 14px; background: rgba(0, 0, 0, .35); border: 1px solid rgba(217, 180, 106, .35); text-align: left; }
+  .jg-rank-t { margin: 0 0 6px; font-family: var(--display); font-size: 18px; font-weight: 600; color: var(--accent); text-align: center; }
+  .jg-rank-v { margin: 0; color: var(--muted); font-size: 14px; text-align: center; }
+  .jg-rank ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+  .jg-rank li { display: grid; grid-template-columns: 30px 1fr auto; align-items: center; gap: 6px; padding: 5px 8px; border-radius: 9px; font-size: 15px; }
+  .jg-rank li.yo { background: rgba(217, 180, 106, .2); outline: 1px solid var(--accent); }
+  .jg-rank li b { color: var(--accent); font-variant-numeric: tabular-nums; }
+  .jg-rn { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .jg-pos { text-align: center; }
+  .jg-form { display: grid; gap: 8px; margin-top: 14px; }
+  .jg-nom { width: 100%; padding: 12px 14px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--bg); color: var(--text); font: inherit; font-size: 16px; }
+  .jg-nom:focus { outline: none; border-color: var(--accent); }
+  .jg-guardar { background: var(--accent); color: #241006; }
+  .jg-opc { margin: 0; color: var(--text); font-size: 14.5px; font-weight: 700; }
+  .jg-saltar { justify-self: center; padding: 6px 10px; border: 0; background: transparent; color: var(--muted); font: inherit; font-size: 14px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  .jg-ok { margin: 14px 0 0; color: var(--ok); font-weight: 700; }
+  .jg-capa[hidden] { display: none; }
+  .jg-pant { text-align: center; max-width: 340px; }
+  .jg-mini { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent); animation: bj-flota 2.4s ease-in-out infinite; }
+  .jg-pt { margin: 12px 0 6px; font-family: var(--display); font-size: 26px; font-weight: 600; line-height: 1.15; color: var(--accent); }
+  .jg-ps { margin: 0 0 16px; font-size: 15.5px; }
+  .jg-bs { display: grid; gap: 10px; }
+  .jg-go { background: linear-gradient(100deg, var(--coral), var(--accent)); color: #241006; }
+  @media (max-width: 560px) {
+    .btn-juego { left: 12px; bottom: 12px; padding: 4px 14px 4px 4px; font-size: 15px; }
+    .vel-b { min-width: 0; padding: 5px 7px; font-size: 12.5px; }
+    .vel { padding: 0 12px; }
+  }
   /* ---------- Yape ---------- */
   .yape { display: grid; grid-template-columns: 150px 1fr; gap: 18px; align-items: center; }
   .qr {
@@ -486,9 +560,8 @@
   .llevar-cta .boton { background: linear-gradient(100deg, var(--coral), var(--accent)); color: #241006; }
   .boton:not(:disabled):active { transform: translateY(1px); filter: brightness(.95); }
   @media (max-width: 560px) {
-    .musica { padding: 0; width: 46px; height: 46px; justify-content: center; right: 12px; bottom: 12px; }
-    .musica .m-txt { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-    .silencio { right: 66px; bottom: 12px; }
+    .musica { height: 48px; padding: 0 16px 0 14px; right: 12px; bottom: 12px; font-size: 15px; }
+    .silencio { right: 128px; bottom: 13px; }
     .sp-panel { right: 12px; bottom: 66px; width: calc(100vw - 24px); }
     body.con-musica .wrap { padding-bottom: 80px; }
   }
@@ -1367,6 +1440,26 @@
   }
 
   // ---------- tira de fotos: avanza sola y también se desliza con el dedo ----------
+  // Velocidad de las tiras de fotos (1x, 1.5x, 1.75x, 2x) — se recuerda en el celular
+  var VELOCIDAD = (function () { try { return Number(localStorage.getItem("cumple-ja-vel")) || 1; } catch (e) { return 1; } })();
+  function controlVelocidad() {
+    var opciones = [1, 1.5, 1.75, 2];
+    var botones = el("div", { class: "vel-bs", role: "group", "aria-label": "Velocidad de las fotos" },
+      el("span", { class: "vel-t", text: "⏩ Acelera" }));
+    var fila = el("div", { class: "vel" },
+      el("span", { class: "vel-desliza", "aria-hidden": "true" }, el("i", { text: "👆" }), el("span", { text: "Desliza" })),
+      botones);
+    opciones.forEach(function (v) {
+      var b = el("button", { type: "button", class: "vel-b" + (v === VELOCIDAD ? " activa" : ""), "aria-pressed": v === VELOCIDAD ? "true" : "false", text: String(v).replace(".", ",") + "x" });
+      b.addEventListener("click", function () {
+        VELOCIDAD = v; try { localStorage.setItem("cumple-ja-vel", String(v)); } catch (e) {}
+        Array.prototype.forEach.call(fila.querySelectorAll(".vel-b"), function (o) { var on = o === b; o.classList.toggle("activa", on); o.setAttribute("aria-pressed", on ? "true" : "false"); });
+      });
+      botones.appendChild(b);
+    });
+    return fila;
+  }
+
   function filme(D, inverso) {
     var fotos = ((D.fiesta || {}).fotos || []).filter(Boolean);
     if (!fotos.length) return null;
@@ -1393,7 +1486,7 @@
       if (!tira.isConnected) return;
       var dt = ult ? Math.min(0.1, (t - ult) / 1000) : 0; ult = t;
       if (!pausa && mitad) {
-        x += vel * dt;
+        x += vel * VELOCIDAD * dt;
         if (x >= mitad) x -= mitad; if (x < 0) x += mitad;
         tira.scrollLeft = x;
       }
@@ -1501,7 +1594,7 @@
         el("p", { class: "sp-nota", text: "Dale play a la canción que quieras. Puedes seguir viendo la invitación mientras suena." }));
       var boton = el("button", { type: "button", id: "btn-musica", class: "musica", "aria-controls": "panel-musica", "aria-expanded": "false" },
         el("span", { class: "m-ico", "aria-hidden": "true" }, el("i"), el("i"), el("i")),
-        el("span", { class: "m-txt", text: M.etiqueta || "Música" }));
+        el("span", { class: "m-nota", "aria-hidden": "true", text: "🎵" }), el("span", { class: "m-txt", text: M.etiqueta || "Música" }));
       var control = null, sonando = false;
       var silencio = botonSilencio(function () { if (control) control.togglePlay(); });
       function iframeSimple() {
@@ -1549,7 +1642,7 @@
     var audio = new Audio(M.archivo); audio.loop = true; audio.preload = "none"; audio.volume = 0.7;
     var btn = el("button", { type: "button", id: "btn-musica", class: "musica", "aria-label": "Reproducir música", "aria-pressed": "false" },
       el("span", { class: "m-ico", "aria-hidden": "true" }, el("i"), el("i"), el("i")),
-      el("span", { class: "m-txt", text: M.etiqueta || "Música" }));
+      el("span", { class: "m-nota", "aria-hidden": "true", text: "🎵" }), el("span", { class: "m-txt", text: M.etiqueta || "Música" }));
     var sil = botonSilencio(function () { audio.muted = !audio.muted; sil.mostrar(!audio.muted); });
     btn.addEventListener("click", function () {
       if (audio.paused) { audio.play().then(function () { sil.mostrar(!audio.muted); btn.classList.add("sonando"); btn.setAttribute("aria-pressed", "true"); btn.setAttribute("aria-label", "Pausar música"); }).catch(function () {}); }
@@ -1557,6 +1650,194 @@
     });
     document.body.appendChild(btn);
     document.body.classList.add("con-musica");
+  }
+
+
+  // ---------- Juego: Atrapa a Arturo ----------
+  function juego(D) {
+    var J = D.juego; if (!J || document.getElementById("btn-juego")) return;
+    var f = D.fiesta || {};
+    var foto = J.foto || f.foto;
+    var DURACION = J.segundos || 30;
+    var btn = el("button", { type: "button", id: "btn-juego", class: "btn-juego", "aria-label": J.boton || "Jugar: Atrapa a Arturo" },
+      el("img", { src: foto, alt: "", draggable: "false" }),
+      el("span", { class: "bj-ico", "aria-hidden": "true", text: "🎮" }),
+      el("span", { class: "bj-txt", text: J.botonCorto || "Jugar" }));
+    document.body.appendChild(btn);
+    document.body.classList.add("con-juego");
+
+    var record = 0; try { record = Number(localStorage.getItem("cumple-ja-record")) || 0; } catch (e) {}
+    var puntos = 0, restante = DURACION, jugando = false, raf = 0, ult = 0, reloj = 0;
+    var cara = { x: 0, y: 0, vx: 0, vy: 0, t: 88, vel: 150 };
+
+    var hudP = el("b", { text: "0" }), hudT = el("b", { text: String(DURACION) }), hudR = el("b", { text: String(record) });
+    var hud = el("div", { class: "jg-hud" },
+      el("span", null, "⭐ ", hudP), el("span", null, "⏱ ", hudT), el("span", null, "🏆 ", hudR));
+    var img = el("img", { class: "jg-cara", src: foto, alt: "Arturo", draggable: "false" });
+    var capa = el("div", { class: "jg-capa" });
+    var arena = el("div", { class: "jg-arena" }, img, capa);
+    var bMax = el("button", { type: "button", class: "jg-b", "aria-label": "Maximizar", title: "Maximizar", text: "⤢" });
+    var bX = el("button", { type: "button", class: "jg-b", "aria-label": "Cerrar juego", title: "Cerrar", text: "×" });
+    var ventana = el("div", { class: "jg-ventana", role: "dialog", "aria-modal": "true", "aria-label": J.titulo || "Atrapa a Arturo" },
+      el("div", { class: "jg-cab" }, el("strong", { text: J.titulo || "🎯 Atrapa a Arturo" }), el("span", { class: "jg-acc" }, bMax, bX)),
+      hud, arena);
+    var fondo = el("div", { class: "jg-fondo", hidden: true }, ventana);
+    document.body.appendChild(fondo);
+
+    // ---- ranking (se guarda en tu hoja de Google; sin conexión, solo en este celular) ----
+    var rankingLista = null;
+    function rankingLocal() { try { return JSON.parse(localStorage.getItem("cumple-ja-ranking") || "[]"); } catch (e) { return []; } }
+    function cargarRanking(listo) {
+      if (!API_URL) { rankingLista = rankingLocal(); if (listo) listo(); return; }
+      fetch(API_URL + (API_URL.indexOf("?") < 0 ? "?" : "&") + "accion=ranking&t=" + Date.now())
+        .then(function (r) { return r.json(); })
+        .then(function (E) { rankingLista = (E && E.ranking) || []; if (listo) listo(); })
+        .catch(function () { if (rankingLista === null) rankingLista = []; if (listo) listo(); });
+    }
+    function corto(n) { var p = String(n).trim().split(/\s+/); return p[0] + (p[1] ? " " + p[1].charAt(0).toUpperCase() + "." : ""); }
+    function sumarLocal(nombre, pts) {
+      var l = (rankingLista || []).slice(), c = corto(nombre), k = -1;
+      l.forEach(function (x, i) { if (norm(x.n) === norm(c)) k = i; });
+      if (k < 0) l.push({ n: c, p: pts }); else if (pts > l[k].p) l[k].p = pts;
+      l.sort(function (a, b) { return b.p - a.p; });
+      rankingLista = l.slice(0, 10);
+      if (!API_URL) try { localStorage.setItem("cumple-ja-ranking", JSON.stringify(rankingLista)); } catch (e) {}
+      return c;
+    }
+    function tablaRanking(resaltar) {
+      var caja = el("div", { class: "jg-rank" }, el("p", { class: "jg-rank-t", text: "🏆 Ranking" }));
+      if (rankingLista === null) { caja.appendChild(el("p", { class: "jg-rank-v", text: "Cargando…" })); return caja; }
+      if (!rankingLista.length) { caja.appendChild(el("p", { class: "jg-rank-v", text: "¡Aún no hay nadie! Sé el primero 😎" })); return caja; }
+      var medallas = ["🥇", "🥈", "🥉"];
+      caja.appendChild(el("ol", null, rankingLista.slice(0, 10).map(function (x, i) {
+        return el("li", { class: resaltar && norm(x.n) === norm(resaltar) ? "yo" : null },
+          el("span", { class: "jg-pos", text: medallas[i] || (i + 1) + "." }), el("span", { class: "jg-rn", text: x.n }), el("b", { text: String(x.p) }));
+      })));
+      return caja;
+    }
+
+    var FRASES = J.frases || ["¡Ay! 😅", "¡Me atrapaste!", "¡Otra vez no!", "¡Eres rápido!", "¡Suéltame! 😂", "¡Eso dolió!", "¡Bien ahí!"];
+    function pantalla(titulo, texto, botones, extra) {
+      capa.innerHTML = ""; capa.hidden = false; capa.scrollTop = 0;
+      capa.appendChild(el("div", { class: "jg-pant" },
+        el("img", { class: "jg-mini", src: foto, alt: "" }),
+        el("p", { class: "jg-pt", text: titulo }),
+        texto ? el("p", { class: "jg-ps", text: texto }) : null,
+        el("div", { class: "jg-bs" }, botones),
+        extra || null));
+    }
+    function inicio() {
+      hudP.textContent = "0"; hudT.textContent = String(DURACION);
+      var b = el("button", { type: "button", class: "boton jg-go", text: "▶ ¡Empezar!" });
+      b.addEventListener("click", empezar);
+      var primera = true;
+      var mostrar = function () { if (!jugando && (primera || capa.querySelector(".jg-go") === b)) primera = false, pantalla(J.titulo || "¡Atrapa a Arturo!", J.instrucciones || ("Toca mi cara todas las veces que puedas en " + DURACION + " segundos. Cada vez iré más rápido 😜"), [b], tablaRanking()); };
+      mostrar(); cargarRanking(mostrar);
+      img.hidden = true;
+    }
+    function medidas() { var r = arena.getBoundingClientRect(); return { w: r.width, h: r.height }; }
+    function colocar() { img.style.width = img.style.height = cara.t + "px"; img.style.transform = "translate(" + cara.x + "px," + cara.y + "px)"; }
+    function saltar() {
+      var m = medidas();
+      cara.x = Math.random() * Math.max(1, m.w - cara.t); cara.y = Math.random() * Math.max(1, m.h - cara.t);
+      var ang = Math.random() * Math.PI * 2; cara.vx = Math.cos(ang) * cara.vel; cara.vy = Math.sin(ang) * cara.vel;
+      colocar();
+    }
+    function empezar() {
+      puntos = 0; restante = DURACION; cara.t = Math.min(96, Math.max(70, medidas().w / 4.5)); cara.vel = 150;
+      hudP.textContent = "0"; hudT.textContent = String(DURACION);
+      capa.hidden = true; img.hidden = false; saltar();
+      jugando = true; ult = 0; cancelAnimationFrame(raf); raf = requestAnimationFrame(bucle);
+      clearInterval(reloj);
+      reloj = setInterval(function () {
+        restante--; hudT.textContent = String(Math.max(0, restante));
+        if (restante <= 0) terminar();
+      }, 1000);
+    }
+    function bucle(t) {
+      if (!jugando) return;
+      var dt = ult ? Math.min(0.05, (t - ult) / 1000) : 0; ult = t;
+      var m = medidas();
+      cara.x += cara.vx * dt; cara.y += cara.vy * dt;
+      if (cara.x < 0) { cara.x = 0; cara.vx = Math.abs(cara.vx); }
+      if (cara.y < 0) { cara.y = 0; cara.vy = Math.abs(cara.vy); }
+      if (cara.x > m.w - cara.t) { cara.x = m.w - cara.t; cara.vx = -Math.abs(cara.vx); }
+      if (cara.y > m.h - cara.t) { cara.y = m.h - cara.t; cara.vy = -Math.abs(cara.vy); }
+      if (Math.random() < dt * 0.8) { var a = Math.random() * Math.PI * 2; cara.vx = Math.cos(a) * cara.vel; cara.vy = Math.sin(a) * cara.vel; }  // cambia de rumbo de sorpresa
+      colocar();
+      raf = requestAnimationFrame(bucle);
+    }
+    function globo(texto, x, y, clase) {
+      var g = el("span", { class: "jg-globo " + (clase || ""), text: texto, style: "left:" + x + "px;top:" + y + "px" });
+      arena.appendChild(g); setTimeout(function () { g.remove(); }, 800);
+    }
+    img.addEventListener("pointerdown", function (e) {
+      if (!jugando) return; e.preventDefault(); e.stopPropagation();
+      puntos++; hudP.textContent = String(puntos);
+      var r = arena.getBoundingClientRect();
+      globo("+1 " + FRASES[Math.floor(Math.random() * FRASES.length)], e.clientX - r.left, e.clientY - r.top, "bien");
+      img.classList.remove("golpe"); void img.offsetWidth; img.classList.add("golpe");
+      cara.vel = Math.min(520, cara.vel * 1.12); cara.t = Math.max(46, cara.t - 2.5);
+      saltar();
+      if (navigator.vibrate) try { navigator.vibrate(25); } catch (er) {}
+    });
+    arena.addEventListener("pointerdown", function (e) {
+      if (!jugando || e.target !== arena) return;
+      var r = arena.getBoundingClientRect();
+      globo("¡Fallaste! 😜", e.clientX - r.left, e.clientY - r.top, "mal");
+    });
+    function terminar() {
+      jugando = false; clearInterval(reloj); cancelAnimationFrame(raf); img.hidden = true;
+      var nuevo = puntos > record;
+      if (nuevo) { record = puntos; hudR.textContent = String(record); try { localStorage.setItem("cumple-ja-record", String(record)); } catch (e) {} }
+      var msj = puntos >= 25 ? "¡Nivel leyenda! Nadie me atrapa así 🏆" : puntos >= 15 ? "¡Eres rapidísimo! 🔥" : puntos >= 8 ? "¡Nada mal! ¿Otra? 😎" : "Uy… soy muy rápido para ti 😂";
+      var otra = el("button", { type: "button", class: "boton jg-go", text: "🔁 Jugar otra vez" });
+      otra.addEventListener("click", empezar);
+      var extra = null;
+      if (puntos > 0) {
+        var campo = el("input", { type: "text", class: "jg-nom", maxlength: "20", placeholder: "Tu nombre, apodo o iniciales", autocomplete: "off", "aria-label": "Tu nombre o apodo para el ranking (opcional)" });
+        var guardar = el("button", { type: "button", class: "boton jg-guardar", text: "🏆 Guardar mi puntaje" });
+        var saltar = el("button", { type: "button", class: "jg-saltar", text: "No, gracias" });
+        var form = el("div", { class: "jg-form con-burbuja" },
+          el("p", { class: "jg-opc", text: "¿Quieres salir en el ranking? Es opcional 😉" }), campo, guardar, saltar);
+        saltar.addEventListener("click", function () { form.remove(); });
+        campo.addEventListener("keydown", function (ev) { if (ev.key === "Enter") guardar.click(); });
+        var zona = el("div", null, tablaRanking());
+        guardar.addEventListener("click", function () {
+          var n = String(campo.value || "").trim().replace(/\s+/g, " ");
+          if (n.length < 2) return burbuja(campo, "Escribe al menos 2 letras (o toca «No, gracias»).");
+          if (API_URL) enviarApi({ tipo: "puntaje", nombre: n, puntos: puntos }).catch(function () {});
+          var c = sumarLocal(n, puntos);
+          form.replaceWith(el("p", { class: "jg-ok", text: "✅ ¡Listo, " + n.split(" ")[0] + "! Ya estás en el ranking." }));
+          zona.innerHTML = ""; zona.appendChild(tablaRanking(c));
+          if (API_URL) setTimeout(function () { cargarRanking(function () { zona.innerHTML = ""; zona.appendChild(tablaRanking(c)); }); }, 2500);
+        });
+        extra = el("div", null, form, zona);
+      }
+      pantalla((nuevo && puntos > 0 ? "¡Nuevo récord! " : "") + "Me atrapaste " + puntos + " " + (puntos === 1 ? "vez" : "veces"), msj, [otra], extra);
+      if (puntos >= 8) confeti(80, true);
+    }
+    function abrir() {
+      fondo.hidden = false; document.documentElement.classList.add("sin-scroll");
+      requestAnimationFrame(function () { fondo.classList.add("visible"); });
+      if (!jugando) inicio();
+    }
+    function cerrarJuego() {
+      jugando = false; clearInterval(reloj); cancelAnimationFrame(raf);
+      fondo.classList.remove("visible"); ventana.classList.remove("max");
+      bMax.textContent = "⤢"; bMax.setAttribute("aria-label", "Maximizar"); bMax.title = "Maximizar";
+      document.documentElement.classList.remove("sin-scroll");
+      setTimeout(function () { fondo.hidden = true; }, 200);
+    }
+    btn.addEventListener("click", abrir);
+    bX.addEventListener("click", cerrarJuego);
+    fondo.addEventListener("click", function (e) { if (e.target === fondo) cerrarJuego(); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !fondo.hidden) cerrarJuego(); });
+    bMax.addEventListener("click", function () {
+      var max = ventana.classList.toggle("max");
+      bMax.textContent = max ? "⤡" : "⤢"; bMax.setAttribute("aria-label", max ? "Restaurar tamaño" : "Maximizar"); bMax.title = max ? "Restaurar" : "Maximizar";
+      if (jugando) { var m = medidas(); cara.x = Math.min(cara.x, m.w - cara.t); cara.y = Math.min(cara.y, m.h - cara.t); }
+    });
   }
 
   // ---------- arranque ----------
@@ -1585,9 +1866,10 @@
     API_URL = String(D.api || "").trim();
     if (D.borrador) document.getElementById("aviso").appendChild(el("div", { class: "aviso", text: "Borrador: la página aún no está publicada." }));
     if (D.fiesta && D.fiesta.anfitrion) document.title = "Mi cumpleaños · " + D.fiesta.anfitrion;
-    var tira = filme(D); if (tira) document.getElementById("filme").appendChild(tira);
+    var tira = filme(D); if (tira) { document.getElementById("filme").appendChild(tira); document.getElementById("filme").appendChild(controlVelocidad()); }
     render(D);
     musica(D);
+    juego(D);
     setTimeout(function () { confeti(90); }, 700);
     if (API_URL) {
       fetch(API_URL + (API_URL.indexOf("?") < 0 ? "?" : "&") + "accion=estado&t=" + Date.now())

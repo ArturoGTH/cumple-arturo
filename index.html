@@ -527,6 +527,55 @@
     .vel-b { min-width: 0; padding: 5px 7px; font-size: 12.5px; }
     .vel { padding: 0 12px; }
   }
+  /* ---------- Cupos ---------- */
+  .cupo-sec { margin: 4px 0 26px; }
+  .cupo-top { display: block; padding: 14px 16px; border-radius: 18px; text-decoration: none; color: var(--text); background: linear-gradient(135deg, rgba(140, 26, 55, .35), rgba(26, 16, 19, .9)); border: 1px solid rgba(217, 180, 106, .45); box-shadow: 0 10px 30px rgba(0, 0, 0, .35); }
+  .cupo-fila { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 8px; }
+  .cupo-t { font-weight: 700; font-size: 15.5px; }
+  .cupo-q { font-weight: 800; font-size: 15px; color: var(--coral); white-space: nowrap; }
+  .cupo-cta { display: block; margin-top: 8px; font-size: 14px; color: var(--accent); font-weight: 700; text-align: center; }
+  .cupo-barra { position: relative; height: 22px; border-radius: 999px; background: rgba(255, 255, 255, .08); border: 1px solid rgba(217, 180, 106, .35); overflow: hidden; }
+  .cupo-barra.grande { height: 28px; }
+  .cupo-relleno { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 999px; background: linear-gradient(90deg, var(--accent), #f3dca6); transition: width .8s ease;
+    background-size: 40px 40px; }
+  .cupo-barra.naranja .cupo-relleno { background: linear-gradient(90deg, var(--accent), var(--coral)); }
+  .cupo-barra.rojo .cupo-relleno { background: linear-gradient(90deg, var(--coral), #d9304f); }
+  .cupo-relleno::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, rgba(255, 255, 255, .18) 0 10px, transparent 10px 20px); animation: cupo-raya 1.2s linear infinite; }
+  @keyframes cupo-raya { to { background-position: 28px 0; } }
+  .cupo-num { position: absolute; inset: 0; display: grid; place-items: center; font-size: 13px; font-weight: 800; color: #fff8ef; text-shadow: 0 1px 3px rgba(0, 0, 0, .8); }
+  .cupo-barra.grande .cupo-num { font-size: 14.5px; }
+  .cupo-caja { margin: 0 0 18px; padding: 16px; border-radius: 18px; background: var(--surface); border: 1px solid rgba(217, 180, 106, .4); text-align: left; }
+  .cupo-cargando { margin: 0; color: var(--muted); text-align: center; }
+  .cupo-aviso { margin: 10px 0 0; padding: 10px 12px; border-radius: 12px; background: rgba(217, 180, 106, .12); border: 1px solid rgba(217, 180, 106, .45); color: #f3dca6; font-size: 14.5px; font-weight: 600; text-align: center; white-space: pre-line; }
+  .nube-t { margin: 14px 0 8px; font-size: 14px; color: var(--muted); font-weight: 700; }
+  .nube { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 4px 2px 8px; }
+  .nube.llena { max-height: 300px; overflow: hidden; -webkit-mask-image: linear-gradient(#000 85%, transparent); mask-image: linear-gradient(#000 85%, transparent); }
+  .nube.nube-lista { max-height: none; -webkit-mask-image: none; mask-image: none; }
+  .nube-n { display: inline-block; padding: 6px 12px; border-radius: 999px; font-size: 14px; font-weight: 700; white-space: nowrap;
+    background: rgba(217, 180, 106, .14); border: 1px solid rgba(217, 180, 106, .45); color: var(--text); box-shadow: 0 4px 12px rgba(0, 0, 0, .25);
+    animation: nube-flota 3s ease-in-out infinite; }
+  .nube-n:nth-child(3n) { background: rgba(140, 26, 55, .35); border-color: rgba(255, 111, 89, .45); }
+  .nube-n:nth-child(4n) { background: rgba(195, 198, 206, .12); border-color: rgba(195, 198, 206, .4); }
+  @keyframes nube-flota { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  .nube-vacia { color: var(--muted); font-size: 14px; }
+  .nube-ver { display: block; margin: 8px auto 0; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--accent); background: transparent; color: var(--accent); font: inherit; font-weight: 700; font-size: 14px; cursor: pointer; }
+  .nube-caja { position: relative; margin-top: 14px; padding: 6px 10px 12px; border-radius: 18px; overflow: hidden;
+    background: radial-gradient(circle at 20% 0%, rgba(217, 180, 106, .18), transparent 55%), radial-gradient(circle at 90% 100%, rgba(255, 111, 89, .16), transparent 55%), rgba(13, 10, 11, .55);
+    border: 1.5px solid transparent; background-clip: padding-box; box-shadow: 0 0 0 1.5px rgba(217, 180, 106, .55), 0 0 26px rgba(217, 180, 106, .22), inset 0 0 30px rgba(217, 180, 106, .08);
+    animation: nube-brillo 3.5s ease-in-out infinite; }
+  @keyframes nube-brillo { 0%, 100% { box-shadow: 0 0 0 1.5px rgba(217, 180, 106, .5), 0 0 18px rgba(217, 180, 106, .15), inset 0 0 30px rgba(217, 180, 106, .06); } 50% { box-shadow: 0 0 0 1.5px rgba(243, 220, 166, .9), 0 0 34px rgba(217, 180, 106, .38), inset 0 0 30px rgba(217, 180, 106, .14); } }
+  .nube-caja .nube-t { position: relative; z-index: 1; text-align: center; color: var(--accent); font-family: var(--display); font-size: 18px; font-weight: 600; margin: 8px 0 10px; }
+  .nube-caja .nube, .nube-caja .nube-ver { position: relative; z-index: 1; }
+  .nube-deco { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+  .nube-deco .serp { position: absolute; width: 110px; height: 55px; fill: none; stroke-width: 4; stroke-linecap: round; opacity: .75; animation: serp-ondea 4s ease-in-out infinite; }
+  .nube-deco .s1 { left: -18px; top: -6px; stroke: var(--coral); transform: rotate(-18deg); }
+  .nube-deco .s2 { right: -22px; top: -2px; stroke: var(--accent); transform: rotate(16deg) scaleX(-1); animation-delay: -1.3s; }
+  .nube-deco .s3 { right: 20%; bottom: -14px; stroke: #c3c6ce; transform: rotate(-6deg); opacity: .5; animation-delay: -2.4s; }
+  @keyframes serp-ondea { 0%, 100% { translate: 0 0; } 50% { translate: 0 4px; } }
+  .nube-deco .chispa { position: absolute; transform: translate(-50%, -50%); color: #f3dca6; font-size: 14px; text-shadow: 0 0 8px rgba(243, 220, 166, .9); animation: mi-brillo 2.4s ease-in-out infinite; }
+  .nube-deco .papelito { position: absolute; top: -12px; width: 5px; height: 11px; border-radius: 1px; opacity: .55; animation: papel-cae linear infinite; }
+  @keyframes papel-cae { from { transform: translateY(-10px) rotate(0deg); } to { transform: translateY(330px) rotate(540deg); } }
+  #nombre.resalta { border-color: var(--accent) !important; box-shadow: 0 0 0 4px rgba(217, 180, 106, .35); transition: box-shadow .3s ease; }
   /* ---------- Yape ---------- */
   .yape { display: grid; grid-template-columns: 150px 1fr; gap: 18px; align-items: center; }
   .qr {
@@ -703,6 +752,7 @@
   // Mezcla lo que viene de la hoja de Google con los datos de la página
   function aplicarEstado(D, E) {
     if (!E || !E.ok) return;
+    if (typeof E.confirmados === "number") D.estadoCupos = { n: E.confirmados, nombres: E.nombres || [] };
     (E.aportes || []).forEach(function (a) {
       (D.gastos || []).forEach(function (g) { if (norm(g.nombre) === norm(a.nombre)) g.avance = a.avance; });
     });
@@ -1144,6 +1194,100 @@
     return dlg;
   }
 
+
+  // ---------- Cupos: barómetro + nube de confirmados ----------
+  function datosCupos(D) {
+    var K = D.cupos; if (!K) return null;
+    var total = K.total || 50, E = D.estadoCupos;
+    if (!E) return { total: total, cargando: !!API_URL, n: 0, nombres: [] };
+    var n = Math.min(E.n, 9999);
+    return { total: total, n: n, nombres: E.nombres || [], quedan: Math.max(0, total - n), pct: Math.min(100, Math.round(n / total * 100)) };
+  }
+  function barra(c, grande) {
+    var lleno = c.quedan === 0;
+    var nivel = c.pct >= 80 ? "rojo" : c.pct >= 50 ? "naranja" : "";
+    return el("div", { class: "cupo-barra" + (grande ? " grande" : "") + (nivel ? " " + nivel : ""), role: "progressbar", "aria-valuemin": "0", "aria-valuemax": String(c.total), "aria-valuenow": String(c.n), "aria-label": c.n + " de " + c.total + " cupos ocupados" },
+      el("span", { class: "cupo-relleno", style: "width:" + Math.max(c.pct, c.n ? 4 : 0) + "%" }),
+      el("span", { class: "cupo-num", text: lleno ? "¡Cupos completos!" : c.n + " / " + c.total }));
+  }
+  function cuposArriba(D) {
+    var c = datosCupos(D); if (!c || c.cargando) return null;
+    var lleno = c.quedan === 0;
+    var caja = el("a", { href: "#t-confirmar", class: "cupo-top" },
+      el("div", { class: "cupo-fila" },
+        el("span", { class: "cupo-t", text: "🎉 Personas confirmadas para la fiesta" }),
+        el("span", { class: "cupo-q", text: lleno ? "¡Agotados!" : (c.quedan === 1 ? "¡Queda 1!" : "Quedan " + c.quedan) })),
+      barra(c, false),
+      el("span", { class: "cupo-cta", text: lleno ? "Escríbeme para la lista de espera 👇" : "Si quieres participar en la fiesta, inscríbete aquí 👇" }));
+    caja.addEventListener("click", function (e) {
+      var t = document.getElementById("nombre") || document.getElementById("t-confirmar"); if (!t) return;
+      e.preventDefault(); t.scrollIntoView({ behavior: "smooth", block: "center" });
+      t.classList.add("resalta"); setTimeout(function () { t.classList.remove("resalta"); }, 2200);
+    });
+    return el("section", { class: "cupo-sec", "aria-label": "Cupos disponibles" }, caja);
+  }
+  function cuposBloque(D) {
+    var c = datosCupos(D); if (!c) return null;
+    var K = D.cupos || {};
+    if (c.cargando) return el("div", { class: "cupo-caja" }, el("p", { class: "cupo-cargando", text: "Cargando cupos…" }));
+    var emojis = ["🎉", "🥳", "💃", "🕺", "✨", "🍹", "🎶", "🪩", "😎", "🎈", "🥂", "🌟"];
+    var nube = el("div", { class: "nube" });
+    c.nombres.slice().reverse().forEach(function (nm, i) {
+      nube.appendChild(el("span", { class: "nube-n", text: emojis[i % emojis.length] + " " + nm,
+        style: "animation-delay:-" + (i * 0.37 % 3).toFixed(2) + "s;animation-duration:" + (2.6 + (i * 0.53 % 1.8)).toFixed(2) + "s" }));
+    });
+    if (!c.nombres.length) nube.appendChild(el("span", { class: "nube-vacia", text: "¡Sé el primero en confirmar! 🎉" }));
+    var verTodos = null;
+    if (c.nombres.length > 18) {
+      nube.classList.add("llena");
+      verTodos = el("button", { type: "button", class: "nube-ver", text: "Ver los " + c.n + " confirmados" });
+      verTodos.addEventListener("click", function () { ventanaConfirmados(c, emojis); });
+    }
+    return el("div", { class: "cupo-caja" },
+      el("div", { class: "cupo-fila" },
+        el("span", { class: "cupo-t", text: "🎉 " + c.n + (c.n === 1 ? " persona confirmada" : " personas confirmadas") + " para la fiesta" }),
+        el("span", { class: "cupo-q", text: c.quedan === 0 ? "¡Agotados!" : (c.quedan === 1 ? "¡Queda 1 cupo!" : "Quedan " + c.quedan + " cupos") })),
+      barra(c, true),
+      el("p", { class: "cupo-aviso", text: K.aviso || ("Tenemos aforo para " + c.total + " personas.\nSi deseas participar en la fiesta, regístrate aquí y así te guardo tu lugar 🥳") }),
+      el("div", { class: "nube-caja" }, decoNube(), el("p", { class: "nube-t", text: "✨ Ya confirmaron ✨" }), nube, verTodos));
+  }
+  // Brillitos + serpentinas para la caja de nombres
+  function decoNube() {
+    var d = el("div", { class: "nube-deco", "aria-hidden": "true" });
+    d.innerHTML =
+      '<svg class="serp s1" viewBox="0 0 120 60"><path d="M2 8c14 0 14 18 28 18s14-18 28-18 14 18 28 18 14-18 30-18" /></svg>' +
+      '<svg class="serp s2" viewBox="0 0 120 60"><path d="M2 8c14 0 14 18 28 18s14-18 28-18 14 18 28 18 14-18 30-18" /></svg>' +
+      '<svg class="serp s3" viewBox="0 0 120 60"><path d="M2 8c14 0 14 18 28 18s14-18 28-18 14 18 28 18 14-18 30-18" /></svg>';
+    [["✦", 6, 12, 0], ["✧", 92, 10, .6], ["✨", 50, 4, 1.2], ["✦", 96, 55, 1.8], ["✧", 3, 60, .9], ["✦", 30, 92, .3], ["✨", 78, 90, 1.5], ["✧", 64, 30, 2.1], ["✦", 18, 38, 2.4]]
+      .forEach(function (c) { d.appendChild(el("span", { class: "chispa", text: c[0], style: "left:" + c[1] + "%;top:" + c[2] + "%;animation-delay:" + c[3] + "s" })); });
+    var colores = ["#d9b46a", "#ff6f59", "#f3dca6", "#c3c6ce", "#8c1a37"];
+    for (var i = 0; i < 14; i++) d.appendChild(el("i", { class: "papelito", style: "left:" + (i * 7 + 3) + "%;background:" + colores[i % 5] + ";animation-delay:-" + (i * 0.7).toFixed(1) + "s;animation-duration:" + (5 + i % 4) + "s" }));
+    return d;
+  }
+  function ventanaConfirmados(c, emojis) {
+    var dlg = el("dialog", { class: "ventana carta", "aria-labelledby": "vc-t" });
+    var x = el("button", { type: "button", class: "v-cerrar", "aria-label": "Cerrar", text: "×" });
+    x.addEventListener("click", function () { cerrar(dlg); });
+    dlg.addEventListener("click", function (e) { if (e.target === dlg) cerrar(dlg); });
+    dlg.addEventListener("close", function () { document.documentElement.classList.remove("sin-scroll"); dlg.remove(); });
+    dlg.appendChild(el("div", { class: "v-cab" }, el("div", null, el("p", { class: "c-ceja", text: c.n + " de " + c.total + " cupos" }), el("h3", { id: "vc-t", text: "Confirmados hasta ahora" })), x));
+    dlg.appendChild(el("div", { class: "v-cuerpo" }, el("div", { class: "nube nube-lista" }, c.nombres.map(function (nm, i) { return el("span", { class: "nube-n", text: emojis[i % emojis.length] + " " + nm }); }))));
+    document.body.appendChild(dlg); abrir(dlg);
+  }
+  // Suma al instante a quien se acaba de inscribir (sin esperar a la hoja)
+  function sumarConfirmado(D, nombre) {
+    if (!D.estadoCupos) return;
+    var p = String(nombre).trim().split(/\s+/)[0]; p = p.charAt(0).toUpperCase() + p.slice(1).toLowerCase();
+    var clave = "cumple-ja-contado-" + norm(nombre), ya = false;
+    try { ya = localStorage.getItem(clave) === "1"; localStorage.setItem(clave, "1"); } catch (e) {}
+    if (ya || D.estadoCupos.nombres.some(function (x) { return norm(x) === norm(p); })) return;
+    D.estadoCupos.n++; D.estadoCupos.nombres.push(p);
+    Array.prototype.forEach.call(document.querySelectorAll(".cupo-sec, .cupo-caja"), function (v) {
+      var nuevo = v.classList.contains("cupo-sec") ? cuposArriba(D) : cuposBloque(D);
+      if (nuevo) v.replaceWith(nuevo);
+    });
+  }
+
   // ---------- confirmación: un solo botón (hoja de Google + WhatsApp) ----------
   // Selector de colaboración: montos fijos + "Otro monto" (escrito, mayor al mínimo)
   function selectorMonto(C, grupo, previo, etiqueta) {
@@ -1231,6 +1375,7 @@
         (f.fechaTexto || "").toLowerCase() + ". Mi colaboración será de S/ " + m + ". ¡Nos vemos! 🎉";
       wa(D, txt);                       // se abre de inmediato (los celulares bloquean ventanas que se abren tarde)
       if (API_URL) enviarApi({ tipo: "confirmacion", nombre: limpio, asistencia: "Sí, voy", colaboracion: m }).catch(function () {});
+      sumarConfirmado(D, limpio);
       confeti();
       decir("¡Qué alegría, " + limpio.split(" ")[0] + "! Tu lugar quedó registrado con S/ " + m + ". Ahora envía tu colaboración por Yape o Plin aquí abajo 👇", true);
       var yp = document.getElementById("t-yape"); if (yp) setTimeout(function () { yp.scrollIntoView({ behavior: "smooth", block: "start" }); }, 1800);
@@ -1238,6 +1383,7 @@
     return el("section", { "aria-labelledby": "t-confirmar" },
       el("h2", { id: "t-confirmar", text: "¿Me acompañas?" }),
       el("p", { class: "intro", text: C.intro || "Para guardar tu lugar, escribe tu nombre y apellido." }),
+      cuposBloque(D),
       form,
       tarjetaInvitado(D, nombre)
     );
@@ -1328,6 +1474,7 @@
         if (cambio) enviarApi({ tipo: "confirmacion", nombre: previo.nombre, asistencia: "Cambiado (" + yo.split(" ")[0] + ")", colaboracion: 0 }).catch(function () {});
         enviarApi({ tipo: "confirmacion", nombre: b, asistencia: "Acompaña a " + yo.split(" ")[0], colaboracion: m }).catch(function () {});
       }
+      if (!cambio) sumarConfirmado(D, b);
       guardarInvitados([{ nombre: b, monto: m }]);
       alGuardar();
       cerrar(dlg);
@@ -1846,7 +1993,7 @@
     var nombreEscrito = (document.getElementById("nombre") || {}).value;
     Array.prototype.forEach.call(document.querySelectorAll("dialog.ventana"), function (d) { if (!d.open) d.remove(); });
     app.innerHTML = "";
-    [portada, detalles, colaboracion, confirmar, yape, cierre].forEach(function (fn) { var n = fn(D); if (n) app.appendChild(n); });
+    [portada, cuposArriba, detalles, colaboracion, confirmar, yape, cierre].forEach(function (fn) { var n = fn(D); if (n) app.appendChild(n); });
     var abajo = document.getElementById("filme-abajo");
     if (abajo && !abajo.firstChild) { var t2 = filme(D, true); if (t2) abajo.appendChild(t2); }
     var pie = document.getElementById("pie"); pie.innerHTML = "";

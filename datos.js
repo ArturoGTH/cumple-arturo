@@ -103,6 +103,12 @@ window.DATOS = {
     nombre: "Arturo",
   },
 
+  // Barómetro de cupos (arriba y en "¿Me acompañas?") + nube con los nombres de quienes confirmaron.
+  cupos: {
+    total: 50,
+    aviso: "Tenemos aforo para 50 personas.\nSi deseas participar en la fiesta, regístrate aquí y así te guardo tu lugar 🥳",
+  },
+
   whatsapp: "51993600528",                    // código de país + número, sin espacios ni "+"
 
   yape: {

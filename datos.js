@@ -168,17 +168,16 @@ window.DATOS = {
   // ----- CARTA DE TRAGOS (se abre en una ventana) -----
   carta: {
     boton: "Ver carta de tragos",
-    ceja: "Barra libre toda la noche",
+    ceja: "Barra de cocteles desde las 6:30 p. m.",
     titulo: "Carta de la barra",
     tragos: [
-      { icono: "🍋", nombre: "Pisco sour" },
-      { icono: "🍹", nombre: "Chilcano" },
-      { icono: "🍍", nombre: "Piña colada" },
-      { icono: "🥭", nombre: "Mojito de maracuyá" },
-      { icono: "🍓", nombre: "Daiquiri de fresa" },
-      { icono: "💙", nombre: "Laguna azul" },
+      { icono: "🍋", nombre: "Pisco sour", detalle: "El clásico peruano" },
+      { icono: "🍹", nombre: "Chilcano", detalle: "Pisco, ginger ale y limón" },
+      { icono: "🌈", nombre: "Machu Picchu", detalle: "Tres colores: granadina, naranja y menta" },
+      { icono: "🥭", nombre: "Mojito de maracuyá", detalle: "Ron, hierbabuena y maracuyá" },
+      { icono: "🥃", nombre: "Cuba libre", detalle: "Ron, Coca-Cola y limón" },
     ],
-    nota: "Y además: piqueos, snacks, gaseosas y agua toda la noche.",
+    nota: "Y además: sanguchitos, piqueos, dulces, gaseosas y agua toda la noche.",
   },
 
   // ----- CIERRE FESTIVO -----

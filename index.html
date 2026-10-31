@@ -628,6 +628,7 @@
   .c-ceja { margin: 0; color: var(--coral); font-size: 12.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
   .c-lista { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 10px; }
   .c-lista li { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 14px; background: var(--bg); border: 1px solid var(--line); font-family: var(--display); font-size: 20px; font-weight: 600; }
+  .c-det { display: block; margin-top: 2px; font-family: var(--body); font-size: 13.5px; font-weight: 500; color: var(--muted); }
   .c-ico { font-size: 26px; width: 34px; text-align: center; }
   .c-nota { margin: 14px 0 6px; color: var(--muted); font-size: 14.5px; text-align: center; }
   .etq-monto { margin: 4px 0 8px; font-size: 14.5px; font-weight: 700; }
@@ -686,6 +687,58 @@
   @media (prefers-reduced-motion: no-preference) {
     .barra i { transition: width .6s ease; }
   }
+  /* ---------- Registro visible (botón en portada + aviso flotante) ---------- */
+  .reg-zona { margin: 24px auto 4px; display: grid; justify-items: center; gap: 8px; position: relative; z-index: 2; }
+  .reg-cta { display: inline-flex; align-items: center; gap: 10px; padding: 15px 26px; border-radius: 999px; border: 0; cursor: pointer;
+    font: inherit; font-size: 17.5px; font-weight: 800; letter-spacing: .01em; text-decoration: none; color: #241006;
+    background: linear-gradient(100deg, var(--coral), #ff8f5e 55%, var(--accent));
+    box-shadow: 0 0 0 0 rgba(255, 111, 89, .55), 0 12px 30px rgba(255, 111, 89, .35); animation: reg-pulso 2.2s ease-out infinite; }
+  .reg-cta:active { transform: scale(.97); }
+  .reg-cta .reg-ico { font-size: 20px; }
+  .reg-sub { margin: 0; font-size: 13.5px; color: var(--muted); }
+  .reg-sub b { color: var(--coral); }
+  .reg-ok { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 999px; font-weight: 700; font-size: 15px;
+    color: #d8f5df; background: rgba(46, 160, 90, .16); border: 1px solid rgba(110, 210, 140, .45); text-decoration: none; }
+  @keyframes reg-pulso { 0% { box-shadow: 0 0 0 0 rgba(255, 111, 89, .55), 0 12px 30px rgba(255, 111, 89, .35); }
+    70% { box-shadow: 0 0 0 16px rgba(255, 111, 89, 0), 0 12px 30px rgba(255, 111, 89, .35); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 111, 89, 0), 0 12px 30px rgba(255, 111, 89, .35); } }
+  .reg-flota { position: fixed; top: 10px; left: 50%; z-index: 25; transform: translate(-50%, -160%); transition: transform .35s ease;
+    display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 999px; border: 0; cursor: pointer;
+    font: inherit; font-size: 15px; font-weight: 800; color: #241006; white-space: nowrap;
+    background: linear-gradient(100deg, var(--coral), #ff8f5e 55%, var(--accent)); box-shadow: 0 10px 26px rgba(0, 0, 0, .5); }
+  .reg-flota.ver { transform: translate(-50%, 0); }
+  .cupo-cta { display: block; width: fit-content; margin: 12px auto 0; padding: 9px 18px; border-radius: 999px; font-size: 15px; font-weight: 800;
+    color: #241006 !important; background: linear-gradient(100deg, var(--coral), #ff8f5e 55%, var(--accent)); box-shadow: 0 8px 20px rgba(255, 111, 89, .3); }
+  .reg-tag { display: inline-block; margin: 0 0 10px; padding: 5px 12px; border-radius: 999px; font-size: 13px; font-weight: 800; letter-spacing: .03em;
+    color: #241006; background: linear-gradient(100deg, var(--coral), var(--accent)); }
+  /* Casilla de registro diferenciada */
+  form.registro { background: linear-gradient(165deg, rgba(255, 111, 89, .22), rgba(140, 26, 55, .38) 55%, rgba(26, 16, 19, .95));
+    border: 2px solid var(--coral); box-shadow: 0 0 0 5px rgba(255, 111, 89, .12), 0 16px 40px rgba(255, 111, 89, .18); }
+  form.registro label[for="nombre"] { color: #ffd2c4; font-size: 16px; font-weight: 800; }
+  form.registro #nombre { background: #fff8ef; color: #241006; border: 2px solid var(--coral); font-size: 17px; font-weight: 600; }
+  form.registro #nombre::placeholder { color: #a08a80; font-weight: 500; }
+  form.registro #nombre:focus-visible { outline: none; box-shadow: 0 0 0 4px rgba(255, 111, 89, .45); }
+  form.registro #nombre.resalta { border-color: var(--coral) !important; box-shadow: 0 0 0 5px rgba(255, 111, 89, .55); }
+  /* Carta de tragos: dorado con brillitos */
+  .carta-oro { border: 1.5px solid rgba(217, 180, 106, .75) !important; box-shadow: 0 0 0 1px rgba(217, 180, 106, .15), 0 0 40px rgba(217, 180, 106, .18), 0 24px 60px rgba(0, 0, 0, .6) !important;
+    background: radial-gradient(120% 60% at 50% 0%, rgba(217, 180, 106, .16), transparent 60%), var(--surface) !important; }
+  .carta-oro .c-ceja { color: var(--accent) !important; }
+  .carta-oro h3 { background: linear-gradient(100deg, #b8893a, #f3dca6 40%, #d9b46a 60%, #fff3d1 80%, #b8893a); background-size: 200% 100%;
+    -webkit-background-clip: text; background-clip: text; color: transparent; animation: oro-luz 4s linear infinite; }
+  .carta-oro .c-lista li { position: relative; overflow: hidden; border: 1px solid rgba(217, 180, 106, .5);
+    background: linear-gradient(120deg, rgba(217, 180, 106, .14), rgba(13, 10, 11, .9) 55%); box-shadow: inset 0 1px 0 rgba(243, 220, 166, .15); }
+  .carta-oro .c-lista li > span:last-child > span:first-child { color: #f3dca6; }
+  .carta-oro .c-lista li::after { content: ""; position: absolute; top: 0; bottom: 0; width: 40%; left: -60%; pointer-events: none;
+    background: linear-gradient(100deg, transparent, rgba(255, 243, 209, .16), transparent); animation: oro-barrido 3.6s ease-in-out infinite; }
+  .carta-oro .c-lista li:nth-child(2)::after { animation-delay: .4s; } .carta-oro .c-lista li:nth-child(3)::after { animation-delay: .8s; }
+  .carta-oro .c-lista li:nth-child(4)::after { animation-delay: 1.2s; } .carta-oro .c-lista li:nth-child(5)::after { animation-delay: 1.6s; }
+  .carta-oro .c-nota { color: var(--accent); }
+  .co-deco { position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: inherit; z-index: 0; }
+  .carta-oro .v-cab, .carta-oro .v-cuerpo { position: relative; z-index: 1; }
+  .co-ch { position: absolute; color: #f3dca6; text-shadow: 0 0 8px rgba(243, 220, 166, .9); animation: oro-chispa 2.4s ease-in-out infinite; }
+  @keyframes oro-luz { to { background-position: -200% 0; } }
+  @keyframes oro-barrido { 0% { left: -60%; } 60%, 100% { left: 130%; } }
+  @keyframes oro-chispa { 0%, 100% { opacity: .1; transform: scale(.5) rotate(0deg); } 50% { opacity: 1; transform: scale(1.2) rotate(25deg); } }
 </style>
 </head>
 <body>
@@ -770,6 +823,40 @@
   }
 
   // ---------- secciones ----------
+  // ---------- Registro: llevar a la persona al campo de nombre ----------
+  function irAlRegistro(e) {
+    if (e) e.preventDefault();
+    var t = document.getElementById("nombre") || document.getElementById("t-confirmar"); if (!t) return;
+    t.scrollIntoView({ behavior: "smooth", block: "center" });
+    t.classList.add("resalta"); setTimeout(function () { t.classList.remove("resalta"); }, 2200);
+    if (t.id === "nombre" && !t.value) setTimeout(function () { try { t.focus({ preventScroll: true }); } catch (x) {} }, 650);
+  }
+  function yaRegistrado() { try { return localStorage.getItem("cumple-ja-confirmo") === "1"; } catch (e) { return false; } }
+  function zonaRegistro(D) {
+    if (yaRegistrado()) {
+      var n = (nombreGuardado() || "").split(" ")[0];
+      return el("div", { class: "reg-zona" }, el("a", { href: "#t-confirmar", class: "reg-ok", onclick: irAlRegistro, text: "✅ ¡Ya estás registrado" + (n ? ", " + n : "") + "!" }));
+    }
+    var c = datosCupos(D), q = (c && !c.cargando) ? c.quedan : null;
+    return el("div", { class: "reg-zona" },
+      el("a", { href: "#t-confirmar", class: "reg-cta", onclick: irAlRegistro }, el("span", { class: "reg-ico", text: "✍️" }), "Regístrate aquí"),
+      el("p", { class: "reg-sub" }, "Pon tu nombre y guarda tu lugar", q !== null && q > 0 ? [" · ", el("b", { text: q === 1 ? "¡queda 1 cupo!" : "quedan " + q + " cupos" })] : null));
+  }
+  function avisoFlotante() {
+    var b = el("button", { type: "button", class: "reg-flota", "aria-label": "Ir a registrarme", onclick: irAlRegistro }, "✍️ Regístrate aquí");
+    document.body.appendChild(b);
+    function revisar() {
+      var cta = document.querySelector(".reg-zona"), form = document.getElementById("nombre");
+      var arriba = cta ? cta.getBoundingClientRect().bottom > 0 : false;
+      var formVisible = false;
+      if (form) { var r = form.closest("section") || form; var rc = r.getBoundingClientRect(); formVisible = rc.top < innerHeight && rc.bottom > 0; }
+      b.classList.toggle("ver", !yaRegistrado() && !arriba && !formVisible && !document.querySelector("dialog[open], .jg-fondo.ver"));
+    }
+    window.addEventListener("scroll", revisar, { passive: true });
+    window.addEventListener("resize", revisar);
+    setTimeout(revisar, 300);
+  }
+
   function portada(D) {
     var f = D.fiesta || {};
     var hayFotos = (f.fotos || []).length > 0;
@@ -793,6 +880,7 @@
       f.titulo ? el("p", { class: "sub arriba", text: f.titulo }) : null,
       el("h1", { text: f.anfitrion || "" }),
       foto,
+      zonaRegistro(D),
       f.mensaje ? el("p", { class: "mensaje", text: f.mensaje }) : null,
       (f.cita && f.cita.texto) ? el("blockquote", { class: "cita" },
         el("p", { text: "“" + f.cita.texto + "”" }),
@@ -1178,7 +1266,12 @@
 
   function ventanaCarta(D) {
     var K = D.carta || {};
-    var dlg = el("dialog", { class: "ventana carta", "aria-labelledby": "c-titulo" });
+    var dlg = el("dialog", { class: "ventana carta carta-oro", "aria-labelledby": "c-titulo" });
+    var deco = el("div", { class: "co-deco", "aria-hidden": "true" });
+    [["✦", 8, 4, 0, 14], ["✧", 70, 3, .7, 12], ["✨", 92, 14, 1.3, 15], ["✦", 4, 40, 1.9, 11], ["✧", 96, 46, .4, 13], ["✦", 6, 78, 1.1, 12],
+     ["✨", 94, 82, 2, 14], ["✧", 50, 96, .9, 12], ["✦", 40, 2, 1.6, 10], ["✧", 22, 98, 2.2, 11]]
+      .forEach(function (c) { deco.appendChild(el("span", { class: "co-ch", text: c[0], style: "left:" + c[1] + "%;top:" + c[2] + "%;animation-delay:" + c[3] + "s;font-size:" + c[4] + "px" })); });
+    dlg.appendChild(deco);
     var x = el("button", { type: "button", class: "v-cerrar", "aria-label": "Cerrar", text: "×" });
     x.addEventListener("click", function () { cerrar(dlg); });
     dlg.addEventListener("click", function (e) { if (e.target === dlg) cerrar(dlg); });
@@ -1187,7 +1280,7 @@
       el("div", null, el("p", { class: "c-ceja", text: K.ceja || "Barra libre" }), el("h3", { id: "c-titulo", text: K.titulo || "Carta de la barra" })), x));
     dlg.appendChild(el("div", { class: "v-cuerpo" },
       el("ul", { class: "c-lista" }, (K.tragos || []).map(function (t) {
-        return el("li", null, el("span", { class: "c-ico", "aria-hidden": "true", text: t.icono || "🍸" }), el("span", { text: t.nombre }));
+        return el("li", null, el("span", { class: "c-ico", "aria-hidden": "true", text: t.icono || "🍸" }), el("span", null, el("span", { text: t.nombre }), t.detalle ? el("small", { class: "c-det", text: t.detalle }) : null));
       })),
       K.nota ? el("p", { class: "c-nota", text: K.nota }) : null));
     document.body.appendChild(dlg);
@@ -1218,7 +1311,7 @@
         el("span", { class: "cupo-t", text: "🎉 Personas confirmadas para la fiesta" }),
         el("span", { class: "cupo-q", text: lleno ? "¡Agotados!" : (c.quedan === 1 ? "¡Queda 1!" : "Quedan " + c.quedan) })),
       barra(c, false),
-      el("span", { class: "cupo-cta", text: lleno ? "Escríbeme para la lista de espera 👇" : "Si quieres participar en la fiesta, inscríbete aquí 👇" }));
+      el("span", { class: "cupo-cta", text: lleno ? "Escríbeme para la lista de espera 👇" : "✍️ Regístrate aquí 👇" }));
     caja.addEventListener("click", function (e) {
       var t = document.getElementById("nombre") || document.getElementById("t-confirmar"); if (!t) return;
       e.preventDefault(); t.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -1352,7 +1445,8 @@
         });
       }
     });
-    var form = el("form", { class: "tarjeta", novalidate: true },
+    var form = el("form", { class: "tarjeta registro", novalidate: true },
+      el("span", { class: "reg-tag", text: "✍️ Regístrate aquí" }),
       el("div", { class: "campo con-burbuja" }, el("label", { for: "nombre", text: "Tu nombre y apellido" }), nombre),
       C.nota ? el("p", { class: "nota-regalo", text: C.nota }) : null,
       el("p", { class: "etq-monto", id: "l-monto", text: C.pregunta || "¿Con cuánto deseas colaborar?" }),
@@ -1371,6 +1465,7 @@
       if (r.error) return burbuja(r.campo, r.error);
       var m = r.monto;
       guardarNombre(limpio); guardarMonto(m);
+      try { localStorage.setItem("cumple-ja-confirmo", "1"); } catch (x) {}
       var txt = "¡Hola, " + (f.anfitrion || "") + "! Soy " + limpio + " y confirmo mi asistencia a tu cumpleaños del " +
         (f.fechaTexto || "").toLowerCase() + ". Mi colaboración será de S/ " + m + ". ¡Nos vemos! 🎉";
       wa(D, txt);                       // se abre de inmediato (los celulares bloquean ventanas que se abren tarde)
@@ -2015,6 +2110,7 @@
     if (D.fiesta && D.fiesta.anfitrion) document.title = "Mi cumpleaños · " + D.fiesta.anfitrion;
     var tira = filme(D); if (tira) { document.getElementById("filme").appendChild(tira); document.getElementById("filme").appendChild(controlVelocidad()); }
     render(D);
+    avisoFlotante();
     musica(D);
     juego(D);
     setTimeout(function () { confeti(90); }, 700);

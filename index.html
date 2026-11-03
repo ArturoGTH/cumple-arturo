@@ -739,6 +739,15 @@
   @keyframes oro-luz { to { background-position: -200% 0; } }
   @keyframes oro-barrido { 0% { left: -60%; } 60%, 100% { left: 130%; } }
   @keyframes oro-chispa { 0%, 100% { opacity: .1; transform: scale(.5) rotate(0deg); } 50% { opacity: 1; transform: scale(1.2) rotate(25deg); } }
+  /* ---------- Cupos completos (bloqueo) ---------- */
+  .reg-cta.lleno { background: linear-gradient(100deg, var(--vino), #b02a4c 55%, var(--accent)); color: #fff8ef; box-shadow: 0 12px 30px rgba(140, 26, 55, .45); animation: none; }
+  .lleno-caja { text-align: center; padding: 24px 18px; border: 2px solid var(--accent);
+    background: radial-gradient(120% 70% at 50% 0%, rgba(217, 180, 106, .18), transparent 60%), var(--surface); }
+  .lleno-emo { font-size: 40px; line-height: 1; margin: 0 0 6px; }
+  .lleno-t { margin: 0 0 8px; font-family: var(--display); font-size: 26px; font-weight: 600; color: var(--accent); }
+  .lleno-txt { margin: 0 auto 18px; max-width: 34ch; white-space: pre-line; font-size: 16px; }
+  .lleno-caja .boton { width: auto; display: inline-flex; padding: 14px 22px; }
+  .ventana.lleno-v .v-cuerpo { padding-bottom: 18px; }
 </style>
 </head>
 <body>
@@ -806,6 +815,7 @@
   function aplicarEstado(D, E) {
     if (!E || !E.ok) return;
     if (typeof E.confirmados === "number") D.estadoCupos = { n: E.confirmados, nombres: E.nombres || [] };
+    if (D.cupos) D.cupos.cerradoHoja = E.cerrado === true;   // la hoja manda: abre o cierra sola
     (E.aportes || []).forEach(function (a) {
       (D.gastos || []).forEach(function (g) { if (norm(g.nombre) === norm(a.nombre)) g.avance = a.avance; });
     });
@@ -832,11 +842,42 @@
     if (t.id === "nombre" && !t.value) setTimeout(function () { try { t.focus({ preventScroll: true }); } catch (x) {} }, 650);
   }
   function yaRegistrado() { try { return localStorage.getItem("cumple-ja-confirmo") === "1"; } catch (e) { return false; } }
+  // ---------- Cupos completos: bloquea nuevas inscripciones ----------
+  var DG = null;
+  function cuposCerrados(D) {
+    D = D || DG; if (!D || !D.cupos) return false;
+    if (D.cupos.cerrado === true || D.cupos.cerradoHoja === true) return true;
+    var c = datosCupos(D); return !!(c && !c.cargando && c.quedan === 0);
+  }
+  function textoLleno(D) { var K = (D && D.cupos) || {}; return K.textoLleno || ("Ya llegamos a las " + (K.total || 50) + " personas 🥳\nSi quieres venir, escríbele a Arturo por WhatsApp para preguntar si hay algún cupo libre."); }
+  function mensajeLleno(D) { var K = (D && D.cupos) || {}; return K.mensajeLleno || "¡Hola, Arturo! 👋 Vi que los cupos para tu cumpleaños ya están completos. ¿Habrá algún cupo libre para mí? 🙏"; }
+  function botonLleno(D) {
+    var b = el("button", { type: "button", class: "boton wa" });
+    b.innerHTML = ICONO_WA; b.appendChild(el("span", { text: (D.cupos && D.cupos.botonLleno) || "Escribirle a Arturo" }));
+    b.addEventListener("click", function () { wa(D, mensajeLleno(D)); });
+    return b;
+  }
+  function ventanaLleno(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    var D = DG; if (!D) return;
+    var dlg = el("dialog", { class: "ventana lleno-v", "aria-labelledby": "ll-t" });
+    var x = el("button", { type: "button", class: "v-cerrar", "aria-label": "Cerrar", text: "×" });
+    x.addEventListener("click", function () { cerrar(dlg); });
+    dlg.addEventListener("click", function (ev) { if (ev.target === dlg) cerrar(dlg); });
+    dlg.addEventListener("close", function () { document.documentElement.classList.remove("sin-scroll"); dlg.remove(); });
+    dlg.appendChild(el("div", { class: "v-cab" }, el("div", null, el("p", { class: "c-ceja", text: "Cupos completos" }), el("h3", { id: "ll-t", text: "¡Ya estamos completos! 🎉" })), x));
+    dlg.appendChild(el("div", { class: "v-cuerpo" }, el("div", { class: "lleno-caja tarjeta" },
+      el("p", { class: "lleno-txt", text: textoLleno(D) }), botonLleno(D))));
+    document.body.appendChild(dlg); abrir(dlg);
+  }
   function zonaRegistro(D) {
     if (yaRegistrado()) {
       var n = (nombreGuardado() || "").split(" ")[0];
       return el("div", { class: "reg-zona" }, el("a", { href: "#t-confirmar", class: "reg-ok", onclick: irAlRegistro, text: "✅ ¡Ya estás registrado" + (n ? ", " + n : "") + "!" }));
     }
+    if (cuposCerrados(D)) return el("div", { class: "reg-zona" },
+      el("a", { href: "#t-confirmar", class: "reg-cta lleno", onclick: ventanaLleno }, el("span", { class: "reg-ico", text: "🎉" }), "Cupos completos"),
+      el("p", { class: "reg-sub" }, "¿Quieres venir? ", el("b", { text: "Escríbele a Arturo por un cupo" })));
     var c = datosCupos(D), q = (c && !c.cargando) ? c.quedan : null;
     return el("div", { class: "reg-zona" },
       el("a", { href: "#t-confirmar", class: "reg-cta", onclick: irAlRegistro }, el("span", { class: "reg-ico", text: "✍️" }), "Regístrate aquí"),
@@ -850,7 +891,7 @@
       var arriba = cta ? cta.getBoundingClientRect().bottom > 0 : false;
       var formVisible = false;
       if (form) { var r = form.closest("section") || form; var rc = r.getBoundingClientRect(); formVisible = rc.top < innerHeight && rc.bottom > 0; }
-      b.classList.toggle("ver", !yaRegistrado() && !arriba && !formVisible && !document.querySelector("dialog[open], .jg-fondo.ver"));
+      b.classList.toggle("ver", !cuposCerrados() && !yaRegistrado() && !arriba && !formVisible && !document.querySelector("dialog[open], .jg-fondo.ver"));
     }
     window.addEventListener("scroll", revisar, { passive: true });
     window.addEventListener("resize", revisar);
@@ -1305,14 +1346,15 @@
   }
   function cuposArriba(D) {
     var c = datosCupos(D); if (!c || c.cargando) return null;
-    var lleno = c.quedan === 0;
+    var lleno = c.quedan === 0 || cuposCerrados(D);
     var caja = el("a", { href: "#t-confirmar", class: "cupo-top" },
       el("div", { class: "cupo-fila" },
         el("span", { class: "cupo-t", text: "🎉 Personas confirmadas para la fiesta" }),
         el("span", { class: "cupo-q", text: lleno ? "¡Agotados!" : (c.quedan === 1 ? "¡Queda 1!" : "Quedan " + c.quedan) })),
       barra(c, false),
-      el("span", { class: "cupo-cta", text: lleno ? "Escríbeme para la lista de espera 👇" : "✍️ Regístrate aquí 👇" }));
+      el("span", { class: "cupo-cta", text: lleno ? "💬 Escríbele a Arturo por un cupo" : "✍️ Regístrate aquí 👇" }));
     caja.addEventListener("click", function (e) {
+      if (lleno) return ventanaLleno(e);
       var t = document.getElementById("nombre") || document.getElementById("t-confirmar"); if (!t) return;
       e.preventDefault(); t.scrollIntoView({ behavior: "smooth", block: "center" });
       t.classList.add("resalta"); setTimeout(function () { t.classList.remove("resalta"); }, 2200);
@@ -1341,7 +1383,7 @@
         el("span", { class: "cupo-t", text: "🎉 " + c.n + (c.n === 1 ? " persona confirmada" : " personas confirmadas") + " para la fiesta" }),
         el("span", { class: "cupo-q", text: c.quedan === 0 ? "¡Agotados!" : (c.quedan === 1 ? "¡Queda 1 cupo!" : "Quedan " + c.quedan + " cupos") })),
       barra(c, true),
-      el("p", { class: "cupo-aviso", text: K.aviso || ("Tenemos aforo para " + c.total + " personas.\nSi deseas participar en la fiesta, regístrate aquí y así te guardo tu lugar 🥳") }),
+      el("p", { class: "cupo-aviso", text: cuposCerrados(D) ? "¡Cupos completos! Gracias a todos por confirmar 🥳" : K.aviso || ("Tenemos aforo para " + c.total + " personas.\nSi deseas participar en la fiesta, regístrate aquí y así te guardo tu lugar 🥳") }),
       el("div", { class: "nube-caja" }, decoNube(), el("p", { class: "nube-t", text: "✨ Ya confirmaron ✨" }), nube, verTodos));
   }
   // Brillitos + serpentinas para la caja de nombres
@@ -1424,6 +1466,21 @@
 
   function confirmar(D) {
     var f = D.fiesta || {}, C = D.colaboracion || {};
+    if (API_URL && D.cupos && !D.estadoCupos && !D.estadoFallo) {
+      return el("section", { "aria-labelledby": "t-confirmar" },
+        el("h2", { id: "t-confirmar", text: "¿Me acompañas?" }),
+        el("div", { class: "cupo-caja" }, el("p", { class: "cupo-cargando", text: "Revisando cupos disponibles…" })));
+    }
+    if (cuposCerrados(D)) {
+      return el("section", { "aria-labelledby": "t-confirmar" },
+        el("h2", { id: "t-confirmar", text: "¿Me acompañas?" }),
+        cuposBloque(D),
+        el("div", { class: "tarjeta lleno-caja" },
+          el("p", { class: "lleno-emo", "aria-hidden": "true", text: "🎉" }),
+          el("p", { class: "lleno-t", text: "¡Cupos completos!" }),
+          el("p", { class: "lleno-txt", text: textoLleno(D) }),
+          botonLleno(D)));
+    }
     var nombre = el("input", { type: "text", id: "nombre", name: "nombre", autocomplete: "name", placeholder: "Ej.: María Pérez", value: nombreGuardado() || null });
     var estado = el("p", { class: "estado", role: "status" });
     function decir(t, bien) { estado.textContent = t; estado.className = "estado ver " + (bien ? "bien" : "mal"); }
@@ -1458,6 +1515,7 @@
     );
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+      if (cuposCerrados(D)) { ventanaLleno(); render(D); return; }
       var limpio = String(nombre.value || "").trim().replace(/\s+/g, " ");
       if (limpio.length < 2) return burbuja(nombre, "Escribe tu nombre y apellido para confirmar.");
       if (limpio.split(" ").length < 2) return burbuja(nombre, "¡Falta tu apellido! Escribe nombre y apellido.");
@@ -1554,6 +1612,7 @@
     function limpiar(t) { return String(t || "").trim().replace(/\s+/g, " "); }
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+      if (cuposCerrados(D)) { cerrar(dlg); ventanaLleno(); return; }
       var b = limpiar(suNombre.value);
       if (b.length < 2) return burbuja(suNombre, "Escribe el nombre y apellido de tu acompañante.");
       if (b.split(" ").length < 2) return burbuja(suNombre, "¡Falta el apellido de tu acompañante!");
@@ -2092,7 +2151,7 @@
     var abajo = document.getElementById("filme-abajo");
     if (abajo && !abajo.firstChild) { var t2 = filme(D, true); if (t2) abajo.appendChild(t2); }
     var pie = document.getElementById("pie"); pie.innerHTML = "";
-    pie.appendChild(el("footer", null, "Hecho con cariño para celebrar juntos", D.actualizado ? el("br") : null, D.actualizado ? "Actualizado: " + D.actualizado : null));
+    pie.appendChild(el("footer", null, "Hecho con cariño para celebrar juntos · v8", D.actualizado ? el("br") : null, D.actualizado ? "Actualizado: " + D.actualizado : null));
     if (nombreEscrito && document.getElementById("nombre")) document.getElementById("nombre").value = nombreEscrito;
   }
 
@@ -2106,6 +2165,7 @@
       return;
     }
     API_URL = String(D.api || "").trim();
+    DG = D;
     if (D.borrador) document.getElementById("aviso").appendChild(el("div", { class: "aviso", text: "Borrador: la página aún no está publicada." }));
     if (D.fiesta && D.fiesta.anfitrion) document.title = "Mi cumpleaños · " + D.fiesta.anfitrion;
     var tira = filme(D); if (tira) { document.getElementById("filme").appendChild(tira); document.getElementById("filme").appendChild(controlVelocidad()); }
@@ -2115,10 +2175,24 @@
     juego(D);
     setTimeout(function () { confeti(90); }, 700);
     if (API_URL) {
-      fetch(API_URL + (API_URL.indexOf("?") < 0 ? "?" : "&") + "accion=estado&t=" + Date.now())
-        .then(function (r) { return r.json(); })
-        .then(function (E) { if (E && E.ok) { aplicarEstado(D, E); render(D); } })
-        .catch(function () {});
+      var primera = true;
+      var revisarCupos = function () {
+        fetch(API_URL + (API_URL.indexOf("?") < 0 ? "?" : "&") + "accion=estado&t=" + Date.now())
+          .then(function (r) { return r.json(); })
+          .then(function (E) {
+            if (!E || !E.ok) throw 0;
+            var antes = cuposCerrados(D), nAntes = D.estadoCupos ? D.estadoCupos.n : -1;
+            aplicarEstado(D, E);
+            // la 1.ª vez siempre; después solo si se abrió/cerró o cambió el conteo y nadie está escribiendo
+            var escribiendo = document.activeElement && /input|textarea/i.test(document.activeElement.tagName);
+            if (primera || antes !== cuposCerrados(D) || (!escribiendo && nAntes !== D.estadoCupos.n && !document.querySelector("dialog[open]"))) render(D);
+            primera = false;
+          })
+          .catch(function () { if (primera) { primera = false; D.estadoFallo = true; render(D); } });
+      };
+      revisarCupos();
+      setInterval(function () { if (!document.hidden) revisarCupos(); }, ((D.cupos && D.cupos.refresco) || 30) * 1000);
+      document.addEventListener("visibilitychange", function () { if (!document.hidden) revisarCupos(); });
     }
   }
 

@@ -107,9 +107,9 @@ window.DATOS = {
   cupos: {
     total: 50,
     aviso: "Tenemos aforo para 50 personas.\nSi deseas participar en la fiesta, regístrate aquí y así te guardo tu lugar 🥳",
-    // true = inscripciones CERRADAS (se ve "Cupos completos" y un botón para escribirte por WhatsApp).
-    // Aunque lo dejes en false, se cierra solo cuando la hoja llega al total.
-    cerrado: true,
+    // false = AUTOMÁTICO: se abre si hay cupo en la hoja y se cierra solo al llegar a 50.
+    // true = cerrado siempre (aunque haya cupos).
+    cerrado: false,
     textoLleno: "Ya llegamos a las 50 personas 🥳\nSi quieres venir, escríbele a Arturo por WhatsApp para preguntar si hay algún cupo libre.",
     mensajeLleno: "¡Hola, Arturo! 👋 Vi que los cupos para tu cumpleaños ya están completos. ¿Habrá algún cupo libre para mí? 🙏",
     botonLleno: "Escribirle a Arturo",

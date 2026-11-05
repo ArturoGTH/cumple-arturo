@@ -16,7 +16,7 @@
 window.DATOS = {
 
   // Cámbialo cada vez que edites: así sabes si la página ya se actualizó.
-  actualizado: "3 de noviembre, 2026",
+  actualizado: "5 de noviembre, 2026",
 
   // true = muestra el aviso "Borrador con datos de ejemplo". Ponlo en false al publicar.
   borrador: false,
@@ -105,12 +105,12 @@ window.DATOS = {
 
   // Barómetro de cupos (arriba y en "¿Me acompañas?") + nube con los nombres de quienes confirmaron.
   cupos: {
-    total: 50,
-    aviso: "Tenemos aforo para 50 personas.\nSi deseas participar en la fiesta, regístrate aquí y así te guardo tu lugar 🥳",
+    total: 55,
+    aviso: "Tenemos aforo para 55 personas.\nSi deseas participar en la fiesta, regístrate aquí y así te guardo tu lugar 🥳",
     // false = AUTOMÁTICO: se abre si hay cupo en la hoja y se cierra solo al llegar a 50.
     // true = cerrado siempre (aunque haya cupos).
     cerrado: false,
-    textoLleno: "Ya llegamos a las 50 personas 🥳\nSi quieres venir, escríbele a Arturo por WhatsApp para preguntar si hay algún cupo libre.",
+    textoLleno: "Ya llegamos a las 55 personas 🥳\nSi quieres venir, escríbele a Arturo por WhatsApp para preguntar si hay algún cupo libre.",
     mensajeLleno: "¡Hola, Arturo! 👋 Vi que los cupos para tu cumpleaños ya están completos. ¿Habrá algún cupo libre para mí? 🙏",
     botonLleno: "Escribirle a Arturo",
   },

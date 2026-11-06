@@ -6,7 +6,7 @@
 <title>Pasaporte de la fiesta · Arturo</title>
 <meta name="description" content="Cumple las misiones de la fiesta, junta tus sellos y gana un premio sorpresa.">
 <meta property="og:title" content="🎟️ Pasaporte de la fiesta · Arturo">
-<meta property="og:description" content="Cumple las misiones, junta los 10 sellos: ¡el primero en completarlos gana un premio sorpresa!">
+<meta property="og:description" content="Cumple las misiones, junta los 11 sellos: ¡el primero en completarlos gana un premio sorpresa!">
 <meta property="og:image" content="https://arturogth.github.io/cumple-arturo/fotos/portada-whatsapp-v2.jpg">
 <meta name="theme-color" content="#0D0A0B">
 <script type="importmap">
@@ -33,6 +33,10 @@ window.PASAPORTE = {
     respaldo: "REGALO",               // código impreso chiquito en la tarjeta (por si la cámara no funciona)
   },
 
+  // ---------- ADMINISTRADOR ----------
+  // Si alguien escribe este nombre, se le pide el PIN. Con el PIN correcto ve el reloj de prueba y no compite en la carrera.
+  admin: { nombre: "Arturo Machuca", pin: "0711" },
+
   // ---------- HORARIOS (hora de Lima) ----------
   fecha: "2026-11-07",               // día de la fiesta
   cierre: "23:00",                   // desde esta hora ya no se dan sellos (premiación)
@@ -47,20 +51,21 @@ window.PASAPORTE = {
 
   misiones: [
     // ---- Parte 1 · 6:00 p. m. ----
-    { id: "m9", desde: "18:00", ico: "🪧", lugar: "Entrada",    titulo: "Foto con el cartel de bienvenida", texto: "Apenas llegues, tómate una foto con el cartel de bienvenida de la entrada.", tipo: "foto" },
-    { id: "m4", desde: "18:00", ico: "💌", lugar: "Buzón",      titulo: "Palabras para Arturo",      texto: "Escribe en un papelito unas palabras que nazcan de tu corazón para Arturo y déjalas en el buzón.", tipo: "check", boton: "✅ Ya las dejé en el buzón",
+    { id: "m9",  desde: "18:00", corto: "Cartel",    ico: "👋", lugar: "Entrada",    titulo: "Foto con el cartel de bienvenida", texto: "Apenas llegues, tómate una foto o selfie con el cartel de bienvenida de la entrada.", tipo: "foto" },
+    { id: "m4",  desde: "18:00", corto: "Buzón",     ico: "💌", lugar: "Buzón",      titulo: "Palabras para Arturo",      texto: "Escribe en un papelito unas palabras que nazcan de tu corazón para Arturo y déjalas en el buzón.", tipo: "check", boton: "✅ Ya las dejé en el buzón",
       evidencia: "✍️ No necesita foto: deja tu mensaje en el buzón y toca el botón. ¡Va por tu palabra de honor!" },
-    { id: "m1", desde: "18:00", ico: "🍸", lugar: "Barra",      titulo: "Brindis en la barra",       texto: "Pide un trago y tómate un selfie brindando con 2 o 3 amigos.", tipo: "foto" },
-    { id: "m7", desde: "18:00", ico: "🎈", lugar: "Photocall de cumpleaños", titulo: "Foto en el photocall", texto: "Tómate una foto bonita en el adorno de «Feliz cumpleaños» usando algún cotillón (gorro, lentes, corona…).", tipo: "foto" },
-    { id: "m2", desde: "18:00", ico: "🤝", lugar: "Donde sea",  titulo: "Alguien nuevo",             texto: "Tómate una foto con alguien que no conocías.", tipo: "foto", pregunta: "¿Con quién te tomaste la foto?",
-      evidencia: "📸 Evidencia: escribe el nombre de esa persona y sube la foto con el botón. Se guarda en el Drive de la fiesta y se activa tu sello." },
+    { id: "m1",  desde: "18:00", corto: "Barra",     ico: "🍸", lugar: "Barra",      titulo: "Brindis en la barra",       texto: "Pide un trago y tómate una foto o selfie brindando con 2 o 3 amigos.", tipo: "foto" },
+    { id: "m7",  desde: "18:00", corto: "Photocall", ico: "📸", lugar: "Photocall de cumpleaños", titulo: "Foto en el photocall", texto: "Tómate una foto o selfie bonita en el adorno de «Feliz cumpleaños» con algún cotillón (gorro, lentes, corona…).", tipo: "foto" },
+    { id: "m2",  desde: "18:00", corto: "Nuevo",     ico: "🤝", lugar: "Donde sea",  titulo: "Alguien nuevo",             texto: "Tómate una foto o selfie con alguien que no conocías.", tipo: "foto", pregunta: "¿Con quién te tomaste la foto?",
+      evidencia: "📸 Evidencia: escribe el nombre de esa persona y sube tu foto o selfie con el botón. Se guarda en el Drive de la fiesta y se activa tu sello." },
     // ---- Parte 2 · 8:00 p. m. ----
-    { id: "m3", desde: "20:00", ico: "💃", lugar: "Pista",      titulo: "¡A bailar!",                texto: "Tómate una foto bailando en la pista con cualquier persona.", tipo: "foto" },
-    { id: "m6", desde: "20:00", ico: "🤳", lugar: "Con Arturo", titulo: "Selfie con el cumpleañero", texto: "Busca a Arturo y tómate un selfie con él.", tipo: "foto" },
-    { id: "m5", desde: "20:00", ico: "👥", lugar: "Donde sea",  titulo: "Foto grupal",               texto: "Tómate una foto grupal con 5 o más personas.", tipo: "foto" },
-    { id: "m10", desde: "20:00", ico: "🥂", lugar: "Donde sea", titulo: "Brindis con amigos",        texto: "Junta a 4 o más amigos y tómense una foto brindando, ¡con los vasos chocando en la foto!", tipo: "foto" },
+    { id: "m3",  desde: "20:00", corto: "Bailar",    ico: "💃", lugar: "Pista",      titulo: "¡A bailar!",                texto: "Tómate una foto o selfie bailando en la pista.", tipo: "foto" },
+    { id: "m6",  desde: "20:00", corto: "Arturo",    ico: "🤳", lugar: "Con Arturo", titulo: "Foto con el cumpleañero",   texto: "Busca a Arturo y tómate una foto o selfie con él. ¡Puede ser grupal!", tipo: "foto" },
+    { id: "m5",  desde: "20:00", corto: "Grupal",    ico: "👥", lugar: "Donde sea",  titulo: "Foto grupal",               texto: "Tómate una foto o selfie grupal con 5 o más personas.", tipo: "foto" },
+    { id: "m10", desde: "20:00", corto: "Brindis",   ico: "🥂", lugar: "Donde sea",  titulo: "Brindis con amigos",        texto: "Junta a 4 o más amigos y tómense una foto brindando, ¡con los vasos chocando en la foto!", tipo: "foto" },
+    { id: "m11", desde: "20:00", corto: "Hora loca", ico: "🥳", lugar: "Hora loca · 9:30 p. m.", titulo: "¡Foto en la hora loca!", texto: "Cuando empiece la hora loca, tómate una foto o selfie en plena locura. ¡Con gorro, máscara o lo que te toque!", tipo: "foto" },
     // ---- Parte 3 · 10:00 p. m. (secreta hasta esa hora) ----
-    { id: "m8", desde: "22:00", ico: "🎁", lugar: "¿Dónde?",    titulo: "El regalo perdido de Arturo", texto: "¡Arturo perdió un regalo y anda escondido por la casa! Abre el buscador, apunta tu cámara a la tarjeta dorada y atrápalo. Adentro hay una sorpresa 🍫", tipo: "secreto",
+    { id: "m8",  desde: "22:00", corto: "Secreta",   ico: "🎁", lugar: "¿Dónde?",    titulo: "El regalo perdido de Arturo", texto: "¡Arturo perdió un regalo y anda escondido por la casa! Abre el buscador, apunta tu cámara a la tarjeta dorada y atrápalo. Adentro hay una sorpresa 🍫", tipo: "secreto",
       evidencia: "🔍 Evidencia: encuentra la tarjeta dorada escondida y escanéala con la cámara (o escribe el código impreso)." },
   ],
 };
@@ -369,6 +374,44 @@ window.PASAPORTE = {
   .reloj { left: auto; right: 8px; top: 8px; bottom: auto; }
   .reloj-b { padding: 6px 10px; font-size: 12px; opacity: .9; }
   .reloj-p { left: auto; right: 0; top: 46px; bottom: auto; }
+  /* ===== v5: hoja de pasaporte aesthetic ===== */
+  .hoja { position: relative; margin: -2px -2px 0; padding: 14px 12px 12px; border-radius: 16px; color: #3a1620;
+    background: radial-gradient(circle at 12% 8%, rgba(255, 255, 255, .7), transparent 40%), radial-gradient(circle at 90% 95%, rgba(217, 180, 106, .35), transparent 45%),
+      repeating-linear-gradient(0deg, rgba(140, 26, 55, .035) 0 1px, transparent 1px 22px), #f6ecd9;
+    box-shadow: inset 0 0 0 6px #f6ecd9, inset 0 0 0 7.5px rgba(201, 150, 58, .75), 0 10px 26px rgba(0, 0, 0, .35); }
+  .hoja-cab { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 4px 6px 10px; }
+  .hoja-ceja { margin: 0; font-size: 10.5px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: #8c1a37; }
+  .hoja-nom { margin: 2px 0 0; font-family: var(--display); font-size: 19px; font-weight: 600; color: #4a0c1d; line-height: 1.15; }
+  .hoja-cont { text-align: center; line-height: 1; flex: none; }
+  .hoja-cont b { display: block; font-family: var(--display); font-size: 34px; color: #8c1a37; }
+  .hoja-cont span { font-size: 11px; font-weight: 800; color: #7a5c50; }
+  .hoja-barra { height: 7px; margin: 0 6px 12px; border-radius: 999px; background: rgba(140, 26, 55, .14); overflow: hidden; }
+  .hoja-barra i { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #8c1a37, #ff6f59, #c9963a); transition: width .8s ease; }
+  .hoja .parte { margin: 0 0 9px; padding: 9px 8px 10px; border-radius: 12px; background: rgba(255, 255, 255, .28); border: 1px dashed rgba(140, 26, 55, .25); }
+  .hoja .parte.abierta { background: rgba(255, 255, 255, .62); border: 1px solid rgba(140, 26, 55, .35); }
+  .hoja .parte-cab b { font-size: 13.5px; color: #5a1024; }
+  .hoja .parte-cab span { font-size: 11.5px; color: #8a7a70; }
+  .hoja .parte.abierta .parte-cab span { color: #23774a; }
+  .hoja .sellos { grid-template-columns: repeat(5, 1fr); gap: 4px; }
+  .hoja .sello, .hoja .sello.ok, .hoja .sello.lock, .hoja .sello.disp, .hoja .sello.nuevo { aspect-ratio: auto; border: 0; border-radius: 0; background: none; filter: none; opacity: 1; box-shadow: none; transform: none; animation: none;
+    display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 2px 0; cursor: pointer; font: inherit; color: inherit; }
+  .hoja .sello::after { display: none; }
+  .s-aro { position: relative; width: min(54px, 100%); aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; transition: all .4s ease; }
+  .s-emo { font-size: 25px; line-height: 1; }
+  .s-nom { font-size: 10.5px; font-weight: 800; letter-spacing: .02em; color: #5a1024; text-align: center; line-height: 1.1; }
+  .hoja .sello.lock .s-aro { border: 2px dashed rgba(90, 16, 36, .28); }
+  .hoja .sello.lock .s-emo { filter: grayscale(1); opacity: .3; }
+  .hoja .sello.lock .s-nom { color: #a6968c; }
+  .hoja .sello.lock .s-aro::after { content: "🔒"; position: absolute; right: -3px; bottom: -3px; font-size: 12px; }
+  .hoja .sello.disp .s-aro { background: #fff; border: 2.5px solid #ff6f59; animation: disp-pulso 1.8s ease-in-out infinite; }
+  .hoja .sello.ok .s-aro { background: radial-gradient(circle at 35% 30%, #b02a4c, #8c1a37 60%, #4a0c1d); border: 2px solid #c9963a; box-shadow: 0 0 0 3px rgba(201, 150, 58, .3), 0 4px 10px rgba(74, 12, 29, .35); transform: rotate(-8deg); }
+  .hoja .sello.ok .s-aro::before { content: ""; position: absolute; inset: 3px; border-radius: 50%; border: 1px dashed rgba(243, 220, 166, .7); }
+  .hoja .sello.ok .s-aro::after { content: "✓"; position: absolute; right: -4px; bottom: -4px; width: 19px; height: 19px; border-radius: 50%; background: #c9963a; color: #fff; font-size: 11px; font-weight: 900; display: grid; place-items: center; transform: rotate(8deg); }
+  .hoja .sello.nuevo .s-aro { animation: sello-pop .7s cubic-bezier(.2, 1.6, .4, 1); }
+  .hoja .leyenda { color: #6a5048; margin-top: 6px; }
+  .hoja .lg.lock { border-color: rgba(90, 16, 36, .4); }
+  .hoja .lg.disp { background: #fff; }
+  .hoja .sellos.uno { grid-template-columns: 1fr; }
 </style>
 </head>
 <body>
@@ -380,7 +423,8 @@ window.PASAPORTE = {
   "use strict";
   var P = window.PASAPORTE, API = String(P.api || "").trim();
   var app = document.getElementById("app");
-  var LS = { id: "pasaporte-id", nombre: "pasaporte-nombre", sellos: "pasaporte-sellos", rank: "pasaporte-rank-demo" };
+  var LS = { admin: "pasaporte-admin", id: "pasaporte-id", nombre: "pasaporte-nombre", sellos: "pasaporte-sellos-v10", rank: "pasaporte-rank-demo-v10" };
+  try { localStorage.removeItem("pasaporte-sellos"); localStorage.removeItem("pasaporte-rank-demo"); } catch (e) {}
   function lee(k, d) { try { var v = localStorage.getItem(k); return v === null ? d : v; } catch (e) { return d; } }
   function guarda(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
   function el(tag, attrs) {
@@ -411,7 +455,10 @@ window.PASAPORTE = {
   P.misiones.sort(function (a, b) { return String(a.desde || "00:00").localeCompare(String(b.desde || "00:00")); });
   var desfase = 0;                  // diferencia con la hora del servidor (si la envía)
   var prueba = null;                // { base: ms simulado, real: ms real cuando se fijó }
-  var MODO_RELOJ = !API || String(params.get("clave") || "").toUpperCase() === String(P.clave).toUpperCase();
+  var ADM = P.admin || {};
+  function esAdminNombre(n) { return !!ADM.nombre && norm(n) === norm(ADM.nombre); }
+  function soyAdmin() { return esAdminNombre(nombre) && lee(LS.admin, "") === String(ADM.pin); }
+  var MODO_RELOJ = !API || soyAdmin();
   function horaMs(hhmm) { return Date.parse(P.fecha + "T" + hhmm + ":00-05:00"); }
   function ahora() { return prueba ? prueba.base + (Date.now() - prueba.real) : Date.now() + desfase; }
   function fijarHora(hhmm) { prueba = hhmm ? { base: horaMs(hhmm), real: Date.now() } : null; }
@@ -462,12 +509,13 @@ window.PASAPORTE = {
     return fetch(API + (API.indexOf("?") < 0 ? "?" : "&") + "id=" + encodeURIComponent(id) + "&t=" + Date.now())
       .then(function (r) { return r.json(); })
       .then(function (E) {
-        ranking = (E && E.ranking) || [];
+        ranking = ((E && E.ranking) || []).filter(function (x) { return !ADM.nombre || norm(x.n) !== norm(corto(ADM.nombre)); });
         participantes = (E && E.participantes) || [];
         miPuesto = (E && E.miPuesto) || null;
         ultimaAct = Date.now();
         if (E && E.ahora && Math.abs(E.ahora - Date.now()) > 60000) desfase = E.ahora - Date.now();
-        if (E && E.yo && E.yo.sellos) { Object.keys(E.yo.sellos).forEach(function (k) { if (E.yo.sellos[k]) sellos[k] = true; }); guarda(LS.sellos, JSON.stringify(sellos)); }
+        // La hoja manda: los sellos son los que están guardados en la hoja (no los de pruebas anteriores)
+        if (E && E.ok !== false) { var s2 = {}; if (E.yo && E.yo.sellos) Object.keys(E.yo.sellos).forEach(function (k) { if (E.yo.sellos[k]) s2[k] = true; }); sellos = s2; guarda(LS.sellos, JSON.stringify(sellos)); }
       }).catch(function () { if (ranking === null) ranking = []; if (participantes === null) participantes = []; });
   }
   function participantesDemo() {
@@ -525,11 +573,19 @@ window.PASAPORTE = {
     var campo = el("input", { class: "campo", type: "text", maxlength: "40", autocomplete: "name", placeholder: "Ej.: María Pérez", "aria-label": "Tu nombre y apellido" });
     var err = el("p", { class: "err" });
     var b = el("button", { class: "boton", type: "button", text: "🎟️ Abrir mi pasaporte" });
+    var pin = el("input", { class: "campo", type: "password", inputmode: "numeric", maxlength: "10", placeholder: "Clave de administrador", "aria-label": "Clave de administrador", hidden: true });
+    pin.addEventListener("keydown", function (e) { if (e.key === "Enter") seguir(); });
     function seguir() {
       var n = campo.value.trim().replace(/\s+/g, " ");
       if (n.split(" ").length < 2) { err.textContent = "Escribe tu nombre y apellido 🙂"; campo.focus(); return; }
+      if (esAdminNombre(n)) {
+        if (pin.hidden) { pin.hidden = false; err.textContent = "👑 Escribe la clave de administrador"; pin.focus(); return; }
+        if (pin.value.trim() !== String(ADM.pin)) { err.textContent = "Clave incorrecta 🙈"; pin.value = ""; pin.focus(); return; }
+        guarda(LS.admin, String(ADM.pin)); MODO_RELOJ = true;
+      } else guarda(LS.admin, "");
       nombre = n; guarda(LS.nombre, n);
       post({ tipo: "registro", id: id, nombre: n }).catch(function () {});
+      relojPrueba();
       principal();
     }
     b.addEventListener("click", seguir);
@@ -537,7 +593,7 @@ window.PASAPORTE = {
     app.appendChild(el("section", { class: "tarjeta" },
       el("h2", { text: "¿Cómo te llamas?", style: "font-size:22px;margin-bottom:4px" }),
       el("p", { class: "m-x", text: "Así sabremos de quién es cada sello." }),
-      campo, err, b));
+      campo, pin, err, b));
     if (!API) app.prepend(el("p", { class: "aviso-demo", text: "Modo prueba: nada se guarda en la hoja." }));
   }
 
@@ -551,6 +607,7 @@ window.PASAPORTE = {
     app.innerHTML = "";
     document.querySelectorAll(".btn-fotos, .btn-carrera").forEach(function (x) { x.remove(); });
     if (!API) app.appendChild(el("p", { class: "aviso-demo", text: "Modo prueba: las fotos no se suben de verdad." }));
+    if (soyAdmin()) app.appendChild(el("p", { class: "aviso-demo", style: "border-color:#d9b46a;background:rgba(217,180,106,.14);color:#f3dca6", text: "👑 Modo administrador · usa el botón ⏰ de arriba para probar. No compites en la carrera." }));
     app.appendChild(cabecera());
     var irAlbum = el("a", { href: "#album", class: "cta-album" }, el("span", { class: "cta-ico", "aria-hidden": "true", text: "📸" }),
       el("span", null, el("b", { text: "¿Tienes fotos de la fiesta?" }), el("br"), el("span", { text: "Súbelas aquí al álbum para todos" })), el("span", { class: "cta-fl", "aria-hidden": "true", text: "👇" }));
@@ -562,7 +619,7 @@ window.PASAPORTE = {
       el("h3", { text: "📖 ¿Cómo se juega?" }),
       el("ol", null,
         el("li", null, el("b", { text: "Las misiones se abren en 3 partes: " }), "6:00, 8:00 y 10:00 p. m. Las que ya se abrieron siguen disponibles hasta las " + fmtHora(P.cierre) + "."),
-        el("li", null, el("b", { text: "Cumple cada misión " }), "y sube tu foto como evidencia con el botón «📸 Subir mi foto». Se guarda en el Drive de la fiesta."),
+        el("li", null, el("b", { text: "Cumple cada misión " }), "y sube tu foto o selfie como evidencia con el botón «📸 Subir mi foto». Se guarda en el Drive de la fiesta."),
         el("li", null, el("b", { text: "Al subirla, se marca tu sello " }), "y avanzas en la carrera 🏃."),
         el("li", null, el("b", { text: "¡El primero en juntar los " + P.misiones.length + " sellos gana un premio sorpresa! 🎁" })))));
     app.appendChild(el("h2", { class: "sec-t", text: "✨ Misiones ✨" }));
@@ -598,24 +655,31 @@ window.PASAPORTE = {
     if (!zonaProgreso) return;
     var n = total(), T = P.misiones.length;
     zonaProgreso.innerHTML = "";
-    zonaProgreso.appendChild(el("div", { class: "prog-t" }, el("b", { text: "Llevas " + n + " de " + T + " sellos" }), el("span", { text: n === T ? "¡Completo! 🎉" : "¡Sigue así!" })));
+    var hoja = el("div", { class: "hoja" });
+    hoja.appendChild(el("div", { class: "hoja-cab" },
+      el("div", null, el("p", { class: "hoja-ceja", text: "Pasaporte · Cumple Arturo" }), el("p", { class: "hoja-nom", text: nombre })),
+      el("div", { class: "hoja-cont" }, el("b", { text: n }), el("span", { text: "de " + T + " sellos" }))));
+    hoja.appendChild(el("div", { class: "hoja-barra" }, el("i", { style: "width:" + Math.round(n / T * 100) + "%" })));
     var grupos = [], gAct = null;
     P.misiones.forEach(function (m) { if (!gAct || gAct.h !== m.desde) { gAct = { h: m.desde, ms: [] }; grupos.push(gAct); } gAct.ms.push(m); });
     grupos.forEach(function (g) {
       var ab = ahora() >= horaMs(g.h), hechas = g.ms.filter(function (m) { return sellos[m.id]; }).length;
       var nom = (P.bloques && P.bloques[g.h]) || fmtHora(g.h);
-      zonaProgreso.appendChild(el("div", { class: "parte" + (ab ? " abierta" : "") },
+      hoja.appendChild(el("div", { class: "parte" + (ab ? " abierta" : "") },
         el("div", { class: "parte-cab" }, el("b", { text: nom }),
           el("span", { text: !ab ? "🔒 se abre " + fmtHora(g.h) : cerrado() ? "🏁 cerrada" : hechas === g.ms.length ? "✅ ¡completa!" : "🔓 abierta · " + hechas + "/" + g.ms.length })),
-        el("div", { class: "sellos" }, g.ms.map(function (m) {
+        el("div", { class: "sellos" + (g.ms.length === 1 ? " uno" : "") }, g.ms.map(function (m) {
           var lk = !sellos[m.id] && !activa(m), disp = !sellos[m.id] && !lk && !cerrado();
           var d = el("button", { type: "button", class: "sello" + (sellos[m.id] ? " ok" : "") + (lk ? " lock" : "") + (disp ? " disp" : "") + (nuevoSello === m.id ? " nuevo" : ""), title: esSecreta(m) ? "Misión secreta" : m.titulo,
-            "aria-label": (esSecreta(m) ? "Misión secreta" : m.titulo) + (sellos[m.id] ? ": conseguido" : lk ? ": se activa a las " + fmtHora(m.desde) : ": disponible"), text: esSecreta(m) ? "❓" : m.ico });
+            "aria-label": (esSecreta(m) ? "Misión secreta" : m.titulo) + (sellos[m.id] ? ": conseguido" : lk ? ": se activa a las " + fmtHora(m.desde) : ": disponible") },
+            el("span", { class: "s-aro" }, el("span", { class: "s-emo", text: esSecreta(m) ? "❓" : m.ico })),
+            el("span", { class: "s-nom", text: esSecreta(m) ? "???" : (m.corto || m.titulo) }));
           d.addEventListener("click", function () { var t = document.getElementById("t-" + m.id); if (t) { t.scrollIntoView({ behavior: "smooth", block: "center" }); t.classList.remove("resalta"); void t.offsetWidth; t.classList.add("resalta"); } });
           return d;
         }))));
     });
-    zonaProgreso.appendChild(el("div", { class: "leyenda" },
+    zonaProgreso.appendChild(hoja);
+    hoja.appendChild(el("div", { class: "leyenda" },
       el("span", null, el("i", { class: "lg ok" }), "Conseguido"), el("span", null, el("i", { class: "lg disp" }), "Disponible"), el("span", null, el("i", { class: "lg lock" }), "Aún cerrado")));
     zonaProgreso.appendChild(lineaProxima());
     if (n === T) zonaProgreso.appendChild(el("p", { class: "completo", text: "🏆 ¡Pasaporte completo! Acércate a Arturo y muéstrale esta pantalla. Si fuiste el primero, ¡el premio sorpresa es tuyo! 🎁" }));
@@ -754,7 +818,7 @@ window.PASAPORTE = {
   }
   function evidencia(m) {
     if (m.evidencia) return m.evidencia;
-    if (m.tipo === "foto") return "📸 Evidencia: sube tu foto con el botón «Subir mi foto». Se guarda en el Drive de la fiesta y así se activa tu sello.";
+    if (m.tipo === "foto") return "📸 Evidencia: sube tu foto o selfie con el botón «Subir mi foto». Se guarda en el Drive de la fiesta y así se activa tu sello.";
     return "";
   }
   function estadoTarjeta(m) { return sellos[m.id] ? "h" : !activa(m) ? "b" : cerrado() ? "c" : "a"; }
@@ -1172,12 +1236,12 @@ window.PASAPORTE = {
   })();
   // ---------- Reloj de prueba (solo modo prueba, o con ?clave=) ----------
   function relojPrueba() {
-    if (!MODO_RELOJ) return;
+    if (!MODO_RELOJ || document.querySelector(".reloj")) return;
     var horas = ["17:30", "18:00", "19:00", "19:59", "20:00", "21:00", "21:59", "22:00", "22:30", "22:59", "23:00", "23:30"];
     var b = el("button", { type: "button", class: "reloj-b" });
     var g = el("div", { class: "reloj-g" });
     var panel = el("div", { class: "reloj-p", hidden: true },
-      el("p", { text: "⏰ Reloj de prueba: elige una hora del 7 de noviembre para ver qué misiones se activan. (Los invitados no ven esto.)" }), g);
+      el("p", { text: (soyAdmin() ? "👑 Modo administrador. " : "") + "⏰ Reloj de prueba: elige una hora del 7 de noviembre para ver qué misiones se activan. (Los invitados no ven esto.)" }), g);
     var elegida = prueba ? params.get("hora") : null;
     function etiqueta() {
       var lima = new Date(ahora() - 5 * 3600000);
@@ -1190,8 +1254,16 @@ window.PASAPORTE = {
     var real = el("button", { type: "button", text: "🕒 Hora real" });
     real.addEventListener("click", function () { ir(null); });
     var borrar = el("button", { type: "button", text: "🧹 Borrar mis sellos" });
-    borrar.addEventListener("click", function () { sellos = {}; guarda(LS.sellos, "{}"); try { localStorage.removeItem(LS.rank); } catch (e) {} if (nombre) principal(); toast("Sellos borrados (solo en este celular)"); });
-    panel.appendChild(el("div", { class: "reloj-x" }, real, API ? null : borrar));
+    borrar.addEventListener("click", function () {
+      borrar.disabled = true;
+      var fin = function () { sellos = {}; guarda(LS.sellos, "{}"); try { localStorage.removeItem(LS.rank); } catch (e) {} borrar.disabled = false; if (nombre) principal(); toast("🧹 Tus sellos de prueba se borraron"); };
+      if (API && soyAdmin()) post({ tipo: "reiniciar", id: id, nombre: nombre, pin: String(ADM.pin) }).then(fin, function () { borrar.disabled = false; toast("No se pudo borrar. Revisa tu señal."); });
+      else fin();
+    });
+    var salir = el("button", { type: "button", text: "🚪 Salir de admin" });
+    salir.addEventListener("click", function () { guarda(LS.admin, ""); guarda(LS.nombre, ""); location.href = location.pathname; });
+    panel.appendChild(el("div", { class: "reloj-x" }, real, borrar));
+    if (soyAdmin()) panel.appendChild(el("div", { class: "reloj-x", style: "grid-template-columns:1fr" }, salir));
     b.addEventListener("click", function () { panel.hidden = !panel.hidden; });
     document.body.appendChild(el("div", { class: "reloj" }, panel, b));
     etiqueta(); setInterval(etiqueta, 15000);

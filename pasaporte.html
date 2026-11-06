@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pasaporte de la fiesta · Arturo</title>
+<meta name="description" content="Cumple las misiones de la fiesta, junta tus sellos y gana un premio sorpresa.">
+<meta property="og:title" content="🎟️ Pasaporte de la fiesta · Arturo">
+<meta property="og:description" content="Cumple las misiones, junta los 10 sellos: ¡el primero en completarlos gana un premio sorpresa!">
+<meta property="og:image" content="https://arturogth.github.io/cumple-arturo/fotos/portada-whatsapp-v2.jpg">
+<meta name="theme-color" content="#0D0A0B">
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js",
+               "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700;9..40,800&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&display=swap" rel="stylesheet">
+<script>
+// =====================================================================
+//  CONFIGURACIÓN DEL PASAPORTE  (lo único que necesitas editar)
+// =====================================================================
+window.PASAPORTE = {
+  // URL /exec del Apps Script del GMAIL NUEVO (vacío = modo prueba, no guarda nada)
+  api: "https://script.google.com/macros/s/AKfycbyuMmnwSu-KdGr9Y8b0teNgABwJKYMYwNJARL-l1rNjQgrZk-ASiG8DbrmpgjM02K-8Pw/exec",
+  foto: "fotos/arturo.jpg",          // tu foto (también es la del rompecabezas)
+  clave: "CHOCO2026",                // clave interna del último sello (igual que en el código de la hoja)
+  caramelo: {
+    nombre: "el regalo perdido",      // "Busca …" / "¡Encontraste …!"
+    toques: 5,                        // cuántos toques para atraparlo
+    frases: ["¡El regalo salió corriendo! 🎁💨", "¡Tiene patitas! 😂", "¡Casi lo abres! 🙈", "¡Uno más y es tuyo! 🔥"],
+    codigo: "CARAMELO-DORADO-2026",   // lo que lleva el QR de la tarjeta dorada escondida
+    respaldo: "REGALO",               // código impreso chiquito en la tarjeta (por si la cámara no funciona)
+  },
+
+  // ---------- HORARIOS (hora de Lima) ----------
+  fecha: "2026-11-07",               // día de la fiesta
+  cierre: "23:00",                   // desde esta hora ya no se dan sellos (premiación)
+  // Cada misión se desbloquea a la hora de "desde" (van en orden de hora automáticamente)
+
+  // Las misiones se abren por PARTES. Una vez abierta, la misión sigue disponible hasta el cierre.
+  bloques: {
+    "18:00": "Parte 1 · La llegada",
+    "20:00": "Parte 2 · ¡A celebrar!",
+    "22:00": "Parte 3 · La sorpresa",
+  },
+
+  misiones: [
+    // ---- Parte 1 · 6:00 p. m. ----
+    { id: "m9", desde: "18:00", ico: "🪧", lugar: "Entrada",    titulo: "Foto con el cartel de bienvenida", texto: "Apenas llegues, tómate una foto con el cartel de bienvenida de la entrada.", tipo: "foto" },
+    { id: "m4", desde: "18:00", ico: "💌", lugar: "Buzón",      titulo: "Palabras para Arturo",      texto: "Escribe en un papelito unas palabras que nazcan de tu corazón para Arturo y déjalas en el buzón.", tipo: "check", boton: "✅ Ya las dejé en el buzón",
+      evidencia: "✍️ No necesita foto: deja tu mensaje en el buzón y toca el botón. ¡Va por tu palabra de honor!" },
+    { id: "m1", desde: "18:00", ico: "🍸", lugar: "Barra",      titulo: "Brindis en la barra",       texto: "Pide un trago y tómate un selfie brindando con 2 o 3 amigos.", tipo: "foto" },
+    { id: "m7", desde: "18:00", ico: "🎈", lugar: "Photocall de cumpleaños", titulo: "Foto en el photocall", texto: "Tómate una foto bonita en el adorno de «Feliz cumpleaños» usando algún cotillón (gorro, lentes, corona…).", tipo: "foto" },
+    { id: "m2", desde: "18:00", ico: "🤝", lugar: "Donde sea",  titulo: "Alguien nuevo",             texto: "Tómate una foto con alguien que no conocías.", tipo: "foto", pregunta: "¿Con quién te tomaste la foto?",
+      evidencia: "📸 Evidencia: escribe el nombre de esa persona y sube la foto con el botón. Se guarda en el Drive de la fiesta y se activa tu sello." },
+    // ---- Parte 2 · 8:00 p. m. ----
+    { id: "m3", desde: "20:00", ico: "💃", lugar: "Pista",      titulo: "¡A bailar!",                texto: "Tómate una foto bailando en la pista con cualquier persona.", tipo: "foto" },
+    { id: "m6", desde: "20:00", ico: "🤳", lugar: "Con Arturo", titulo: "Selfie con el cumpleañero", texto: "Busca a Arturo y tómate un selfie con él.", tipo: "foto" },
+    { id: "m5", desde: "20:00", ico: "👥", lugar: "Donde sea",  titulo: "Foto grupal",               texto: "Tómate una foto grupal con 5 o más personas.", tipo: "foto" },
+    { id: "m10", desde: "20:00", ico: "🥂", lugar: "Donde sea", titulo: "Brindis con amigos",        texto: "Junta a 4 o más amigos y tómense una foto brindando, ¡con los vasos chocando en la foto!", tipo: "foto" },
+    // ---- Parte 3 · 10:00 p. m. (secreta hasta esa hora) ----
+    { id: "m8", desde: "22:00", ico: "🎁", lugar: "¿Dónde?",    titulo: "El regalo perdido de Arturo", texto: "¡Arturo perdió un regalo y anda escondido por la casa! Abre el buscador, apunta tu cámara a la tarjeta dorada y atrápalo. Adentro hay una sorpresa 🍫", tipo: "secreto",
+      evidencia: "🔍 Evidencia: encuentra la tarjeta dorada escondida y escanéala con la cámara (o escribe el código impreso)." },
+  ],
+};
+</script>
+<style>
+  :root {
+    --bg: #0D0A0B; --surface: #1A1013; --surface-2: #26171C; --line: rgba(195, 198, 206, .18);
+    --text: #F4EEE8; --muted: #B7AFAA; --accent: #D9B46A; --vino: #8C1A37; --coral: #FF6F59; --plata: #C3C6CE;
+    --ok: #9BE3B4; --display: "Fraunces", Georgia, serif; --body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; min-height: 100vh; background: radial-gradient(1200px 600px at 50% -10%, rgba(140, 26, 55, .45), transparent 70%), var(--bg); color: var(--text); font: 16px/1.5 var(--body); overflow-x: hidden; }
+  .wrap { max-width: 560px; margin: 0 auto; padding: 22px 16px 96px; }
+  h1, h2, h3 { font-family: var(--display); font-weight: 600; margin: 0; }
+  .cab { text-align: center; padding: 6px 0 18px; }
+  .cab-ceja { margin: 0; color: var(--coral); font-size: 12.5px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; }
+  .cab h1 { font-size: clamp(34px, 9vw, 46px); line-height: 1.05; margin: 8px 0 6px; background: linear-gradient(100deg, #f3dca6, var(--accent) 45%, #fff3d6 60%, var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .cab p { margin: 0 auto; max-width: 34ch; color: var(--muted); }
+  .cab-foto { width: 84px; height: 84px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent); box-shadow: 0 0 0 6px rgba(217, 180, 106, .15); margin: 0 auto 10px; display: block; }
+  .tarjeta { background: var(--surface); border: 1px solid rgba(217, 180, 106, .35); border-radius: 18px; padding: 16px; margin: 0 0 16px; box-shadow: 0 12px 34px rgba(0, 0, 0, .35); }
+  .boton { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 13px 16px; border: 0; border-radius: 14px; font: inherit; font-weight: 800; font-size: 16px; cursor: pointer; background: linear-gradient(100deg, var(--coral), var(--accent)); color: #241006; }
+  .boton:disabled { opacity: .6; cursor: default; }
+  .boton.sec { background: transparent; color: var(--accent); border: 1.5px solid var(--accent); }
+  .campo { width: 100%; padding: 13px 14px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--bg); color: var(--text); font: inherit; font-size: 16px; margin: 6px 0 10px; }
+  .campo:focus { outline: none; border-color: var(--accent); }
+  .err { color: #ffab95; font-size: 14px; font-weight: 600; margin: 0 0 8px; min-height: 1px; }
+  /* Progreso */
+  .prog-t { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 10px; }
+  .prog-t b { font-family: var(--display); font-size: 22px; color: var(--accent); font-weight: 600; }
+  .prog-t span { color: var(--muted); font-size: 14px; }
+  .sellos { display: grid; grid-template-columns: repeat(5, 1fr); gap: 9px; }
+  .sello { aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; font-size: 23px; border: 2px dashed rgba(195, 198, 206, .35); background: rgba(255, 255, 255, .03); filter: grayscale(1); opacity: .45; transition: all .4s ease; position: relative; }
+  .sello.ok { border: 2px solid var(--accent); background: radial-gradient(circle at 35% 30%, #b02a4c, var(--vino) 60%, #4a0c1d); filter: none; opacity: 1; box-shadow: 0 0 0 4px rgba(217, 180, 106, .18), 0 0 18px rgba(217, 180, 106, .35); transform: rotate(-8deg); }
+  .sello.ok::after { content: "✓"; position: absolute; right: -2px; bottom: -2px; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: #241006; font-size: 13px; font-weight: 900; display: grid; place-items: center; }
+  .sello.nuevo { animation: sello-pop .7s cubic-bezier(.2, 1.6, .4, 1); }
+  @keyframes sello-pop { 0% { transform: scale(2.2) rotate(-30deg); opacity: 0; } 100% { transform: scale(1) rotate(-8deg); opacity: 1; } }
+  .completo { margin: 12px 0 0; padding: 10px 12px; border-radius: 12px; text-align: center; background: rgba(217, 180, 106, .14); border: 1px solid var(--accent); color: #f3dca6; font-weight: 700; }
+  /* Misiones */
+  .sec-t { font-family: var(--display); font-size: 24px; color: var(--accent); text-align: center; margin: 26px 0 12px; }
+  .mision { display: grid; grid-template-columns: 48px 1fr; gap: 12px; align-items: start; }
+  .mision + .mision { margin-top: 0; }
+  .m-ico { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; font-size: 24px; background: rgba(217, 180, 106, .12); border: 1px solid rgba(217, 180, 106, .4); }
+  .m-lugar { margin: 0; font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--coral); }
+  .m-t { margin: 1px 0 3px; font-size: 18px; font-weight: 700; }
+  .m-x { margin: 0 0 10px; color: var(--muted); font-size: 15px; }
+  .m-hecho { display: inline-flex; align-items: center; gap: 6px; color: var(--ok); font-weight: 800; }
+  .tarjeta.hecha { border-color: rgba(155, 227, 180, .45); background: linear-gradient(135deg, rgba(155, 227, 180, .06), var(--surface)); }
+  .barra-sub { height: 8px; border-radius: 999px; background: rgba(255, 255, 255, .08); overflow: hidden; margin: 8px 0 4px; }
+  .barra-sub i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--coral)); transition: width .2s ease; }
+  .sub-txt { font-size: 13.5px; color: var(--muted); }
+  input[type=file] { display: none; }
+  .clave-fila { display: flex; gap: 8px; }
+  .clave-fila .campo { margin: 0; text-transform: uppercase; }
+  .clave-fila .boton { width: auto; white-space: nowrap; }
+  /* Rompecabezas */
+  .puzzle-fondo { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 14px; background: rgba(5, 3, 4, .8); backdrop-filter: blur(3px); }
+  .puzzle-fondo[hidden] { display: none; }
+  .puzzle { width: min(420px, 100%); background: var(--surface); border: 1px solid var(--accent); border-radius: 20px; padding: 16px; text-align: center; }
+  .puzzle h3 { color: var(--accent); font-size: 24px; }
+  .puzzle p { margin: 4px 0 12px; color: var(--muted); font-size: 14.5px; }
+  .tablero { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; width: 100%; aspect-ratio: 1; border-radius: 12px; overflow: hidden; background: var(--accent); touch-action: manipulation; user-select: none; }
+  .pieza { background-size: 300% 300%; cursor: pointer; transition: transform .15s ease, outline-color .15s ease; outline: 3px solid transparent; outline-offset: -3px; }
+  .pieza.sel { outline-color: var(--coral); transform: scale(.94); }
+  .puzzle-pie { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; color: var(--muted); font-size: 14px; }
+  .puzzle-pie button { background: none; border: 0; color: var(--muted); font: inherit; text-decoration: underline; cursor: pointer; }
+  .gano { font-size: 17px; color: #f3dca6 !important; font-weight: 700; }
+  .ver-ref { width: 64px; height: 64px; border-radius: 10px; object-fit: cover; border: 2px solid var(--accent); }
+  /* Ranking */
+  .rank ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+  .rank li { display: grid; grid-template-columns: 34px 1fr auto; gap: 8px; align-items: center; padding: 8px 10px; border-radius: 12px; background: rgba(255, 255, 255, .03); }
+  .rank li.yo { background: rgba(217, 180, 106, .18); outline: 1px solid var(--accent); }
+  .rank li b { color: var(--accent); }
+  .rank .vacio { text-align: center; color: var(--muted); margin: 0; }
+  .rank .premios li { display: block; padding: 2px 0; background: none; }
+  .premios { list-style: none; margin: 12px 0 0; padding: 12px 0 0; border-top: 1px solid var(--line); display: grid; gap: 4px; font-size: 14.5px; }
+  /* Álbum */
+  .album-lista { margin: 10px 0 0; display: grid; gap: 6px; font-size: 14px; }
+  .album-lista .ok { color: var(--ok); }
+  .album-lista .mal { color: #ffab95; }
+  .aviso-demo { margin: 0 0 14px; padding: 9px 12px; border-radius: 12px; background: rgba(255, 111, 89, .12); border: 1px solid rgba(255, 111, 89, .4); color: #ffcabd; font-size: 13.5px; text-align: center; }
+  .pie { text-align: center; color: var(--muted); font-size: 13.5px; margin-top: 26px; }
+  .pie a { color: var(--accent); }
+  .toast { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%) translateY(120px); z-index: 60; padding: 12px 18px; border-radius: 999px; background: var(--accent); color: #241006; font-weight: 800; box-shadow: 0 10px 30px rgba(0, 0, 0, .5); transition: transform .35s ease; max-width: calc(100% - 32px); text-align: center; pointer-events: none; }
+  .toast.ver { transform: translateX(-50%) translateY(0); }
+  .confeti { position: fixed; inset: 0; pointer-events: none; z-index: 70; }
+  /* ---------- Carrera de sellos ---------- */
+  .pista { display: grid; gap: 4px; }
+  .pista-cab { display: flex; justify-content: space-between; padding: 0 34px 0 30px; font-size: 12px; font-weight: 800; letter-spacing: .08em; color: var(--muted); text-transform: uppercase; }
+  .meta-t { color: var(--accent); }
+  .carril { display: grid; grid-template-columns: 26px 1fr 34px; align-items: end; gap: 6px; padding: 26px 4px 8px; border-radius: 12px; border-bottom: 1px dashed rgba(195, 198, 206, .15); }
+  .carril.top { background: linear-gradient(90deg, rgba(217, 180, 106, .1), transparent 70%); }
+  .carril.yo { background: rgba(217, 180, 106, .16); outline: 1px solid rgba(217, 180, 106, .6); }
+  .carril-pos { font-weight: 800; color: var(--muted); font-size: 14px; text-align: center; padding-bottom: 1px; }
+  .carril.top .carril-pos { color: var(--accent); }
+  .carril-n { font-weight: 800; color: var(--accent); font-size: 13.5px; text-align: right; }
+  .carril-via { position: relative; height: 10px; margin: 0 10px; }
+  .carril-linea { position: absolute; left: 0; right: 0; top: 3px; height: 4px; border-radius: 999px; background: rgba(255, 255, 255, .1); overflow: hidden; }
+  .carril-linea i { display: block; height: 100%; background: linear-gradient(90deg, var(--vino), var(--coral), var(--accent)); border-radius: 999px; transition: width .8s ease; }
+  .carril-puntos i { position: absolute; top: 0; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: var(--bg); border: 2px solid rgba(195, 198, 206, .35); }
+  .carril-puntos i.pasado { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 6px rgba(217, 180, 106, .7); }
+  .carril-puntos i.fin { width: 14px; height: 14px; margin-left: -7px; top: -2px; border-radius: 3px; background: repeating-conic-gradient(#fff 0 25%, #111 0 50%) 0 0 / 7px 7px; border: 1px solid var(--accent); }
+  .corredor { position: absolute; bottom: 8px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; transition: left .8s cubic-bezier(.3, 1.3, .5, 1); animation: corre 1.1s ease-in-out infinite; z-index: 2; }
+  @keyframes corre { 0%, 100% { margin-bottom: 0; } 50% { margin-bottom: 3px; } }
+  .c-nombre { padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 800; white-space: nowrap; background: var(--surface-2); border: 1px solid rgba(195, 198, 206, .35); max-width: 120px; overflow: hidden; text-overflow: ellipsis; }
+  .corredor.c1 .c-nombre { background: linear-gradient(100deg, #f3dca6, var(--accent)); color: #241006; border-color: #f3dca6; box-shadow: 0 0 12px rgba(217, 180, 106, .55); }
+  .corredor.c2 .c-nombre { background: #d9dbe0; color: #1a1013; border-color: #fff; }
+  .corredor.c3 .c-nombre { background: #c98a5a; color: #1a0d06; border-color: #e7b48c; }
+  .c-ico { font-size: 15px; line-height: 1; margin-top: 1px; }
+  .corredor.izq { transform: translateX(-8px); align-items: flex-start; }
+  .corredor.der { transform: translateX(calc(-100% + 8px)); align-items: flex-end; }
+  .corredor.llego .c-ico { animation: baila 1s ease-in-out infinite; }
+  .pista-nota { margin: 10px 0 0; text-align: center; color: var(--muted); font-size: 13.5px; }
+  .sim { margin-top: 12px; font-size: 14px; padding: 10px; }
+  .rank-cab { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: -4px 0 10px; }
+  .act-txt { font-size: 12.5px; color: var(--muted); }
+  .btn-act { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px; border: 1px solid var(--accent); background: rgba(217, 180, 106, .12); color: var(--accent); font: inherit; font-weight: 800; font-size: 13.5px; cursor: pointer; }
+  .act-ico { display: inline-block; }
+  .btn-act.girando .act-ico { animation: gira .7s linear infinite; }
+  @keyframes gira { to { transform: rotate(360deg); } }
+  .mi-sep { margin: 8px 0 0; text-align: center; font-size: 12px; color: var(--muted); letter-spacing: .1em; }
+  .mi-falta { margin: 6px 0 0; text-align: center; font-size: 13.5px; color: #f3dca6; font-weight: 700; }
+  .ver-carrera { display: block; margin-top: 12px; text-align: center; color: var(--accent); font-weight: 800; font-size: 14.5px; text-decoration: none; }
+  #carrera { scroll-margin-top: 14px; }
+  /* ---------- Caza del caramelo ---------- */
+  .boton-caza { position: relative; background: linear-gradient(100deg, #b8893b, #f3dca6, #d9b46a); color: #241006; box-shadow: 0 0 18px rgba(217, 180, 106, .45); }
+  .radar-mini { width: 10px; height: 10px; border-radius: 50%; background: #8c1a37; box-shadow: 0 0 0 0 rgba(140, 26, 55, .7); animation: ping 1.4s ease-out infinite; }
+  @keyframes ping { to { box-shadow: 0 0 0 12px rgba(140, 26, 55, 0); } }
+  .caza { position: fixed; inset: 0; z-index: 55; background: #000; }
+  .caza[hidden] { display: none; }
+  .caza-caja { position: absolute; inset: 0; overflow: hidden; background: radial-gradient(circle at 50% 35%, #5a1024, #1a0d10 70%); }
+  .caza-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .caza-top { position: absolute; left: 0; right: 0; top: 0; display: flex; justify-content: space-between; align-items: center; padding: 14px 14px 30px; background: linear-gradient(rgba(0, 0, 0, .7), transparent); color: #f3dca6; font-size: 17px; z-index: 3; }
+  .caza-x { width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .5); background: rgba(0, 0, 0, .45); color: #fff; font-size: 26px; line-height: 1; cursor: pointer; }
+  .caza-pie { position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 16px calc(18px + env(safe-area-inset-bottom)); background: linear-gradient(transparent, rgba(0, 0, 0, .8)); z-index: 3; }
+  .caza-estado { margin: 0 0 10px; color: #fff; text-align: center; font-weight: 700; font-size: 16px; text-shadow: 0 2px 6px #000; }
+  .caza-respaldo .campo { background: rgba(0, 0, 0, .6); }
+  .radar { position: absolute; left: 50%; top: 45%; width: 220px; height: 220px; margin: -110px 0 0 -110px; pointer-events: none; z-index: 2; border-radius: 50%; border: 2px solid rgba(217, 180, 106, .6); }
+  .radar i { position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(243, 220, 166, .8); animation: onda 2.2s ease-out infinite; }
+  .radar i:nth-child(2) { animation-delay: .7s; } .radar i:nth-child(3) { animation-delay: 1.4s; }
+  @keyframes onda { from { transform: scale(.2); opacity: 1; } to { transform: scale(1.3); opacity: 0; } }
+  .radar.hallado { border-color: transparent; }
+  .radar.hallado i { border-color: rgba(255, 255, 255, .9); animation-duration: .8s; }
+  .caza-escena { position: absolute; inset: 0; z-index: 2; }
+  .caramelo { position: absolute; transform: translate(-50%, -50%); display: flex; align-items: center; padding: 0; border: 0; background: none; cursor: pointer; transition: left .35s cubic-bezier(.3, 1.4, .5, 1), top .35s cubic-bezier(.3, 1.4, .5, 1); filter: drop-shadow(0 0 18px rgba(243, 220, 166, .9)); }
+  .caramelo.aparece { animation: car-sale .7s cubic-bezier(.2, 1.6, .4, 1), car-flota 2s ease-in-out .7s infinite; }
+  .caramelo.golpe .car-cuerpo { animation: car-golpe .3s ease; }
+  .caramelo.atrapado { animation: car-atrapa .9s ease forwards; }
+  .caramelo.quieto { position: relative; transform: none; width: max-content; margin: 4px auto 10px; justify-content: center; animation: car-flota2 2s ease-in-out infinite; }
+  @keyframes car-flota2 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  @keyframes car-sale { from { transform: translate(-50%, -50%) scale(0) rotate(-180deg); } to { transform: translate(-50%, -50%) scale(1) rotate(0); } }
+  @keyframes car-flota { 0%, 100% { margin-top: 0; } 50% { margin-top: -12px; } }
+  @keyframes car-golpe { 50% { transform: scale(1.25) rotate(18deg); filter: brightness(1.5); } }
+  @keyframes car-atrapa { 40% { transform: translate(-50%, -50%) scale(1.5) rotate(20deg); } 100% { transform: translate(-50%, -50%) scale(0) rotate(360deg); opacity: 0; } }
+  .car-cuerpo { position: relative; width: 96px; height: 96px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff6d8 0%, #f3dca6 22%, #d9b46a 55%, #8a6420 100%); border: 2px solid #fff1c9; display: grid; place-items: center; }
+  .car-cuerpo i { width: 68px; height: 68px; border-radius: 50%; background: repeating-conic-gradient(rgba(140, 26, 55, .35) 0 30deg, transparent 30deg 60deg); }
+  .car-ala { width: 0; height: 0; border-top: 28px solid transparent; border-bottom: 28px solid transparent; }
+  .car-ala.izq { border-right: 40px solid #d9b46a; margin-right: -6px; }
+  .car-ala.der { border-left: 40px solid #d9b46a; margin-left: -6px; }
+  .car-chispas { position: absolute; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; }
+  .car-chispas span { position: absolute; color: #fff3d6; font-size: 16px; text-shadow: 0 0 8px #f3dca6; transform: rotate(var(--a)) translateY(-86px) rotate(calc(-1 * var(--a))); animation: titila 1.4s ease-in-out infinite; }
+  .car-foto { position: relative; display: block; width: 128px; height: 128px; border-radius: 50%; padding: 4px; background: conic-gradient(#f3dca6, #d9b46a, #8a6420, #f3dca6, #d9b46a); box-shadow: 0 0 0 4px rgba(243, 220, 166, .35), 0 0 30px rgba(243, 220, 166, .8); }
+  .car-foto img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; border: 3px solid #1a0d10; }
+  .car-emo { position: absolute; font-size: 26px; animation: baila 1.2s ease-in-out infinite; }
+  .car-emo.e1 { left: -22px; top: 6px; } .car-emo.e2 { right: -20px; top: -6px; animation-delay: .3s; } .car-emo.e3 { right: -14px; bottom: 0; animation-delay: .6s; }
+  .caramelo.con-foto.golpe .car-foto { animation: car-golpe .3s ease; }
+  .lienzo3d { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: manipulation; }
+  .caza-ok.regalo-ok { position: absolute; left: 50%; top: auto; bottom: calc(36px + env(safe-area-inset-bottom)); transform: translateX(-50%); width: min(380px, calc(100% - 28px)); z-index: 4; }
+  .regalo2d { position: absolute; transform: translate(-50%, -50%); font-size: 96px; background: none; border: 0; cursor: pointer; transition: left .35s ease, top .35s ease; filter: drop-shadow(0 0 18px rgba(243, 220, 166, .9)); animation: car-flota 2s ease-in-out infinite; }
+  .caza-ok { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(380px, calc(100% - 28px)); }
+  .caza-ok .boton { margin-top: 6px; }
+  /* ---------- Álbum (zona distinta) ---------- */
+  .separador { display: flex; align-items: center; gap: 10px; margin: 34px 0 18px; color: var(--muted); font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+  .separador::before, .separador::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(217, 180, 106, .6), transparent); }
+  #album { scroll-margin-top: 16px; }
+  .album-zona { position: relative; margin: 0 0 16px; padding: 64px 18px 20px; border-radius: 24px; text-align: center; overflow: hidden;
+    background: radial-gradient(circle at 15% 0%, rgba(255, 111, 89, .45), transparent 55%), radial-gradient(circle at 100% 100%, rgba(195, 198, 206, .22), transparent 50%), linear-gradient(160deg, #5a1024, #2a0c14 70%);
+    border: 2px solid rgba(255, 111, 89, .7); box-shadow: 0 18px 44px rgba(0, 0, 0, .5), inset 0 0 40px rgba(255, 111, 89, .12); }
+  .album-zona.resalta { animation: resalta 1.6s ease; }
+  .polas { position: absolute; left: 0; right: 0; top: 10px; height: 60px; }
+  .pola { position: absolute; top: 0; width: 52px; height: 58px; padding: 5px 5px 14px; background: #fff; border-radius: 3px; box-shadow: 0 6px 16px rgba(0, 0, 0, .4); display: grid; place-items: center; font-size: 26px; animation: baila 3s ease-in-out infinite; }
+  .pola.p1 { left: calc(50% - 86px); transform: rotate(-12deg); }
+  .pola.p2 { left: calc(50% - 26px); top: -4px; animation-delay: -1s; }
+  .pola.p3 { left: calc(50% + 34px); transform: rotate(12deg); animation-delay: -2s; }
+  .album-t { font-family: var(--display); font-size: 30px; color: #fff3e8; margin: 6px 0 6px; text-shadow: 0 2px 12px rgba(0, 0, 0, .5); }
+  .album-s { margin: 0 auto 6px; max-width: 34ch; color: #f6e2dc; }
+  .album-nota { margin: 0 0 14px; font-size: 13px; color: #ffcabd; font-weight: 700; }
+  .album-btn { background: #fff3e8; color: #5a1024; font-size: 17px; box-shadow: 0 8px 22px rgba(0, 0, 0, .35); }
+  .album-zona .album-lista { text-align: left; color: #fff3e8; }
+
+  /* ---------- Brillos y movimiento ---------- */
+  .fondo-brillos { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .fondo-brillos span { position: absolute; bottom: -20px; color: #f3dca6; text-shadow: 0 0 8px rgba(243, 220, 166, .8); opacity: .55; animation: sube linear infinite, titila ease-in-out infinite; }
+  @keyframes sube { from { transform: translateY(0); } to { transform: translateY(-115vh); } }
+  @keyframes titila { 0%, 100% { opacity: .15; } 50% { opacity: .8; } }
+  .wrap { position: relative; z-index: 1; }
+  .cab-foto-caja { position: relative; width: 140px; height: 120px; margin: 0 auto; }
+  .cab-foto-caja .cab-foto { position: absolute; left: 28px; top: 12px; margin: 0; animation: foto-flota 3.4s ease-in-out infinite; }
+  @keyframes foto-flota { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+  .orbita { position: absolute; font-size: 20px; animation: baila 2.2s ease-in-out infinite; }
+  .o0 { left: 0; top: 6px; } .o1 { right: 0; top: 0; animation-delay: .3s; } .o2 { left: -6px; top: 62px; animation-delay: .6s; }
+  .o3 { right: -4px; top: 58px; animation-delay: .9s; font-size: 16px; } .o4 { left: 18px; bottom: -6px; animation-delay: 1.2s; } .o5 { right: 16px; bottom: -8px; animation-delay: 1.5s; }
+  @keyframes baila { 0%, 100% { transform: translateY(0) rotate(-10deg); } 50% { transform: translateY(-7px) rotate(10deg); } }
+  .cab h1 { background-size: 220% 100%; animation: brillo-txt 4s linear infinite; }
+  @keyframes brillo-txt { to { background-position: -220% 0; } }
+  .m-ico { animation: baila 3s ease-in-out infinite; }
+  .tarjeta.mision:nth-child(odd) .m-ico { animation-delay: -1.2s; }
+  .sello.ok { animation: sello-brillo 2.6s ease-in-out infinite; }
+  .sello.ok.nuevo { animation: sello-pop .7s cubic-bezier(.2, 1.6, .4, 1), sello-brillo 2.6s ease-in-out .7s infinite; }
+  @keyframes sello-brillo { 0%, 100% { box-shadow: 0 0 0 4px rgba(217, 180, 106, .18), 0 0 12px rgba(217, 180, 106, .25); } 50% { box-shadow: 0 0 0 4px rgba(217, 180, 106, .35), 0 0 26px rgba(243, 220, 166, .6); } }
+  .brilla { animation: borde-brilla 3.5s ease-in-out infinite; }
+  @keyframes borde-brilla { 0%, 100% { box-shadow: 0 12px 34px rgba(0, 0, 0, .35), 0 0 0 0 rgba(217, 180, 106, 0); } 50% { box-shadow: 0 12px 34px rgba(0, 0, 0, .35), 0 0 22px rgba(217, 180, 106, .3); } }
+  /* CTA álbum */
+  .cta-album { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; padding: 12px 16px; border-radius: 16px; text-decoration: none; color: var(--text);
+    background: linear-gradient(120deg, rgba(255, 111, 89, .22), rgba(140, 26, 55, .4)); border: 1px solid rgba(255, 111, 89, .55); font-size: 14.5px; line-height: 1.3; }
+  .cta-album b { font-size: 15.5px; }
+  .cta-ico { font-size: 28px; animation: baila 2.4s ease-in-out infinite; }
+  .cta-fl { margin-left: auto; font-size: 20px; animation: salta 1.4s ease-in-out infinite; }
+  @keyframes salta { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+  .btn-fotos { position: fixed; right: 14px; bottom: 16px; z-index: 40; display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px 10px 12px; border-radius: 999px; border: 1px solid rgba(217, 180, 106, .6);
+    background: rgba(26, 16, 19, .94); color: var(--accent); font: inherit; font-weight: 800; font-size: 14.5px; cursor: pointer; box-shadow: 0 8px 24px rgba(0, 0, 0, .5); transition: transform .3s ease, opacity .3s ease; animation: foto-flota 3s ease-in-out infinite; }
+  .btn-fotos.oculto { opacity: 0; pointer-events: none; transform: translateY(80px); animation: none; }
+  .tarjeta.resalta { animation: resalta 1.6s ease; }
+  @keyframes resalta { 0%, 100% { box-shadow: 0 12px 34px rgba(0, 0, 0, .35); } 30% { box-shadow: 0 0 0 4px var(--accent), 0 0 30px rgba(217, 180, 106, .5); } }
+  /* Ranking con barritas */
+  .rank li.top { background: linear-gradient(90deg, rgba(217, 180, 106, .16), rgba(255, 255, 255, .02)); }
+  .r-pos { font-size: 18px; text-align: center; }
+  .r-n { display: grid; gap: 4px; min-width: 0; }
+  .r-n > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
+  .r-barra { display: block; height: 5px; border-radius: 999px; background: rgba(255, 255, 255, .08); overflow: hidden; }
+  .r-barra i { display: block; height: 100%; background: linear-gradient(90deg, var(--accent), var(--coral)); border-radius: 999px; }
+  /* Participantes */
+  .part-t { margin: 0 0 10px; text-align: center; color: var(--accent); font-weight: 700; }
+  .nube { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+  .nube-n { display: inline-block; padding: 6px 12px; border-radius: 999px; font-size: 14px; font-weight: 700; white-space: nowrap; background: rgba(217, 180, 106, .14); border: 1px solid rgba(217, 180, 106, .45); animation: foto-flota 3s ease-in-out infinite; }
+  .nube-n:nth-child(3n) { background: rgba(140, 26, 55, .35); border-color: rgba(255, 111, 89, .45); }
+  .nube-n:nth-child(4n) { background: rgba(195, 198, 206, .12); border-color: rgba(195, 198, 206, .4); }
+  .part .vacio, .rank .vacio { text-align: center; color: var(--muted); margin: 0; }
+
+  /* ---------- Horarios ---------- */
+  .tarjeta.bloqueada { border-style: dashed; border-color: rgba(195, 198, 206, .3); background: rgba(26, 16, 19, .7); box-shadow: none; }
+  .tarjeta.bloqueada .m-ico { filter: grayscale(1); opacity: .5; animation: none; position: relative; }
+  .tarjeta.bloqueada .m-t, .tarjeta.bloqueada .m-x { opacity: .55; }
+  .candado { display: block; padding: 8px 12px; border-radius: 12px; background: rgba(255, 255, 255, .05); border: 1px solid rgba(195, 198, 206, .25); color: var(--plata); font-weight: 700; font-size: 14.5px; }
+  .candado b { color: var(--accent); }
+  .tarjeta.cerrada { opacity: .7; }
+  .hora-chip { display: inline-block; margin-left: 6px; padding: 1px 8px; border-radius: 999px; font-size: 11px; letter-spacing: .06em; background: rgba(217, 180, 106, .14); color: var(--accent); border: 1px solid rgba(217, 180, 106, .35); vertical-align: 1px; }
+  .tarjeta.recien { animation: resalta 1.6s ease 2; }
+  .sello.lock { opacity: .3; }
+  .sello.lock::after { content: "🔒"; position: absolute; right: -4px; bottom: -4px; font-size: 14px; filter: none; }
+  .proxima { margin: 12px 0 0; padding: 10px 12px; border-radius: 12px; background: rgba(255, 111, 89, .1); border: 1px solid rgba(255, 111, 89, .35); font-size: 14.5px; text-align: center; color: #ffd9cf; }
+  .proxima b { color: #fff3e8; }
+  .proxima.fin { background: rgba(217, 180, 106, .14); border-color: var(--accent); color: #f3dca6; }
+  /* Reloj de prueba */
+  .evid { margin: -2px 0 10px; padding: 8px 10px; border-radius: 10px; background: rgba(217, 180, 106, .08); border-left: 3px solid var(--accent); font-size: 13.5px; color: #eadfc9; line-height: 1.4; }
+  .tarjeta.bloqueada .evid { opacity: .6; }
+  .bloque-t { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 22px 2px 10px; padding-bottom: 6px; border-bottom: 1px solid rgba(217, 180, 106, .3); }
+  .bloque-t b { font-family: var(--display); font-size: 19px; color: #f3dca6; font-weight: 600; }
+  .bloque-t span { font-size: 12.5px; font-weight: 800; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
+  .bloque-t span.abierta { background: rgba(155, 227, 180, .14); color: var(--ok); border: 1px solid rgba(155, 227, 180, .4); }
+  .bloque-t span.pronto { background: rgba(255, 255, 255, .05); color: var(--plata); border: 1px solid rgba(195, 198, 206, .3); }
+  .reloj { position: fixed; left: 12px; bottom: 16px; z-index: 45; font: inherit; }
+  .reloj-b { display: inline-flex; align-items: center; gap: 6px; padding: 9px 14px; border-radius: 999px; border: 1px solid var(--coral); background: rgba(26, 16, 19, .95); color: #ffcabd; font: inherit; font-weight: 800; font-size: 14px; cursor: pointer; box-shadow: 0 8px 24px rgba(0, 0, 0, .5); }
+  .reloj-p { position: absolute; left: 0; bottom: 48px; width: min(300px, calc(100vw - 24px)); padding: 12px; border-radius: 16px; background: var(--surface); border: 1px solid var(--coral); box-shadow: 0 14px 40px rgba(0, 0, 0, .6); }
+  .reloj-p[hidden] { display: none; }
+  .reloj-p p { margin: 0 0 8px; font-size: 13px; color: var(--muted); }
+  .reloj-g { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .reloj-g button, .reloj-x button { padding: 7px 4px; border-radius: 10px; border: 1px solid rgba(217, 180, 106, .4); background: rgba(217, 180, 106, .08); color: var(--text); font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+  .reloj-g button.act { background: var(--accent); color: #241006; }
+  .reloj-x { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; }
+  /* ===== v4: más llamativo ===== */
+  .parte { margin: 0 0 10px; padding: 10px 10px 12px; border-radius: 14px; background: rgba(255, 255, 255, .025); border: 1px dashed rgba(195, 198, 206, .22); }
+  .parte.abierta { background: linear-gradient(135deg, rgba(255, 111, 89, .12), rgba(217, 180, 106, .06)); border: 1px solid rgba(255, 111, 89, .45); }
+  .parte-cab { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin: 0 2px 8px; }
+  .parte-cab b { font-size: 14px; color: #f3dca6; }
+  .parte-cab span { font-size: 12px; font-weight: 800; color: var(--plata); white-space: nowrap; }
+  .parte.abierta .parte-cab span { color: var(--ok); }
+  .sello { font: inherit; font-size: 23px; color: inherit; padding: 0; cursor: pointer; }
+  .sello.disp { filter: none; opacity: 1; border: 2.5px solid var(--coral); background: rgba(255, 111, 89, .14); animation: disp-pulso 1.8s ease-in-out infinite; }
+  @keyframes disp-pulso { 0%, 100% { box-shadow: 0 0 0 0 rgba(255, 111, 89, .55); } 50% { box-shadow: 0 0 0 7px rgba(255, 111, 89, 0); } }
+  .sello.lock { opacity: .28; }
+  .leyenda { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 14px; margin: 4px 0 0; font-size: 12.5px; color: var(--muted); font-weight: 700; }
+  .leyenda span { display: inline-flex; align-items: center; gap: 5px; }
+  .lg { width: 13px; height: 13px; border-radius: 50%; display: inline-block; }
+  .lg.ok { background: radial-gradient(circle at 35% 30%, #b02a4c, var(--vino)); border: 2px solid var(--accent); }
+  .lg.disp { border: 2px solid var(--coral); background: rgba(255, 111, 89, .25); }
+  .lg.lock { border: 2px dashed rgba(195, 198, 206, .5); }
+  .ver-carrera { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 14px; padding: 12px 14px; border-radius: 14px; border: 1.5px solid var(--accent); background: rgba(217, 180, 106, .12); color: #f3dca6; font-size: 15px; }
+  .vc-fl { animation: salta 1.4s ease-in-out infinite; }
+  .como h3 { font-size: 20px; color: var(--accent); margin-bottom: 8px; }
+  .como ol { margin: 0; padding-left: 22px; display: grid; gap: 7px; font-size: 14.5px; color: #e9dfd6; }
+  .como b { color: #fff3e8; }
+  .btn-carrera { position: fixed; left: 14px; bottom: 16px; z-index: 40; display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px 10px 12px; border-radius: 999px; border: 1px solid rgba(255, 111, 89, .7);
+    background: rgba(26, 16, 19, .94); color: #ffcabd; font: inherit; font-weight: 800; font-size: 14.5px; cursor: pointer; box-shadow: 0 8px 24px rgba(0, 0, 0, .5); transition: transform .3s ease, opacity .3s ease; }
+  .btn-carrera.oculto { opacity: 0; pointer-events: none; transform: translateY(80px); }
+  .btn-fotos { background: linear-gradient(100deg, #ff6f59, #d9b46a); color: #241006; border-color: #f3dca6; }
+  .cta-album { background: linear-gradient(110deg, #ff6f59, #c2264b 55%, #8c1a37); border: 1.5px solid #f3dca6; box-shadow: 0 8px 26px rgba(255, 111, 89, .35); color: #fff; }
+  .album-zona { background: radial-gradient(circle at 20% 0%, rgba(255, 220, 160, .55), transparent 50%), linear-gradient(155deg, #ff6f59, #c2264b 45%, #6d1129); border: 2.5px solid #f3dca6; animation: album-brillo 2.6s ease-in-out infinite; }
+  @keyframes album-brillo { 0%, 100% { box-shadow: 0 18px 44px rgba(0, 0, 0, .5), 0 0 0 0 rgba(243, 220, 166, 0); } 50% { box-shadow: 0 18px 44px rgba(0, 0, 0, .5), 0 0 30px 4px rgba(243, 220, 166, .45); } }
+  .album-ceja { margin: 6px 0 0; font-size: 12px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: #fff3d6; }
+  .album-t { font-size: 32px; color: #fff; }
+  .album-s { color: #fff; font-weight: 600; }
+  .album-nota { color: #fff3d6; }
+  .album-btn { background: linear-gradient(100deg, #f3dca6, #fff3e8, #d9b46a); color: #5a1024; font-size: 18px; padding: 16px; box-shadow: 0 8px 22px rgba(0, 0, 0, .35); animation: disp-pulso2 1.8s ease-in-out infinite; }
+  @keyframes disp-pulso2 { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
+  .reloj { left: auto; right: 8px; top: 8px; bottom: auto; }
+  .reloj-b { padding: 6px 10px; font-size: 12px; opacity: .9; }
+  .reloj-p { left: auto; right: 0; top: 46px; bottom: auto; }
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div class="toast" id="toast" role="status"></div>
+<div class="puzzle-fondo" id="puzzle" hidden></div>
+<script>
+(function () {
+  "use strict";
+  var P = window.PASAPORTE, API = String(P.api || "").trim();
+  var app = document.getElementById("app");
+  var LS = { id: "pasaporte-id", nombre: "pasaporte-nombre", sellos: "pasaporte-sellos", rank: "pasaporte-rank-demo" };
+  function lee(k, d) { try { var v = localStorage.getItem(k); return v === null ? d : v; } catch (e) { return d; } }
+  function guarda(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  function el(tag, attrs) {
+    var n = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) {
+      var v = attrs[k]; if (v === null || v === undefined || v === false) return;
+      if (k === "class") n.className = v; else if (k === "text") n.textContent = v; else n.setAttribute(k, v === true ? "" : v);
+    });
+    for (var i = 2; i < arguments.length; i++) (function poner(c) {
+      if (c === null || c === undefined || c === false) return;
+      if (Array.isArray(c)) { c.forEach(poner); return; }
+      n.appendChild(typeof c === "string" ? document.createTextNode(c) : c);
+    })(arguments[i]);
+    return n;
+  }
+  function norm(t) { return String(t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, " ").trim(); }
+  var toastT;
+  function toast(t) { var x = document.getElementById("toast"); x.textContent = t; x.classList.add("ver"); clearTimeout(toastT); toastT = setTimeout(function () { x.classList.remove("ver"); }, 3200); }
+
+  var id = lee(LS.id, "");
+  if (!id) { id = "P" + Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2, 6).toUpperCase(); guarda(LS.id, id); }
+  var nombre = lee(LS.nombre, "");
+  var sellos = {}; try { sellos = JSON.parse(lee(LS.sellos, "{}")) || {}; } catch (e) {}
+  var ranking = null, nuevoSello = null, participantes = null, miPuesto = null, ultimaAct = 0;
+  var params = new URLSearchParams(location.search);
+
+  // ---------- HORARIOS ----------
+  P.misiones.sort(function (a, b) { return String(a.desde || "00:00").localeCompare(String(b.desde || "00:00")); });
+  var desfase = 0;                  // diferencia con la hora del servidor (si la envía)
+  var prueba = null;                // { base: ms simulado, real: ms real cuando se fijó }
+  var MODO_RELOJ = !API || String(params.get("clave") || "").toUpperCase() === String(P.clave).toUpperCase();
+  function horaMs(hhmm) { return Date.parse(P.fecha + "T" + hhmm + ":00-05:00"); }
+  function ahora() { return prueba ? prueba.base + (Date.now() - prueba.real) : Date.now() + desfase; }
+  function fijarHora(hhmm) { prueba = hhmm ? { base: horaMs(hhmm), real: Date.now() } : null; }
+  function activa(m) { return !m.desde || ahora() >= horaMs(m.desde); }
+  function cerrado() { return !!P.cierre && ahora() >= horaMs(P.cierre); }
+  function fmtHora(hhmm) { var p = hhmm.split(":"), h = +p[0], ap = h >= 12 ? "p. m." : "a. m."; h = h % 12 || 12; return h + ":" + p[1] + " " + ap; }
+  function fmtFalta(ms) {
+    var min = Math.ceil(ms / 60000);
+    if (min <= 1) return "en menos de 1 min";
+    if (min < 60) return "en " + min + " min";
+    var h = Math.floor(min / 60), r = min % 60;
+    if (h >= 24) return Math.round(h / 24) === 1 ? "mañana" : "en " + Math.round(h / 24) + " días";
+    return "en " + h + " h" + (r ? " " + r + " min" : "");
+  }
+  function proxima() { var t = ahora(); return P.misiones.filter(function (m) { return m.desde && horaMs(m.desde) > t; })[0] || null; }
+  function firmaHorario() { return P.misiones.map(function (m) { return activa(m) ? 1 : 0; }).join("") + (cerrado() ? "C" : ""); }
+  function esSecreta(m) { return m.tipo === "secreto" && !activa(m) && !sellos[m.id]; }
+  if (params.get("hora") && MODO_RELOJ && /^\d{1,2}:\d{2}$/.test(params.get("hora"))) fijarHora(("0" + params.get("hora")).slice(-5));
+
+  // ---------- conexión ----------
+  function post(obj, progreso) {
+    return new Promise(function (ok, mal) {
+      if (!API) { // modo prueba: simula la subida
+        var p = 0, t = setInterval(function () { p += 20; if (progreso) progreso(Math.min(p, 100)); if (p >= 100) { clearInterval(t); ok({ ok: true }); } }, 160);
+        return;
+      }
+      var x = new XMLHttpRequest();
+      x.open("POST", API);
+      x.setRequestHeader("Content-Type", "text/plain;charset=utf-8");
+      if (progreso && x.upload) x.upload.onprogress = function (e) { if (e.lengthComputable) progreso(Math.round(e.loaded / e.total * 100)); };
+      x.onload = function () { try { ok(JSON.parse(x.responseText)); } catch (e) { ok({ ok: true, sinRespuesta: true }); } };
+      x.onerror = function () { mal(new Error("red")); };
+      x.timeout = 180000; x.ontimeout = function () { mal(new Error("tiempo")); };
+      x.send(JSON.stringify(obj));
+    });
+  }
+  function cargarEstado() {
+    if (!API) {
+      try { ranking = JSON.parse(lee(LS.rank, "[]")); } catch (e) { ranking = []; }
+      if (!ranking.length) ranking = [{ n: "Sol S.", s: 5 }, { n: "Wynne P.", s: 5 }, { n: "Frank L.", s: 4 }, { n: "Camila H.", s: 4 }, { n: "Brenda C.", s: 3 }, { n: "Luis A.", s: 3 },
+        { n: "Gianella B.", s: 3 }, { n: "Rómulo A.", s: 2 }, { n: "Stephanie A.", s: 2 }, { n: "Brunella C.", s: 2 }, { n: "Catherina R.", s: 1 }, { n: "Kory M.", s: 1 }];
+      participantes = participantesDemo();
+      var k = -1; ranking.forEach(function (x, i) { if (norm(x.n) === norm(corto(nombre))) k = i; });
+      miPuesto = k >= 0 ? { pos: k + 1, s: ranking[k].s, n: ranking[k].n } : null;
+      ultimaAct = Date.now();
+      return Promise.resolve();
+    }
+    return fetch(API + (API.indexOf("?") < 0 ? "?" : "&") + "id=" + encodeURIComponent(id) + "&t=" + Date.now())
+      .then(function (r) { return r.json(); })
+      .then(function (E) {
+        ranking = (E && E.ranking) || [];
+        participantes = (E && E.participantes) || [];
+        miPuesto = (E && E.miPuesto) || null;
+        ultimaAct = Date.now();
+        if (E && E.ahora && Math.abs(E.ahora - Date.now()) > 60000) desfase = E.ahora - Date.now();
+        if (E && E.yo && E.yo.sellos) { Object.keys(E.yo.sellos).forEach(function (k) { if (E.yo.sellos[k]) sellos[k] = true; }); guarda(LS.sellos, JSON.stringify(sellos)); }
+      }).catch(function () { if (ranking === null) ranking = []; if (participantes === null) participantes = []; });
+  }
+  function participantesDemo() {
+    var yo = nombre ? nombre.split(" ")[0] : "";
+    var l = ["Brenda", "Sol", "Frank", "Camila", "Wynne", "Luis", "Gianella", "Rómulo"];
+    if (yo && l.indexOf(yo) < 0) l.unshift(yo);
+    return l;
+  }
+  function corto(n) { var p = String(n).trim().split(/\s+/); return p[0] + (p[1] ? " " + p[1].charAt(0).toUpperCase() + "." : ""); }
+  function total() { return P.misiones.filter(function (m) { return sellos[m.id]; }).length; }
+  function marcar(mid) {
+    sellos[mid] = true; nuevoSello = mid; guarda(LS.sellos, JSON.stringify(sellos));
+    if (!API) { // ranking de prueba
+      var l = ranking || [], c = corto(nombre), k = -1;
+      l.forEach(function (x, i) { if (norm(x.n) === norm(c)) k = i; });
+      if (k < 0) l.push({ n: c, s: total(), fin: total() === P.misiones.length }); else { l[k].s = total(); l[k].fin = total() === P.misiones.length; }
+      var yoObj = l[k < 0 ? l.length - 1 : k]; l.splice(l.indexOf(yoObj), 1);
+      var ins = l.findIndex(function (x) { return x.s < yoObj.s; }); l.splice(ins < 0 ? l.length : ins, 0, yoObj);
+      ranking = l; guarda(LS.rank, JSON.stringify(l));
+    }
+    pintar(); pintarRanking();
+    var n = total();
+    if (n === P.misiones.length) { confeti(220); toast("🏆 ¡Completaste tu pasaporte!"); }
+    else { confeti(80); toast("✨ ¡Sello conseguido! Llevas " + n + " de " + P.misiones.length); }
+    if (API) setTimeout(function () { cargarEstado().then(function () { pintarRanking(); pintarParticipantes(); }); }, 1500);
+  }
+
+  // ---------- leer foto (tamaño original) ----------
+  function leerFoto(file) {
+    return new Promise(function (ok, mal) {
+      if (!/^image\//.test(file.type) && !/\.(heic|heif|jpe?g|png)$/i.test(file.name)) return mal(new Error("Solo se pueden subir fotos."));
+      if (file.size > 25 * 1024 * 1024) return mal(new Error("La foto es muy pesada (más de 25 MB)."));
+      var r = new FileReader();
+      r.onload = function () { ok({ datos: String(r.result).split(",")[1], tipo: file.type || "image/jpeg" }); };
+      r.onerror = function () { mal(new Error("No se pudo leer la foto.")); };
+      r.readAsDataURL(file);
+    });
+  }
+
+  // ---------- pantallas ----------
+  function cabecera() {
+    return el("header", { class: "cab" },
+      el("div", { class: "cab-foto-caja" },
+        el("img", { class: "cab-foto", src: P.foto, alt: "Arturo" }),
+        ["🎉", "🍹", "💃", "✨", "🕺", "🥂"].map(function (e, i) { return el("span", { class: "orbita o" + i, "aria-hidden": "true", text: e }); })),
+      el("p", { class: "cab-ceja", text: "Cumple Arturo · 7 de noviembre" }),
+      el("h1", { text: "Pasaporte de la fiesta" }),
+      el("p", { text: "Cumple las misiones y junta los " + P.misiones.length + " sellos." }),
+      el("p", { style: "margin:8px auto 0;max-width:36ch;padding:8px 12px;border-radius:12px;background:rgba(217,180,106,.14);border:1px solid rgba(217,180,106,.5);color:#f3dca6;font-weight:700", text: "🎁 ¡El primero en completar todo el pasaporte gana un premio sorpresa!" }),
+      el("p", { style: "margin-top:6px;font-size:14px;color:#f3dca6", text: "⏰ Las misiones se abren en 3 partes: 6:00, 8:00 y 10:00 p. m. Las que ya se abrieron siguen disponibles hasta las " + fmtHora(P.cierre) + " 🙌" }));
+  }
+  function pantallaNombre() {
+    app.innerHTML = "";
+    app.appendChild(cabecera());
+    var campo = el("input", { class: "campo", type: "text", maxlength: "40", autocomplete: "name", placeholder: "Ej.: María Pérez", "aria-label": "Tu nombre y apellido" });
+    var err = el("p", { class: "err" });
+    var b = el("button", { class: "boton", type: "button", text: "🎟️ Abrir mi pasaporte" });
+    function seguir() {
+      var n = campo.value.trim().replace(/\s+/g, " ");
+      if (n.split(" ").length < 2) { err.textContent = "Escribe tu nombre y apellido 🙂"; campo.focus(); return; }
+      nombre = n; guarda(LS.nombre, n);
+      post({ tipo: "registro", id: id, nombre: n }).catch(function () {});
+      principal();
+    }
+    b.addEventListener("click", seguir);
+    campo.addEventListener("keydown", function (e) { if (e.key === "Enter") seguir(); });
+    app.appendChild(el("section", { class: "tarjeta" },
+      el("h2", { text: "¿Cómo te llamas?", style: "font-size:22px;margin-bottom:4px" }),
+      el("p", { class: "m-x", text: "Así sabremos de quién es cada sello." }),
+      campo, err, b));
+    if (!API) app.prepend(el("p", { class: "aviso-demo", text: "Modo prueba: nada se guarda en la hoja." }));
+  }
+
+  var zonaProgreso, zonaRanking, zonaPart;
+  function irAAlbum() {
+    var a = document.getElementById("album"); if (!a) return;
+    a.scrollIntoView({ behavior: "smooth", block: "start" });
+    var t = a.nextElementSibling; if (t) { t.classList.remove("resalta"); void t.offsetWidth; t.classList.add("resalta"); }
+  }
+  function principal() {
+    app.innerHTML = "";
+    document.querySelectorAll(".btn-fotos, .btn-carrera").forEach(function (x) { x.remove(); });
+    if (!API) app.appendChild(el("p", { class: "aviso-demo", text: "Modo prueba: las fotos no se suben de verdad." }));
+    app.appendChild(cabecera());
+    var irAlbum = el("a", { href: "#album", class: "cta-album" }, el("span", { class: "cta-ico", "aria-hidden": "true", text: "📸" }),
+      el("span", null, el("b", { text: "¿Tienes fotos de la fiesta?" }), el("br"), el("span", { text: "Súbelas aquí al álbum para todos" })), el("span", { class: "cta-fl", "aria-hidden": "true", text: "👇" }));
+    irAlbum.addEventListener("click", function (e) { e.preventDefault(); irAAlbum(); });
+    app.appendChild(irAlbum);
+    zonaProgreso = el("section", { class: "tarjeta", "aria-live": "polite" });
+    app.appendChild(zonaProgreso);
+    app.appendChild(el("section", { class: "tarjeta como" },
+      el("h3", { text: "📖 ¿Cómo se juega?" }),
+      el("ol", null,
+        el("li", null, el("b", { text: "Las misiones se abren en 3 partes: " }), "6:00, 8:00 y 10:00 p. m. Las que ya se abrieron siguen disponibles hasta las " + fmtHora(P.cierre) + "."),
+        el("li", null, el("b", { text: "Cumple cada misión " }), "y sube tu foto como evidencia con el botón «📸 Subir mi foto». Se guarda en el Drive de la fiesta."),
+        el("li", null, el("b", { text: "Al subirla, se marca tu sello " }), "y avanzas en la carrera 🏃."),
+        el("li", null, el("b", { text: "¡El primero en juntar los " + P.misiones.length + " sellos gana un premio sorpresa! 🎁" })))));
+    app.appendChild(el("h2", { class: "sec-t", text: "✨ Misiones ✨" }));
+    var bAnt = null;
+    P.misiones.forEach(function (m) {
+      if (P.bloques && m.desde !== bAnt && P.bloques[m.desde]) { bAnt = m.desde; app.appendChild(cabBloque(m.desde)); }
+      app.appendChild(tarjetaMision(m));
+    });
+    app.appendChild(el("h2", { class: "sec-t", id: "carrera", text: "🏁 La carrera de los sellos" }));
+    zonaRanking = el("section", { class: "tarjeta rank brilla" });
+    app.appendChild(zonaRanking);
+    app.appendChild(el("h2", { class: "sec-t", text: "🎟️ Ya están jugando" }));
+    zonaPart = el("section", { class: "tarjeta brilla part" });
+    app.appendChild(zonaPart);
+    app.appendChild(el("div", { class: "separador", "aria-hidden": "true" }, el("span", { text: "✦ aparte del pasaporte ✦" })));
+    var anc = el("div", { id: "album" }); app.appendChild(anc);
+    app.appendChild(tarjetaAlbum());
+    var flot = el("button", { type: "button", class: "btn-fotos", "aria-label": "Subir fotos al álbum" }, el("span", { text: "📸" }), el("span", { class: "bf-t", text: "Sube tus fotos" }));
+    flot.addEventListener("click", irAAlbum);
+    document.body.appendChild(flot);
+    var flotC = el("button", { type: "button", class: "btn-carrera", "aria-label": "Ver la carrera" }, el("span", { text: "🏁" }), el("span", { text: "Carrera" }));
+    flotC.addEventListener("click", function () { var c = document.getElementById("carrera"); if (c) c.scrollIntoView({ behavior: "smooth", block: "start" }); actualizar(false); });
+    document.body.appendChild(flotC);
+    if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { flotC.classList.toggle("oculto", es[0].isIntersecting); }).observe(zonaRanking);
+    if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { flot.classList.toggle("oculto", es[0].isIntersecting); }).observe(document.getElementById("album"));
+    var cambiar = el("a", { href: "#", text: "¿No eres " + nombre.split(" ")[0] + "?" });
+    cambiar.addEventListener("click", function (e) { e.preventDefault(); nombre = ""; guarda(LS.nombre, ""); pantallaNombre(); });
+    app.appendChild(el("p", { class: "pie" }, "Pasaporte de " + nombre + " · ", cambiar));
+    pintar(); pintarRanking(); pintarParticipantes();
+    cargarEstado().then(function () { pintar(); pintarRanking(); pintarParticipantes(); });
+  }
+  function pintar() {
+    if (!zonaProgreso) return;
+    var n = total(), T = P.misiones.length;
+    zonaProgreso.innerHTML = "";
+    zonaProgreso.appendChild(el("div", { class: "prog-t" }, el("b", { text: "Llevas " + n + " de " + T + " sellos" }), el("span", { text: n === T ? "¡Completo! 🎉" : "¡Sigue así!" })));
+    var grupos = [], gAct = null;
+    P.misiones.forEach(function (m) { if (!gAct || gAct.h !== m.desde) { gAct = { h: m.desde, ms: [] }; grupos.push(gAct); } gAct.ms.push(m); });
+    grupos.forEach(function (g) {
+      var ab = ahora() >= horaMs(g.h), hechas = g.ms.filter(function (m) { return sellos[m.id]; }).length;
+      var nom = (P.bloques && P.bloques[g.h]) || fmtHora(g.h);
+      zonaProgreso.appendChild(el("div", { class: "parte" + (ab ? " abierta" : "") },
+        el("div", { class: "parte-cab" }, el("b", { text: nom }),
+          el("span", { text: !ab ? "🔒 se abre " + fmtHora(g.h) : cerrado() ? "🏁 cerrada" : hechas === g.ms.length ? "✅ ¡completa!" : "🔓 abierta · " + hechas + "/" + g.ms.length })),
+        el("div", { class: "sellos" }, g.ms.map(function (m) {
+          var lk = !sellos[m.id] && !activa(m), disp = !sellos[m.id] && !lk && !cerrado();
+          var d = el("button", { type: "button", class: "sello" + (sellos[m.id] ? " ok" : "") + (lk ? " lock" : "") + (disp ? " disp" : "") + (nuevoSello === m.id ? " nuevo" : ""), title: esSecreta(m) ? "Misión secreta" : m.titulo,
+            "aria-label": (esSecreta(m) ? "Misión secreta" : m.titulo) + (sellos[m.id] ? ": conseguido" : lk ? ": se activa a las " + fmtHora(m.desde) : ": disponible"), text: esSecreta(m) ? "❓" : m.ico });
+          d.addEventListener("click", function () { var t = document.getElementById("t-" + m.id); if (t) { t.scrollIntoView({ behavior: "smooth", block: "center" }); t.classList.remove("resalta"); void t.offsetWidth; t.classList.add("resalta"); } });
+          return d;
+        }))));
+    });
+    zonaProgreso.appendChild(el("div", { class: "leyenda" },
+      el("span", null, el("i", { class: "lg ok" }), "Conseguido"), el("span", null, el("i", { class: "lg disp" }), "Disponible"), el("span", null, el("i", { class: "lg lock" }), "Aún cerrado")));
+    zonaProgreso.appendChild(lineaProxima());
+    if (n === T) zonaProgreso.appendChild(el("p", { class: "completo", text: "🏆 ¡Pasaporte completo! Acércate a Arturo y muéstrale esta pantalla. Si fuiste el primero, ¡el premio sorpresa es tuyo! 🎁" }));
+    var verC = el("a", { href: "#carrera", class: "ver-carrera" }, el("span", { text: "🏁 Toca aquí y mira cómo va la carrera" }), el("span", { class: "vc-fl", text: "👇" }));
+    verC.addEventListener("click", function (e) { e.preventDefault(); var c = document.getElementById("carrera"); if (c) c.scrollIntoView({ behavior: "smooth", block: "start" }); actualizar(false); });
+    zonaProgreso.appendChild(verC);
+    nuevoSello = null;
+    P.misiones.forEach(function (m) {
+      var t = document.getElementById("t-" + m.id); if (!t) return;
+      if (sellos[m.id] && !t.classList.contains("hecha")) t.replaceWith(tarjetaMision(m));
+    });
+  }
+  function lineaProxima() {
+    var n = total(), T = P.misiones.length, px = proxima();
+    if (cerrado()) return el("p", { class: "proxima fin", text: n === T ? "🏁 El pasaporte cerró. ¡Lo completaste! Ven a la premiación 🏆" : "🏁 El pasaporte cerró a las " + fmtHora(P.cierre) + " ¡Ven a la premiación! 🏆" });
+    if (!px) return el("p", { class: "proxima fin", text: "🔓 ¡Todas las misiones están activas! Cierra a las " + fmtHora(P.cierre) + " (" + fmtFalta(horaMs(P.cierre) - ahora()) + ")" });
+    var primera = P.misiones.every(function (m) { return !activa(m); });
+    return el("p", { class: "proxima" }, primera ? "⏰ Las primeras misiones se abren a las " : (P.bloques ? "⏰ Se abre la " : "⏰ Próxima misión: "),
+      primera ? null : el("b", { text: P.bloques && P.bloques[px.desde] ? P.bloques[px.desde] : (esSecreta(px) ? "❓ Misión secreta" : px.ico + " " + px.titulo) }), primera ? null : " a las ",
+      el("b", { text: fmtHora(px.desde) }), el("span", { class: "cuenta", "data-h": px.desde, text: " · " + fmtFalta(horaMs(px.desde) - ahora()) }));
+  }
+
+  // ---------- reloj: revisa cada 15 s si se desbloqueó algo ----------
+  var firma = firmaHorario();
+  function cuentas() { document.querySelectorAll(".cuenta").forEach(function (c) { c.textContent = " · " + fmtFalta(horaMs(c.getAttribute("data-h")) - ahora()); }); }
+  function revisarHorario(forzar) {
+    var f = firmaHorario();
+    if (f === firma && !forzar) { cuentas(); return; }
+    var antes = firma; firma = f;
+    if (!zonaProgreso) return;
+    var nuevas = [];
+    P.misiones.forEach(function (m, i) {
+      var t = document.getElementById("t-" + m.id); if (!t) return;
+      if (antes.charAt(i) === "0" && f.charAt(i) === "1" && !sellos[m.id]) nuevas.push(m);
+      if (forzar || t.getAttribute("data-e") !== estadoTarjeta(m)) { var nt = tarjetaMision(m); t.replaceWith(nt); if (nuevas.indexOf(m) >= 0) nt.classList.add("recien"); }
+    });
+    document.querySelectorAll(".bloque-t").forEach(function (b) { b.replaceWith(cabBloque(b.getAttribute("data-bloque"))); });
+    pintar(); cuentas();
+    if (forzar) return;
+    if (f.indexOf("C") >= 0 && antes.indexOf("C") < 0) { toast("🏁 ¡El pasaporte cerró! Ven a la premiación 🏆"); confeti(120); }
+    else if (nuevas.length) {
+      var m = nuevas[nuevas.length - 1], parte = P.bloques && P.bloques[m.desde];
+      toast(nuevas.length > 1 ? "🔓 ¡Se abrió la " + (parte ? parte.split(" · ")[0] : "nueva parte") + "! " + nuevas.length + " misiones nuevas" : "🔓 ¡Nueva misión desbloqueada! " + m.ico + " " + m.titulo);
+      confeti(90);
+      if (navigator.vibrate) try { navigator.vibrate([80, 60, 80]); } catch (e) {}
+    }
+  }
+  setInterval(function () { revisarHorario(false); }, 15000);
+  document.addEventListener("visibilitychange", function () { if (document.visibilityState === "visible") revisarHorario(false); });
+  function pintarRanking() {
+    if (!zonaRanking) return;
+    zonaRanking.innerHTML = "";
+    var T = P.misiones.length, med = ["🥇", "🥈", "🥉"], yo = corto(nombre);
+    if (!API && ranking) { var kk = -1; ranking.forEach(function (x, i) { if (norm(x.n) === norm(yo)) kk = i; }); miPuesto = kk >= 0 ? { pos: kk + 1, s: ranking[kk].s, n: ranking[kk].n } : null; }
+    var bAct = el("button", { type: "button", class: "btn-act", "aria-label": "Actualizar la carrera" }, el("span", { class: "act-ico", text: "🔄" }), el("span", { text: "Actualizar" }));
+    bAct.addEventListener("click", function () { actualizar(true); });
+    zonaRanking.appendChild(el("div", { class: "rank-cab" }, el("span", { class: "act-txt", id: "act-txt", text: textoAct() }), bAct));
+    if (!ranking || !ranking.length) { zonaRanking.appendChild(el("p", { class: "vacio", text: ranking === null ? "Cargando…" : "¡Aún nadie arranca! Sé el primero en salir 😎" })); }
+    else {
+      var pista = el("div", { class: "pista" },
+        el("div", { class: "pista-cab" }, el("span", { text: "🚦 Salida" }), el("span", { class: "meta-t", text: "META 🏁" })));
+      ranking.slice(0, 10).forEach(function (x, i) { pista.appendChild(carril(x, i, false)); });
+      if (miPuesto && miPuesto.pos > 10) pista.appendChild(carril({ n: miPuesto.n, s: miPuesto.s }, miPuesto.pos - 1, true));
+      zonaRanking.appendChild(pista);
+      zonaRanking.appendChild(el("p", { class: "pista-nota", text: "Cada punto es un sello. ¡El primero en llegar a la meta gana el premio sorpresa! 🎁" }));
+    }
+    if (!API) {
+      var sim = el("button", { type: "button", class: "boton sec sim", text: "🎲 Simular la carrera (solo prueba)" });
+      sim.addEventListener("click", simularCarrera);
+      zonaRanking.appendChild(sim);
+    }
+  }
+  // Solo en modo prueba: mueve a los jugadores de ejemplo para ver la carrera
+  function pasoSimulado() {
+    var T = P.misiones.length, yo = corto(nombre);
+    ranking.forEach(function (x) { if (norm(x.n) !== norm(yo) && x.s < T && Math.random() < .35) { x.s++; x.u = Date.now() + Math.random(); if (x.s === T) x.fin = true; } });
+    ranking.sort(function (a, b) { return (b.s - a.s) || ((a.u || 0) - (b.u || 0)); });
+    guarda(LS.rank, JSON.stringify(ranking));
+  }
+  function simularCarrera() {
+    var vueltas = 0;
+    var t = setInterval(function () {
+      pasoSimulado(); ultimaAct = Date.now(); pintarRanking();
+      if (++vueltas > 10) clearInterval(t);
+    }, 900);
+  }
+
+  function carril(x, i, esMio) {
+    var T = P.misiones.length, med = ["🥇", "🥈", "🥉"], pct = x.s / T * 100;
+    var puntos = el("div", { class: "carril-puntos" });
+    for (var k = 0; k <= T; k++) puntos.appendChild(el("i", { class: (k <= x.s ? "pasado" : "") + (k === T ? " fin" : ""), style: "left:" + (k / T * 100) + "%" }));
+    var corredor = el("span", { class: "corredor" + (i < 3 ? " c" + (i + 1) : "") + (x.fin ? " llego" : "") + (pct < 20 ? " izq" : pct > 80 ? " der" : ""), style: "left:" + pct + "%;animation-delay:-" + (i % 10 * 0.4).toFixed(1) + "s" },
+      el("span", { class: "c-nombre", text: (med[i] ? med[i] + " " : "") + (esMio ? "Tú · " : "") + x.n }), el("span", { class: "c-ico", text: x.fin ? "🏆" : "🏃" }));
+    var fila = el("div", { class: "carril" + (esMio || norm(x.n) === norm(corto(nombre)) ? " yo" : "") + (i < 3 ? " top" : "") },
+      el("span", { class: "carril-pos", text: (i + 1) + "°" }),
+      el("div", { class: "carril-via" }, el("div", { class: "carril-linea" }, el("i", { style: "width:" + pct + "%" })), puntos, corredor),
+      el("span", { class: "carril-n", text: x.s + "/" + T }));
+    if (!esMio) return fila;
+    return el("div", null, el("p", { class: "mi-sep", text: "· · · tu posición · · ·" }), fila,
+      el("p", { class: "mi-falta", text: "Vas " + (i + 1) + "° · te faltan " + (T - x.s) + " sello" + (T - x.s === 1 ? "" : "s") + " para la meta 💪" }));
+  }
+  function textoAct() {
+    if (!ultimaAct) return "Cargando…";
+    var seg = Math.round((Date.now() - ultimaAct) / 1000);
+    return seg < 5 ? "✓ Actualizado ahora" : "Actualizado hace " + (seg < 60 ? seg + " s" : Math.round(seg / 60) + " min");
+  }
+  var actualizando = false;
+  function actualizar(manual) {
+    if (actualizando || !zonaRanking) return;
+    actualizando = true;
+    var b = zonaRanking.querySelector(".btn-act"); if (b) b.classList.add("girando");
+    if (!API && manual) pasoSimulado();
+    var inicio = Date.now();
+    cargarEstado().then(function () {
+      setTimeout(function () { actualizando = false; pintar(); pintarRanking(); pintarParticipantes(); }, Math.max(0, 600 - (Date.now() - inicio)));
+    });
+  }
+  // cada 30 s se actualiza sola (solo si la página está a la vista)
+  setInterval(function () { if (zonaRanking && document.visibilityState === "visible") actualizar(false); }, 30000);
+  setInterval(function () { var t = document.getElementById("act-txt"); if (t) t.textContent = textoAct(); }, 5000);
+
+  function pintarParticipantes() {
+    if (!zonaPart) return;
+    zonaPart.innerHTML = "";
+    var emojis = ["🎉", "🥳", "💃", "🕺", "✨", "🍹", "🎶", "🪩", "😎", "🎈", "🥂", "🌟"];
+    if (participantes === null) { zonaPart.appendChild(el("p", { class: "vacio", text: "Cargando…" })); return; }
+    zonaPart.appendChild(el("p", { class: "part-t", text: participantes.length + (participantes.length === 1 ? " persona tiene" : " personas tienen") + " su pasaporte" }));
+    zonaPart.appendChild(el("div", { class: "nube" }, participantes.map(function (n, i) {
+      return el("span", { class: "nube-n", text: emojis[i % emojis.length] + " " + n, style: "animation-delay:-" + (i * 0.37 % 3).toFixed(2) + "s;animation-duration:" + (2.6 + (i * 0.53 % 1.8)).toFixed(2) + "s" });
+    })));
+  }
+  function cabBloque(h) {
+    var ab = ahora() >= horaMs(h), c = cerrado();
+    return el("div", { class: "bloque-t", "data-bloque": h }, el("b", { text: P.bloques[h] }),
+      el("span", { class: ab && !c ? "abierta" : "pronto", text: c ? "🏁 Cerrado" : ab ? "🔓 Abierta" : "🔒 " + fmtHora(h) }));
+  }
+  function evidencia(m) {
+    if (m.evidencia) return m.evidencia;
+    if (m.tipo === "foto") return "📸 Evidencia: sube tu foto con el botón «Subir mi foto». Se guarda en el Drive de la fiesta y así se activa tu sello.";
+    return "";
+  }
+  function estadoTarjeta(m) { return sellos[m.id] ? "h" : !activa(m) ? "b" : cerrado() ? "c" : "a"; }
+  function tarjetaMision(m) {
+    var hecha = !!sellos[m.id], bloq = !hecha && !activa(m), fin = !hecha && !bloq && cerrado(), sec = esSecreta(m);
+    var acciones = el("div");
+    var caja = el("article", { class: "tarjeta mision" + (hecha ? " hecha" : "") + (bloq ? " bloqueada" : "") + (fin ? " cerrada" : ""), id: "t-" + m.id, "data-e": estadoTarjeta(m) },
+      el("div", { class: "m-ico", "aria-hidden": "true", text: sec ? "❓" : m.ico }),
+      el("div", null,
+        el("p", { class: "m-lugar" }, sec ? "???" : m.lugar, m.desde && !P.bloques ? el("span", { class: "hora-chip", text: fmtHora(m.desde) }) : null),
+        el("h3", { class: "m-t", text: sec ? "Misión secreta 🤫" : m.titulo }),
+        el("p", { class: "m-x", text: sec ? "Algo se perdió en la fiesta… Se revelará a las " + fmtHora(m.desde) + ". ¡Atento!" : m.texto }),
+        !hecha && !sec && evidencia(m) ? el("p", { class: "evid", text: evidencia(m) }) : null,
+        acciones));
+    if (hecha) { acciones.appendChild(el("span", { class: "m-hecho", text: "✅ Sello conseguido" })); return caja; }
+    if (bloq) {
+      acciones.appendChild(el("span", { class: "candado" }, "🔒 Se activa a las ", el("b", { text: fmtHora(m.desde) }),
+        el("span", { class: "cuenta", "data-h": m.desde, text: " · " + fmtFalta(horaMs(m.desde) - ahora()) })));
+      return caja;
+    }
+    if (fin) { acciones.appendChild(el("span", { class: "candado", text: "🏁 El pasaporte ya cerró" })); return caja; }
+
+    if (m.tipo === "check") {
+      var b = el("button", { class: "boton sec", type: "button", text: m.boton || "✅ Listo" });
+      b.addEventListener("click", function () {
+        b.disabled = true; b.textContent = "Guardando…";
+        post({ tipo: "sello", id: id, nombre: nombre, mision: m.id }).then(function (r) {
+          if (r && r.ok === false) throw new Error(r.error);
+          marcar(m.id);
+        }).catch(function () { b.disabled = false; b.textContent = m.boton || "✅ Listo"; toast("No se pudo guardar. Revisa tu señal e inténtalo otra vez."); });
+      });
+      acciones.appendChild(b);
+    } else if (m.tipo === "secreto") {
+      var ir = el("button", { class: "boton boton-caza", type: "button" }, el("span", { class: "radar-mini", "aria-hidden": "true" }), el("span", { text: "🔍 Buscar " + ((P.caramelo || {}).nombre || "el regalo perdido") }));
+      ir.addEventListener("click", function () { cazarCaramelo(); });
+      acciones.appendChild(ir);
+    } else {
+      var extra = null;
+      if (m.pregunta) { extra = el("input", { class: "campo", type: "text", maxlength: "40", placeholder: m.pregunta, "aria-label": m.pregunta }); acciones.appendChild(extra); }
+      var input = el("input", { type: "file", accept: "image/*" });
+      var bf = el("button", { class: "boton", type: "button", text: "📸 Subir mi foto" });
+      var barra = el("div", { class: "barra-sub", hidden: true }, el("i"));
+      var txt = el("p", { class: "sub-txt", hidden: true });
+      bf.addEventListener("click", function () {
+        if (extra && extra.value.trim().length < 2) { toast("✍️ Primero escribe con quién te tomaste la foto"); extra.focus(); return; }
+        input.click();
+      });
+      input.addEventListener("change", function () {
+        var f = input.files && input.files[0]; if (!f) return;
+        bf.disabled = true; bf.textContent = "Subiendo…"; barra.hidden = false; txt.hidden = false; txt.textContent = "Subiendo tu foto en tamaño original… no cierres la página";
+        leerFoto(f).then(function (foto) {
+          return post({ tipo: "sello", id: id, nombre: nombre, mision: m.id, extra: extra ? extra.value.trim() : "", foto: foto.datos, tipoFoto: foto.tipo }, function (p) { barra.firstChild.style.width = p + "%"; });
+        }).then(function (r) {
+          if (r && r.ok === false) throw new Error(r.error || "error");
+          marcar(m.id);
+        }).catch(function (e) {
+          bf.disabled = false; bf.textContent = "📸 Intentar otra vez"; barra.hidden = true;
+          txt.textContent = (e && e.message && e.message.length > 6 ? e.message : "No se pudo subir. Revisa tu señal e inténtalo otra vez.");
+        });
+        input.value = "";
+      });
+      acciones.appendChild(input); acciones.appendChild(bf); acciones.appendChild(barra); acciones.appendChild(txt);
+    }
+    return caja;
+  }
+
+  function tarjetaAlbum() {
+    var input = el("input", { type: "file", accept: "image/*", multiple: true });
+    var b = el("button", { class: "boton album-btn", type: "button", text: "📤 Subir fotos al álbum" });
+    var lista = el("div", { class: "album-lista" });
+    var subidas = 0;
+    b.addEventListener("click", function () { input.click(); });
+    input.addEventListener("change", function () {
+      var files = Array.prototype.slice.call(input.files || []); input.value = "";
+      if (!files.length) return;
+      b.disabled = true;
+      var i = 0;
+      (function siguiente() {
+        if (i >= files.length) { b.disabled = false; b.textContent = "📤 Subir más fotos"; toast("📸 ¡Gracias! Llevas " + subidas + " foto" + (subidas === 1 ? "" : "s") + " en el álbum"); return; }
+        var f = files[i++], fila = el("div", { text: "⏳ " + f.name + "… 0%" });
+        lista.prepend(fila);
+        leerFoto(f).then(function (foto) {
+          return post({ tipo: "album", id: id, nombre: nombre, foto: foto.datos, tipoFoto: foto.tipo }, function (p) { fila.textContent = "⏳ " + f.name + "… " + p + "%"; });
+        }).then(function (r) {
+          if (r && r.ok === false) throw new Error(r.error);
+          subidas++; fila.className = "ok"; fila.textContent = "✅ " + f.name;
+        }).catch(function (e) { fila.className = "mal"; fila.textContent = "⚠️ " + f.name + " no se subió" + (e && e.message && e.message.length > 6 ? ": " + e.message : ""); })
+          .then(siguiente);
+      })();
+    });
+    return el("section", { class: "album-zona", "aria-labelledby": "album-t" },
+      el("div", { class: "polas", "aria-hidden": "true" },
+        el("span", { class: "pola p1", text: "🥳" }), el("span", { class: "pola p2", text: "📸" }), el("span", { class: "pola p3", text: "💃" })),
+      el("p", { class: "album-ceja", text: "✨ Para todos ✨" }),
+      el("h2", { id: "album-t", class: "album-t", text: "📸 Álbum de la fiesta" }),
+      el("p", { class: "album-s", text: "Sube aquí todas las fotos que te tomes durante la fiesta, en su tamaño original. Al final armamos un bonito álbum para todos 💛" }),
+      el("p", { class: "album-nota", text: "No cuenta para el pasaporte: ¡sube todas las que quieras!" }),
+      input, b, lista);
+  }
+
+  // ---------- Caza del caramelo dorado (cámara, estilo Pokémon Go) ----------
+  var lectorQR = null;
+  function cargarLector() {
+    if ("BarcodeDetector" in window) {
+      return window.BarcodeDetector.getSupportedFormats().then(function (f) {
+        if (f.indexOf("qr_code") >= 0) { var d = new window.BarcodeDetector({ formats: ["qr_code"] }); return function (fuente) { return d.detect(fuente).then(function (r) { return r.length ? r[0].rawValue : null; }); }; }
+        throw new Error("sin qr");
+      }).catch(function () { return cargarJsQR(); });
+    }
+    return cargarJsQR();
+  }
+  function cargarJsQR() {
+    return new Promise(function (ok, mal) {
+      if (window.jsQR) return ok();
+      var sc = document.createElement("script"); sc.src = "https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js";
+      sc.onload = ok; sc.onerror = mal; document.head.appendChild(sc);
+    }).then(function () {
+      var cv = document.createElement("canvas"), cx = cv.getContext("2d", { willReadFrequently: true });
+      return function (video) {
+        var w = 480, h = Math.round(w * video.videoHeight / video.videoWidth) || 360;
+        cv.width = w; cv.height = h; cx.drawImage(video, 0, 0, w, h);
+        var r = window.jsQR(cx.getImageData(0, 0, w, h).data, w, h, { inversionAttempts: "dontInvert" });
+        return Promise.resolve(r ? r.data : null);
+      };
+    });
+  }
+  // ---------- Regalo 3D (three.js) ----------
+  var regalo3D = null;
+  function cargarRegalo3D() {
+    if (regalo3D) return regalo3D;
+    regalo3D = Promise.all([import("three"), import("three/addons/geometries/RoundedBoxGeometry.js"), import("three/addons/environments/RoomEnvironment.js")])
+      .then(function (m) { return motor3D(m[0], m[1].RoundedBoxGeometry, m[2].RoomEnvironment); });
+    regalo3D.catch(function () { regalo3D = null; });
+    return regalo3D;
+  }
+  function motor3D(THREE, RBox, RoomEnv) {
+    function crear(cont) {
+      var W = cont.clientWidth, H = cont.clientHeight;
+      var ren = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      ren.setPixelRatio(Math.min(2, window.devicePixelRatio || 1)); ren.setSize(W, H);
+      ren.outputColorSpace = THREE.SRGBColorSpace; ren.toneMapping = THREE.ACESFilmicToneMapping; ren.toneMappingExposure = 1.15;
+      ren.domElement.className = "lienzo3d"; cont.appendChild(ren.domElement);
+      var esc = new THREE.Scene();
+      var pm = new THREE.PMREMGenerator(ren); esc.environment = pm.fromScene(new RoomEnv(), .04).texture;
+      var cam = new THREE.PerspectiveCamera(40, W / H, .1, 100); cam.position.set(0, 0.6, 9); cam.lookAt(0, 0, 0);
+      esc.add(new THREE.AmbientLight(0xffffff, .5));
+      var luz = new THREE.DirectionalLight(0xfff1d6, 2.2); luz.position.set(3, 5, 6); esc.add(luz);
+      var luz2 = new THREE.PointLight(0xffd27a, 18, 20); luz2.position.set(-3, 2, 4); esc.add(luz2);
+
+      var vino = new THREE.MeshPhysicalMaterial({ color: 0x8c1a37, roughness: .38, metalness: .05, clearcoat: .8, clearcoatRoughness: .25 });
+      var oro = new THREE.MeshStandardMaterial({ color: 0xe9c46e, metalness: .75, roughness: .28, emissive: 0x4a3410, emissiveIntensity: .55 });
+      var oroClaro = new THREE.MeshStandardMaterial({ color: 0xffe2a0, metalness: .7, roughness: .22, emissive: 0x5a4214, emissiveIntensity: .5 });
+
+      // --- regalo ---
+      var regalo = new THREE.Group(); esc.add(regalo);
+      var cuerpo = new THREE.Mesh(new RBox(1.6, 1.4, 1.6, 4, .1), vino); regalo.add(cuerpo);
+      var c1 = new THREE.Mesh(new THREE.BoxGeometry(.3, 1.42, 1.62), oro); regalo.add(c1);
+      var c2 = new THREE.Mesh(new THREE.BoxGeometry(1.62, 1.42, .3), oro); regalo.add(c2);
+      var tapa = new THREE.Group(); tapa.position.y = .82; regalo.add(tapa);
+      tapa.add(new THREE.Mesh(new RBox(1.78, .36, 1.78, 4, .08), vino));
+      tapa.add(new THREE.Mesh(new THREE.BoxGeometry(.32, .38, 1.8), oro));
+      tapa.add(new THREE.Mesh(new THREE.BoxGeometry(1.8, .38, .32), oro));
+      var lazo = new THREE.Group(); lazo.position.y = .3; tapa.add(lazo);
+      var aro = new THREE.TorusGeometry(.36, .1, 16, 40);
+      [[-.36, .2, 0, .5], [.36, .2, 0, -.5], [0, .2, -.32, 0], [0, .2, .32, 0]].forEach(function (a, i) {
+        var t = new THREE.Mesh(aro, i < 2 ? oro : oroClaro); t.position.set(a[0], a[1], a[2]);
+        if (i < 2) { t.rotation.y = Math.PI / 2; t.rotation.x = a[3]; } else { t.rotation.y = 0; t.rotation.x = a[2] > 0 ? .5 : -.5; t.rotation.z = 0; }
+        lazo.add(t);
+      });
+      var nudo = new THREE.Mesh(new THREE.SphereGeometry(.17, 24, 16), oroClaro); nudo.position.y = .12; lazo.add(nudo);
+      [-1, 1].forEach(function (sg) {
+        var cola = new THREE.Mesh(new THREE.BoxGeometry(.14, .04, .7), oro); cola.position.set(sg * .2, .02, .32); cola.rotation.y = sg * .5; lazo.add(cola);
+      });
+
+      // --- chocolate (sale al abrir) ---
+      var choco = new THREE.Group(); choco.visible = false; esc.add(choco);
+      var cafe = new THREE.MeshPhysicalMaterial({ color: 0x4a2414, roughness: .35, clearcoat: .6, clearcoatRoughness: .3 });
+      choco.add(new THREE.Mesh(new RBox(1.6, .22, .9, 3, .05), cafe));
+      for (var cx = 0; cx < 4; cx++) for (var cz = 0; cz < 2; cz++) {
+        var pz = new THREE.Mesh(new RBox(.34, .1, .36, 2, .04), cafe); pz.position.set(-.6 + cx * .4, .14, -.2 + cz * .4); choco.add(pz);
+      }
+      var papel = new THREE.Mesh(new RBox(.86, .3, .96, 3, .05), oro); papel.position.x = .42; choco.add(papel);
+      var faja = new THREE.Mesh(new THREE.BoxGeometry(.5, .31, .98), vino); faja.position.x = .42; choco.add(faja);
+
+      // --- brillitos ---
+      var nP = 90, posP = new Float32Array(nP * 3), velP = [];
+      for (var i = 0; i < nP; i++) { posP[i * 3] = 0; posP[i * 3 + 1] = -99; posP[i * 3 + 2] = 0; velP.push(new THREE.Vector3()); }
+      var gP = new THREE.BufferGeometry(); gP.setAttribute("position", new THREE.BufferAttribute(posP, 3));
+      var chispa = new THREE.Points(gP, new THREE.PointsMaterial({ color: 0xffe3a1, size: .09, transparent: true, opacity: .95, blending: THREE.AdditiveBlending, depthWrite: false }));
+      esc.add(chispa);
+      var haz = new THREE.Mesh(new THREE.ConeGeometry(1.1, 4, 32, 1, true), new THREE.MeshBasicMaterial({ color: 0xffe3a1, transparent: true, opacity: 0, side: THREE.DoubleSide, blending: THREE.AdditiveBlending, depthWrite: false }));
+      haz.visible = false;
+      function explotar(o, n, fuerza) {
+        for (var k = 0; k < n; k++) { var q = Math.floor(Math.random() * nP);
+          posP[q * 3] = o.x; posP[q * 3 + 1] = o.y; posP[q * 3 + 2] = o.z;
+          velP[q].set((Math.random() - .5) * fuerza, Math.random() * fuerza, (Math.random() - .5) * fuerza); }
+      }
+
+      // --- movimiento ---
+      var ajuste = function () {
+        var anchoVisible = 2 * Math.tan(THREE.MathUtils.degToRad(cam.fov / 2)) * (cam.position.z - choco.position.z) * cam.aspect;
+        return Math.min(1, anchoVisible * .68 / 1.85);
+      };
+      var lim = function () { var h = Math.tan(THREE.MathUtils.degToRad(cam.fov / 2)) * 9; return { x: h * cam.aspect * .62, y: h * .5 }; };
+      var BASE = .62, obj = new THREE.Vector3(0, 0, 0), escala = 0, salto = 0, estado = "vivo", tAbre = 0, fin = null;
+      regalo.position.set(0, 0, 0); regalo.scale.setScalar(.001);
+      var reloj = new THREE.Clock(), vivo = true, tmp = new THREE.Vector3();
+      function cuadro() {
+        if (!vivo) return;
+        var dt = Math.min(.05, reloj.getDelta()), t = reloj.elapsedTime;
+        escala += (BASE - escala) * Math.min(1, dt * 5);
+        if (estado === "vivo") {
+          regalo.position.lerp(obj, Math.min(1, dt * 6));
+          salto = Math.max(0, salto - dt * 2.5);
+          var s = escala * (1 + Math.sin(salto * Math.PI * 3) * .18 * salto);
+          regalo.scale.set(s * (1 + salto * .15), s * (1 - salto * .2), s * (1 + salto * .15));
+          regalo.rotation.y += dt * (.7 + salto * 9);
+          regalo.rotation.z = Math.sin(t * 2.2) * .06;
+          regalo.position.y += Math.sin(t * 2.4) * .004;
+          tapa.rotation.z = Math.sin(t * 9) * .04 * (1 + salto * 4);
+        } else if (estado === "abriendo") {
+          tAbre += dt;
+          var a = Math.min(1, tAbre / .9);
+          regalo.rotation.y += dt * (2.5 - 2 * a);
+          tapa.position.y = .82 + a * 1.8; tapa.position.x = a * 1.1; tapa.rotation.z = -a * 1.9; tapa.rotation.x = a * .6;
+          haz.position.copy(regalo.position).add(tmp.set(0, 1.6, 0)); haz.scale.setScalar(.7); haz.material.opacity = Math.min(.35, tAbre * .5) * (1 - Math.max(0, tAbre - 2.2));
+          if (tAbre > .6) {
+            choco.visible = true;
+            var b = Math.min(1, (tAbre - .6) / 1.2), e = 1 - Math.pow(1 - b, 3);
+            choco.position.set(regalo.position.x * (1 - e), regalo.position.y + .2 + e * 1.3, regalo.position.z + e * .4);
+            choco.scale.setScalar((.25 + e * .75) * ajuste()); choco.rotation.y += dt * 1.6; choco.rotation.x = .45 - e * .15;
+            regalo.scale.setScalar(Math.max(.001, BASE * (1 - Math.max(0, tAbre - 1.4) * 1.4)));
+          }
+          if (tAbre > 2.4 && fin) { var f = fin; fin = null; f(); }
+          if (tAbre > 2.4) estado = "abierto";
+        } else {
+          choco.rotation.y += dt * 1.1; choco.position.y += Math.sin(t * 2) * .003; haz.material.opacity *= .94;
+          if (Math.random() < dt * 8) explotar(choco.position.clone(), 1, 1.4);
+        }
+        for (var k = 0; k < nP; k++) { if (posP[k * 3 + 1] < -50) continue; velP[k].y -= dt * 1.8; posP[k * 3] += velP[k].x * dt; posP[k * 3 + 1] += velP[k].y * dt; posP[k * 3 + 2] += velP[k].z * dt; if (posP[k * 3 + 1] < -6) posP[k * 3 + 1] = -99; }
+        gP.attributes.position.needsUpdate = true;
+        if (estado === "vivo" && Math.random() < dt * 6) explotar(regalo.position.clone().add(tmp.set(0, 1.1, 0)), 1, 1.2);
+        ren.render(esc, cam);
+        requestAnimationFrame(cuadro);
+      }
+      requestAnimationFrame(cuadro);
+      function alRedimensionar() { W = cont.clientWidth; H = cont.clientHeight; ren.setSize(W, H); cam.aspect = W / H; cam.updateProjectionMatrix(); }
+      window.addEventListener("resize", alRedimensionar);
+      return {
+        pos: function () {
+          var v = regalo.position.clone().project(cam);
+          var borde = regalo.position.clone().add(tmp.set(1.1 * regalo.scale.x, 0, 0)).project(cam);
+          return { x: (v.x + 1) / 2 * W, y: (1 - v.y) / 2 * H, r: Math.max(56, Math.abs(borde.x - v.x) / 2 * W) };
+        },
+        golpe: function () {
+          salto = 1; explotar(regalo.position.clone(), 18, 3.2);
+          var L = lim(); obj.set((Math.random() * 2 - 1) * L.x, (Math.random() * 2 - 1) * L.y, (Math.random() - .5) * 1.5);
+        },
+        abrir: function () {
+          return new Promise(function (ok) {
+            estado = "abriendo"; tAbre = 0; fin = ok; obj.set(0, -1.2, 0); regalo.position.lerp(obj, .5);
+            explotar(regalo.position.clone().add(tmp.set(0, 1, 0)), 80, 4.5);
+          });
+        },
+        destruir: function () { vivo = false; window.removeEventListener("resize", alRedimensionar); ren.dispose(); },
+      };
+    }
+    return { crear: crear };
+  }
+
+  function cazarCaramelo() {
+    if (sellos.m8) { toast("¡Ya lo atrapaste! 🙌"); return; }
+    var m8 = P.misiones.filter(function (x) { return x.id === "m8"; })[0];
+    if (m8 && !activa(m8)) { toast("🔒 Esta misión se activa a las " + fmtHora(m8.desde)); return; }
+    if (cerrado()) { toast("🏁 El pasaporte ya cerró"); return; }
+    var C = P.caramelo || {};
+    var fondo = document.getElementById("puzzle"); fondo.innerHTML = ""; fondo.className = "caza"; fondo.hidden = false;
+    var video = el("video", { class: "caza-video", playsinline: true, muted: true, autoplay: true });
+    var estado = el("p", { class: "caza-estado", text: "Abriendo la cámara…" });
+    var radar = el("div", { class: "radar", "aria-hidden": "true" }, el("i"), el("i"), el("i"));
+    var escena = el("div", { class: "caza-escena" });
+    var cerrarB = el("button", { type: "button", class: "caza-x", "aria-label": "Cerrar", text: "×" });
+    var respaldo = el("div", { class: "caza-respaldo", hidden: true });
+    fondo.appendChild(el("div", { class: "caza-caja" }, video, radar, escena,
+      el("div", { class: "caza-top" }, el("strong", { text: "🔍 Busca " + (C.nombre || "el regalo perdido") }), cerrarB),
+      el("div", { class: "caza-pie" }, estado, respaldo)));
+    var stream = null, vivo = true, leer = null, encontrado = false;
+    function apagar() { vivo = false; if (stream) stream.getTracks().forEach(function (t) { t.stop(); }); video.style.visibility = "hidden"; }
+    function volverAlPasaporte() {
+      cerrar();
+      confeti(180);
+      var z = zonaProgreso; if (z) z.scrollIntoView({ behavior: "smooth", block: "start" });
+      setTimeout(function () {
+        var sl = z && z.querySelectorAll(".sello")[P.misiones.length - 1];
+        if (sl) { sl.classList.remove("nuevo"); void sl.offsetWidth; sl.classList.add("nuevo"); }
+        toast("🎁 ¡Sello del regalo conseguido! Llevas " + total() + " de " + P.misiones.length);
+      }, 450);
+    }
+    function cerrar() { apagar(); if (ctl3d) { ctl3d.destruir(); ctl3d = null; } fondo.hidden = true; fondo.className = "puzzle-fondo"; fondo.innerHTML = ""; }
+    cerrarB.addEventListener("click", cerrar);
+    function mostrarRespaldo(msg) {
+      estado.textContent = msg;
+      respaldo.hidden = false; respaldo.innerHTML = "";
+      var campo = el("input", { class: "campo", type: "text", maxlength: "20", placeholder: "Código de la tarjeta", autocapitalize: "characters", "aria-label": "Código de la tarjeta dorada" });
+      var b = el("button", { class: "boton", type: "button", text: "✨ Revelar" });
+      b.addEventListener("click", function () {
+        if (campo.value.trim().toUpperCase() === String(C.respaldo || "").toUpperCase()) aparecer(); else toast("Ese no es el código 😜 ¡Sigue buscando!");
+      });
+      respaldo.appendChild(el("div", { class: "clave-fila" }, campo, b));
+    }
+    function escanear() {
+      if (!vivo || encontrado) return;
+      if (video.readyState < 2) { setTimeout(escanear, 200); return; }
+      leer(video).then(function (txt) {
+        if (!vivo || encontrado) return;
+        if (txt && txt.trim() === C.codigo) { aparecer(); return; }
+        if (txt) estado.textContent = "Esa no es la tarjeta dorada 😜 ¡Sigue buscando!";
+        setTimeout(escanear, 220);
+      }).catch(function () { setTimeout(escanear, 400); });
+    }
+    // Aparece el caramelo flotando sobre la cámara: hay que tocarlo 3 veces para atraparlo
+    var tres = null;      // promesa del regalo 3D (se precarga al abrir el buscador)
+    var ctl3d = null;
+    function aparecer() {
+      if (encontrado) return; encontrado = true;
+      radar.classList.add("hallado");
+      if (navigator.vibrate) try { navigator.vibrate([60, 40, 120]); } catch (e) {}
+      respaldo.hidden = true;
+      var N = C.toques || 5, toques = 0, bloqueado = false;
+      estado.textContent = "Abriendo la sorpresa…";
+      (tres || Promise.reject()).then(function (R) { return R.crear(escena); }).then(function (ctl) {
+        ctl3d = ctl; window.__regalo3d = ctl; radar.hidden = true;
+        estado.textContent = "¡Ahí está! Tócalo " + N + " veces para atraparlo ✨";
+        escena.addEventListener("pointerdown", function (e) {
+          if (bloqueado) return;
+          var r = escena.getBoundingClientRect(), g = ctl.pos();
+          var dx = e.clientX - r.left - g.x, dy = e.clientY - r.top - g.y;
+          if (Math.sqrt(dx * dx + dy * dy) > g.r * 1.2) return;
+          toques++;
+          if (navigator.vibrate) try { navigator.vibrate(30); } catch (er) {}
+          if (toques < N) { ctl.golpe(); estado.textContent = frase(toques, N); return; }
+          bloqueado = true; estado.textContent = "¡Atrapado! Abriendo… ✨";
+          ctl.abrir().then(function () { confeti(160); guardar(function () { escena.appendChild(exito()); }); });
+        });
+      }).catch(function () { aparecer2D(N); });   // si el 3D no carga, versión simple
+    }
+    function frase(t, N) { var fr = C.frases || []; return (t === N - 1 ? fr[fr.length - 1] : fr[(t - 1) % Math.max(1, fr.length - 1)]) || "¡Se escapó! 💨"; }
+    function guardar(listo) {
+      apagar();
+      post({ tipo: "sello", id: id, nombre: nombre, mision: "m8", clave: P.clave }).then(function (r) {
+        if (r && r.ok === false) throw new Error(r.error);
+        estado.textContent = ""; var pie = fondo.querySelector(".caza-pie"); if (pie) pie.style.display = "none";
+        listo(); marcar("m8");
+      }).catch(function () { estado.textContent = "¡Lo abriste! Pero no se pudo guardar el sello. Revisa tu señal y vuelve a intentarlo."; encontrado = false; });
+    }
+    function aparecer2D(N) {
+      var toques = 0;
+      estado.textContent = "¡Ahí está! Tócalo " + N + " veces para atraparlo ✨";
+      var b = el("button", { type: "button", class: "regalo2d", "aria-label": "Tócalo para atraparlo", text: "🎁" });
+      b.style.left = "50%"; b.style.top = "45%"; escena.appendChild(b);
+      b.addEventListener("click", function () {
+        toques++;
+        if (toques < N) { estado.textContent = frase(toques, N); b.style.left = (15 + Math.random() * 70) + "%"; b.style.top = (22 + Math.random() * 46) + "%"; return; }
+        b.disabled = true; b.textContent = "🍫"; confeti(160);
+        setTimeout(function () { guardar(function () { escena.appendChild(exito()); }); }, 700);
+      });
+    }
+    function exito() {
+      var b = el("button", { class: "boton", type: "button", text: "¡Listo! 🎉" });
+      b.addEventListener("click", volverAlPasaporte);
+      return el("div", { class: "puzzle caza-ok regalo-ok" },
+        el("h3", { text: "¡Encontraste " + (C.nombre || "el regalo perdido") + "!" }),
+        el("p", { class: "gano", text: "¡Adentro había un chocolate! 🍫 Acércate a Arturo, muéstrale esta pantalla y canjéalo." }), b);
+    }
+    tres = cargarRegalo3D(); tres.catch(function () {});
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { radar.hidden = true; mostrarRespaldo("Tu celular no permite abrir la cámara aquí. Escribe el código que está en la tarjeta dorada:"); return; }
+    Promise.all([
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" }, width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false }),
+      cargarLector().catch(function () { return null; }),
+    ]).then(function (res) {
+      stream = res[0]; leer = res[1];
+      if (!vivo) { apagar(); return; }
+      video.srcObject = stream; video.play().catch(function () {});
+      if (!leer) { mostrarRespaldo("No se pudo activar el buscador. Escribe el código de la tarjeta dorada:"); return; }
+      estado.textContent = "Apunta tu cámara a la tarjeta dorada escondida en la casa…";
+      escanear();
+    }).catch(function () {
+      radar.hidden = true;
+      mostrarRespaldo("Necesitamos tu permiso para usar la cámara. Si no quieres, escribe el código de la tarjeta dorada:");
+    });
+  }
+
+  // ---------- confeti ----------
+  function confeti(n) {
+    var cv = el("canvas", { class: "confeti" }); document.body.appendChild(cv);
+    var W = innerWidth, H = innerHeight, d = Math.min(2, devicePixelRatio || 1), c = cv.getContext("2d");
+    cv.width = W * d; cv.height = H * d; c.setTransform(d, 0, 0, d, 0, 0);
+    var col = ["#d9b46a", "#f3dca6", "#ff6f59", "#c3c6ce", "#8c1a37"], ps = [];
+    for (var i = 0; i < n; i++) ps.push({ x: Math.random() * W, y: -20 - Math.random() * H * .5, w: 6 + Math.random() * 5, h: 3 + Math.random() * 4, vy: 2 + Math.random() * 3, vx: -1 + Math.random() * 2, r: Math.random() * 6, vr: -.2 + Math.random() * .4, c: col[i % 5] });
+    var t0 = performance.now();
+    (function paso(t) {
+      c.clearRect(0, 0, W, H);
+      ps.forEach(function (p) { p.x += p.vx; p.y += p.vy; p.r += p.vr; c.save(); c.translate(p.x, p.y); c.rotate(p.r); c.fillStyle = p.c; c.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); c.restore(); });
+      if (t - t0 < 3800) requestAnimationFrame(paso); else cv.remove();
+    })(t0);
+  }
+
+  // brillitos de fondo (por detrás del contenido)
+  (function () {
+    var capa = el("div", { class: "fondo-brillos", "aria-hidden": "true" });
+    var f = ["✦", "✧", "✨", "·", "✦", "⋆"];
+    for (var i = 0; i < 22; i++) capa.appendChild(el("span", { text: f[i % f.length],
+      style: "left:" + (Math.random() * 100).toFixed(1) + "%;font-size:" + (8 + Math.random() * 12).toFixed(0) + "px;animation-duration:" + (9 + Math.random() * 10).toFixed(1) + "s,2.4s;animation-delay:-" + (Math.random() * 18).toFixed(1) + "s,-" + (Math.random() * 2.4).toFixed(1) + "s" }));
+    document.body.prepend(capa);
+  })();
+  // ---------- Reloj de prueba (solo modo prueba, o con ?clave=) ----------
+  function relojPrueba() {
+    if (!MODO_RELOJ) return;
+    var horas = ["17:30", "18:00", "19:00", "19:59", "20:00", "21:00", "21:59", "22:00", "22:30", "22:59", "23:00", "23:30"];
+    var b = el("button", { type: "button", class: "reloj-b" });
+    var g = el("div", { class: "reloj-g" });
+    var panel = el("div", { class: "reloj-p", hidden: true },
+      el("p", { text: "⏰ Reloj de prueba: elige una hora del 7 de noviembre para ver qué misiones se activan. (Los invitados no ven esto.)" }), g);
+    var elegida = prueba ? params.get("hora") : null;
+    function etiqueta() {
+      var lima = new Date(ahora() - 5 * 3600000);
+      var hh = ("0" + lima.getUTCHours()).slice(-2) + ":" + ("0" + lima.getUTCMinutes()).slice(-2);
+      b.textContent = "⏰ " + (prueba ? fmtHora(hh) + " · prueba" : "Hora real");
+      Array.prototype.forEach.call(g.children, function (x) { x.classList.toggle("act", x.getAttribute("data-h") === elegida); });
+    }
+    function ir(hh) { elegida = hh; fijarHora(hh); revisarHorario(false); if (zonaProgreso) pintar(); etiqueta(); }
+    horas.forEach(function (h) { var x = el("button", { type: "button", "data-h": h, text: fmtHora(h).replace(" p. m.", "") }); x.addEventListener("click", function () { ir(h); }); g.appendChild(x); });
+    var real = el("button", { type: "button", text: "🕒 Hora real" });
+    real.addEventListener("click", function () { ir(null); });
+    var borrar = el("button", { type: "button", text: "🧹 Borrar mis sellos" });
+    borrar.addEventListener("click", function () { sellos = {}; guarda(LS.sellos, "{}"); try { localStorage.removeItem(LS.rank); } catch (e) {} if (nombre) principal(); toast("Sellos borrados (solo en este celular)"); });
+    panel.appendChild(el("div", { class: "reloj-x" }, real, API ? null : borrar));
+    b.addEventListener("click", function () { panel.hidden = !panel.hidden; });
+    document.body.appendChild(el("div", { class: "reloj" }, panel, b));
+    etiqueta(); setInterval(etiqueta, 15000);
+  }
+  relojPrueba();
+  if (nombre) principal(); else pantallaNombre();
+})();
+</script>
+</body>
+</html>

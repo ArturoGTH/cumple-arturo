@@ -6,8 +6,13 @@
 <title>Pasaporte de la fiesta · Arturo</title>
 <meta name="description" content="Cumple las misiones de la fiesta, junta tus sellos y gana un premio sorpresa.">
 <meta property="og:title" content="🎟️ Pasaporte de la fiesta · Arturo">
-<meta property="og:description" content="Cumple las misiones, junta los 11 sellos: ¡el primero en completarlos gana un premio sorpresa!">
-<meta property="og:image" content="https://arturogth.github.io/cumple-arturo/fotos/portada-whatsapp-v2.jpg">
+<meta property="og:description" content="11 misiones en 3 partes · junta tus sellos y gana el premio sorpresa 🎁">
+<meta property="og:image" content="https://arturogth.github.io/cumple-arturo/fotos/pasaporte-whatsapp.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://arturogth.github.io/cumple-arturo/pasaporte.html">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0D0A0B">
 <script type="importmap">
 { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js",
@@ -57,7 +62,7 @@ window.PASAPORTE = {
     { id: "m1",  desde: "18:00", corto: "Barra",     ico: "🍸", lugar: "Barra",      titulo: "Brindis en la barra",       texto: "Pide un trago y tómate una foto o selfie brindando con 2 o 3 amigos.", tipo: "foto" },
     { id: "m7",  desde: "18:00", corto: "Photocall", ico: "📸", lugar: "Photocall de cumpleaños", titulo: "Foto en el photocall", texto: "Tómate una foto o selfie bonita en el adorno de «Feliz cumpleaños» con algún cotillón (gorro, lentes, corona…).", tipo: "foto" },
     { id: "m2",  desde: "18:00", corto: "Nuevo",     ico: "🤝", lugar: "Donde sea",  titulo: "Alguien nuevo",             texto: "Tómate una foto o selfie con alguien que no conocías.", tipo: "foto", pregunta: "¿Con quién te tomaste la foto?",
-      evidencia: "📸 Evidencia: escribe el nombre de esa persona y sube tu foto o selfie con el botón. Se guarda en el Drive de la fiesta y se activa tu sello." },
+      evidencia: "📸 Evidencia: escribe el nombre de esa persona y toca «📷 Tomar foto» o «🖼️ Subir de galería». Se guarda en el Drive de la fiesta y se activa tu sello." },
     // ---- Parte 2 · 8:00 p. m. ----
     { id: "m3",  desde: "20:00", corto: "Bailar",    ico: "💃", lugar: "Pista",      titulo: "¡A bailar!",                texto: "Tómate una foto o selfie bailando en la pista.", tipo: "foto" },
     { id: "m6",  desde: "20:00", corto: "Arturo",    ico: "🤳", lugar: "Con Arturo", titulo: "Foto con el cumpleañero",   texto: "Busca a Arturo y tómate una foto o selfie con él. ¡Puede ser grupal!", tipo: "foto" },
@@ -412,6 +417,17 @@ window.PASAPORTE = {
   .hoja .lg.lock { border-color: rgba(90, 16, 36, .4); }
   .hoja .lg.disp { background: #fff; }
   .hoja .sellos.uno { grid-template-columns: 1fr; }
+  .dos-botones { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .dos-botones[hidden] { display: none; }
+  .dos-botones .boton { flex-direction: column; gap: 2px; padding: 12px 8px; font-size: 15px; line-height: 1.15; min-height: 74px; }
+  .b-ico { font-size: 24px; line-height: 1; }
+  .b-cam { background: linear-gradient(135deg, #ff6f59, #e0475f); color: #fff; box-shadow: 0 6px 18px rgba(255, 111, 89, .35); }
+  .b-gal { background: linear-gradient(135deg, #f3dca6, #d9b46a); color: #3a1620; box-shadow: 0 6px 18px rgba(217, 180, 106, .25); }
+  .album-zona .album-cam { background: rgba(255, 255, 255, .14); color: #fff; border: 2px solid rgba(255, 243, 214, .8); }
+  .album-zona .album-btn { animation: none; }
+  .boton-gal { display: block; width: 100%; margin-top: 8px; padding: 9px 12px; border: 0; background: none; color: var(--accent); font: inherit; font-weight: 700; font-size: 14.5px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  .boton-gal[hidden] { display: none; }
+  .album-cam { color: #fff3e8; }
 </style>
 </head>
 <body>
@@ -488,11 +504,15 @@ window.PASAPORTE = {
       var x = new XMLHttpRequest();
       x.open("POST", API);
       x.setRequestHeader("Content-Type", "text/plain;charset=utf-8");
-      if (progreso && x.upload) x.upload.onprogress = function (e) { if (e.lengthComputable) progreso(Math.round(e.loaded / e.total * 100)); };
-      x.onload = function () { try { ok(JSON.parse(x.responseText)); } catch (e) { ok({ ok: true, sinRespuesta: true }); } };
-      x.onerror = function () { mal(new Error("red")); };
-      x.timeout = 180000; x.ontimeout = function () { mal(new Error("tiempo")); };
-      x.send(JSON.stringify(obj));
+      // OJO: no usar x.upload.onprogress (obliga a una consulta previa que Google no acepta y la subida falla).
+      // La barra avanza estimando el tiempo según el peso de la foto.
+      var avance = 0, cuerpo = JSON.stringify(obj), seg = Math.max(3, cuerpo.length / 350000);
+      var tim = progreso ? setInterval(function () { avance = Math.min(92, avance + (92 - avance) * (1 / seg) * .6 + .5); progreso(Math.round(avance)); }, 500) : null;
+      var listo = function () { if (tim) { clearInterval(tim); progreso(100); } };
+      x.onload = function () { listo(); try { ok(JSON.parse(x.responseText)); } catch (e) { ok({ ok: true, sinRespuesta: true }); } };
+      x.onerror = function () { if (tim) clearInterval(tim); mal(new Error("red")); };
+      x.timeout = 180000; x.ontimeout = function () { if (tim) clearInterval(tim); mal(new Error("tiempo")); };
+      x.send(cuerpo);
     });
   }
   function cargarEstado() {
@@ -619,7 +639,7 @@ window.PASAPORTE = {
       el("h3", { text: "📖 ¿Cómo se juega?" }),
       el("ol", null,
         el("li", null, el("b", { text: "Las misiones se abren en 3 partes: " }), "6:00, 8:00 y 10:00 p. m. Las que ya se abrieron siguen disponibles hasta las " + fmtHora(P.cierre) + "."),
-        el("li", null, el("b", { text: "Cumple cada misión " }), "y sube tu foto o selfie como evidencia con el botón «📸 Subir mi foto». Se guarda en el Drive de la fiesta."),
+        el("li", null, el("b", { text: "Cumple cada misión " }), "y toma tu foto o selfie con «📷 Tomar foto» o «🖼️ Subir de galería». Se guarda en el Drive de la fiesta."),
         el("li", null, el("b", { text: "Al subirla, se marca tu sello " }), "y avanzas en la carrera 🏃."),
         el("li", null, el("b", { text: "¡El primero en juntar los " + P.misiones.length + " sellos gana un premio sorpresa! 🎁" })))));
     app.appendChild(el("h2", { class: "sec-t", text: "✨ Misiones ✨" }));
@@ -818,7 +838,7 @@ window.PASAPORTE = {
   }
   function evidencia(m) {
     if (m.evidencia) return m.evidencia;
-    if (m.tipo === "foto") return "📸 Evidencia: sube tu foto o selfie con el botón «Subir mi foto». Se guarda en el Drive de la fiesta y así se activa tu sello.";
+    if (m.tipo === "foto") return "📸 Evidencia: toca «📷 Tomar foto» o «🖼️ Subir de galería». Se guarda en el Drive de la fiesta y así se activa tu sello.";
     return "";
   }
   function estadoTarjeta(m) { return sellos[m.id] ? "h" : !activa(m) ? "b" : cerrado() ? "c" : "a"; }
@@ -858,46 +878,57 @@ window.PASAPORTE = {
     } else {
       var extra = null;
       if (m.pregunta) { extra = el("input", { class: "campo", type: "text", maxlength: "40", placeholder: m.pregunta, "aria-label": m.pregunta }); acciones.appendChild(extra); }
-      var input = el("input", { type: "file", accept: "image/*" });
-      var bf = el("button", { class: "boton", type: "button", text: "📸 Subir mi foto" });
+      var inCam = el("input", { type: "file", accept: "image/*", capture: "environment" });   // abre la cámara directo
+      var inGal = el("input", { type: "file", accept: "image/*" });                           // galería / archivos
+      var bf = el("button", { class: "boton b-cam", type: "button" }, el("span", { class: "b-ico", text: "📷" }), el("span", { text: "Tomar foto" }));
+      var bg = el("button", { class: "boton b-gal", type: "button" }, el("span", { class: "b-ico", text: "🖼️" }), el("span", { text: "Subir de galería ⬆" }));
+      var fila = el("div", { class: "dos-botones" }, bf, bg);
       var barra = el("div", { class: "barra-sub", hidden: true }, el("i"));
       var txt = el("p", { class: "sub-txt", hidden: true });
-      bf.addEventListener("click", function () {
+      function abrir(inp) {
         if (extra && extra.value.trim().length < 2) { toast("✍️ Primero escribe con quién te tomaste la foto"); extra.focus(); return; }
-        input.click();
-      });
-      input.addEventListener("change", function () {
-        var f = input.files && input.files[0]; if (!f) return;
-        bf.disabled = true; bf.textContent = "Subiendo…"; barra.hidden = false; txt.hidden = false; txt.textContent = "Subiendo tu foto en tamaño original… no cierres la página";
+        inp.click();
+      }
+      bf.addEventListener("click", function () { abrir(inCam); });
+      bg.addEventListener("click", function () { abrir(inGal); });
+      function subir(inp) {
+        var f = inp.files && inp.files[0]; if (!f) return;
+        fila.hidden = true; barra.hidden = false; txt.hidden = false; txt.textContent = "Subiendo tu foto en tamaño original… no cierres la página";
         leerFoto(f).then(function (foto) {
           return post({ tipo: "sello", id: id, nombre: nombre, mision: m.id, extra: extra ? extra.value.trim() : "", foto: foto.datos, tipoFoto: foto.tipo }, function (p) { barra.firstChild.style.width = p + "%"; });
         }).then(function (r) {
           if (r && r.ok === false) throw new Error(r.error || "error");
           marcar(m.id);
         }).catch(function (e) {
-          bf.disabled = false; bf.textContent = "📸 Intentar otra vez"; barra.hidden = true;
+          fila.hidden = false; barra.hidden = true;
           txt.textContent = (e && e.message && e.message.length > 6 ? e.message : "No se pudo subir. Revisa tu señal e inténtalo otra vez.");
         });
-        input.value = "";
-      });
-      acciones.appendChild(input); acciones.appendChild(bf); acciones.appendChild(barra); acciones.appendChild(txt);
+        inp.value = "";
+      }
+      inCam.addEventListener("change", function () { subir(inCam); });
+      inGal.addEventListener("change", function () { subir(inGal); });
+      [inCam, inGal, fila, barra, txt].forEach(function (x) { acciones.appendChild(x); });
     }
     return caja;
   }
 
   function tarjetaAlbum() {
     var input = el("input", { type: "file", accept: "image/*", multiple: true });
-    var b = el("button", { class: "boton album-btn", type: "button", text: "📤 Subir fotos al álbum" });
+    var b = el("button", { class: "boton album-btn", type: "button" }, el("span", { class: "b-ico", text: "🖼️" }), el("span", { text: "Subir de galería ⬆" }));
+    var inCamA = el("input", { type: "file", accept: "image/*", capture: "environment" });
+    var bCam = el("button", { class: "boton album-cam", type: "button" }, el("span", { class: "b-ico", text: "📷" }), el("span", { text: "Tomar foto" }));
+    bCam.addEventListener("click", function () { inCamA.click(); });
+    inCamA.addEventListener("change", function () { if (inCamA.files && inCamA.files[0]) { var dt = inCamA.files; procesar(Array.prototype.slice.call(dt)); inCamA.value = ""; } });
     var lista = el("div", { class: "album-lista" });
     var subidas = 0;
     b.addEventListener("click", function () { input.click(); });
-    input.addEventListener("change", function () {
-      var files = Array.prototype.slice.call(input.files || []); input.value = "";
+    input.addEventListener("change", function () { var fs = Array.prototype.slice.call(input.files || []); input.value = ""; procesar(fs); });
+    function procesar(files) {
       if (!files.length) return;
       b.disabled = true;
       var i = 0;
       (function siguiente() {
-        if (i >= files.length) { b.disabled = false; b.textContent = "📤 Subir más fotos"; toast("📸 ¡Gracias! Llevas " + subidas + " foto" + (subidas === 1 ? "" : "s") + " en el álbum"); return; }
+        if (i >= files.length) { b.disabled = false; toast("📸 ¡Gracias! Llevas " + subidas + " foto" + (subidas === 1 ? "" : "s") + " en el álbum"); return; }
         var f = files[i++], fila = el("div", { text: "⏳ " + f.name + "… 0%" });
         lista.prepend(fila);
         leerFoto(f).then(function (foto) {
@@ -908,7 +939,7 @@ window.PASAPORTE = {
         }).catch(function (e) { fila.className = "mal"; fila.textContent = "⚠️ " + f.name + " no se subió" + (e && e.message && e.message.length > 6 ? ": " + e.message : ""); })
           .then(siguiente);
       })();
-    });
+    }
     return el("section", { class: "album-zona", "aria-labelledby": "album-t" },
       el("div", { class: "polas", "aria-hidden": "true" },
         el("span", { class: "pola p1", text: "🥳" }), el("span", { class: "pola p2", text: "📸" }), el("span", { class: "pola p3", text: "💃" })),
@@ -916,7 +947,7 @@ window.PASAPORTE = {
       el("h2", { id: "album-t", class: "album-t", text: "📸 Álbum de la fiesta" }),
       el("p", { class: "album-s", text: "Sube aquí todas las fotos que te tomes durante la fiesta, en su tamaño original. Al final armamos un bonito álbum para todos 💛" }),
       el("p", { class: "album-nota", text: "No cuenta para el pasaporte: ¡sube todas las que quieras!" }),
-      input, b, lista);
+      input, inCamA, el("div", { class: "dos-botones" }, bCam, b), el("p", { class: "album-nota", style: "margin:10px 0 0", text: "Puedes elegir varias fotos de tu galería a la vez 💛" }), lista);
   }
 
   // ---------- Caza del caramelo dorado (cámara, estilo Pokémon Go) ----------

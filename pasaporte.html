@@ -32,8 +32,8 @@ window.PASAPORTE = {
   clave: "CHOCO2026",                // clave interna del último sello (igual que en el código de la hoja)
   caramelo: {
     nombre: "el regalo perdido",      // "Busca …" / "¡Encontraste …!"
-    toques: 5,                        // cuántos toques para atraparlo
-    frases: ["¡El regalo salió corriendo! 🎁💨", "¡Tiene patitas! 😂", "¡Casi lo abres! 🙈", "¡Uno más y es tuyo! 🔥"],
+    toques: 15,                       // cuántos toques para atraparlo (se pone más difícil con cada toque)
+    frases: ["¡El regalo salió corriendo! 🎁💨", "¡Tiene patitas! 😂", "¡Se hace el difícil! 🙈", "¡Está bailando timba! 💃", "¡No te rindas! 💪", "¡Ahora va más rápido! ⚡", "¡Se está escondiendo! 👀", "¡Ya casi! 🔥", "¡Uno más y es tuyo! 🎉"],
     codigo: "CARAMELO-DORADO-2026",   // lo que lleva el QR de la tarjeta dorada escondida
     respaldo: "REGALO",               // código impreso chiquito en la tarjeta (por si la cámara no funciona)
   },
@@ -70,7 +70,7 @@ window.PASAPORTE = {
     { id: "m10", desde: "20:00", corto: "Brindis",   ico: "🥂", lugar: "Donde sea",  titulo: "Brindis con amigos",        texto: "Junta a 4 o más amigos y tómense una foto brindando, ¡con los vasos chocando en la foto!", tipo: "foto" },
     { id: "m11", desde: "20:00", corto: "Hora loca", ico: "🥳", lugar: "Hora loca · 9:30 p. m.", titulo: "¡Foto en la hora loca!", texto: "Cuando empiece la hora loca, tómate una foto o selfie en plena locura. ¡Con gorro, máscara o lo que te toque!", tipo: "foto" },
     // ---- Parte 3 · 10:00 p. m. (secreta hasta esa hora) ----
-    { id: "m8",  desde: "22:00", corto: "Secreta",   ico: "🎁", lugar: "¿Dónde?",    titulo: "El regalo perdido de Arturo", texto: "¡Arturo perdió un regalo y anda escondido por la casa! Abre el buscador, apunta tu cámara a la tarjeta dorada y atrápalo. Adentro hay una sorpresa 🍫", tipo: "secreto",
+    { id: "m8",  desde: "22:00", corto: "Secreta",   ico: "🎁", lugar: "¿Dónde?",    titulo: "El regalo perdido de Arturo", texto: "¡Arturo perdió un regalo y anda escondido por la casa! Abre el buscador, apunta tu cámara a la tarjeta dorada y atrápalo. Adentro hay un mensaje secreto de Arturo 💌", tipo: "secreto",
       evidencia: "🔍 Evidencia: encuentra la tarjeta dorada escondida y escanéala con la cámara (o escribe el código impreso)." },
   ],
 };
@@ -428,6 +428,10 @@ window.PASAPORTE = {
   .boton-gal { display: block; width: 100%; margin-top: 8px; padding: 9px 12px; border: 0; background: none; color: var(--accent); font: inherit; font-weight: 700; font-size: 14.5px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
   .boton-gal[hidden] { display: none; }
   .album-cam { color: #fff3e8; }
+  .caza-barra { position: relative; height: 14px; margin: 0 auto 10px; max-width: 320px; border-radius: 999px; background: rgba(255, 255, 255, .18); overflow: hidden; border: 1px solid rgba(243, 220, 166, .6); }
+  .caza-barra i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #ff6f59, #f3dca6); transition: width .25s ease; }
+  .caza-barra span { position: absolute; inset: 0; display: grid; place-items: center; font-size: 10.5px; font-weight: 800; color: #241006; text-shadow: 0 0 4px rgba(255, 255, 255, .8); }
+  .caza-sim { position: absolute; top: 70px; left: 50%; transform: translateX(-50%); z-index: 5; padding: 8px 14px; border-radius: 999px; border: 1px dashed #f3dca6; background: rgba(0, 0, 0, .55); color: #f3dca6; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -1024,16 +1028,20 @@ window.PASAPORTE = {
         var cola = new THREE.Mesh(new THREE.BoxGeometry(.14, .04, .7), oro); cola.position.set(sg * .2, .02, .32); cola.rotation.y = sg * .5; lazo.add(cola);
       });
 
-      // --- chocolate (sale al abrir) ---
+      // --- corazón dorado (sale al abrir: "el regalo perdido eras tú") ---
       var choco = new THREE.Group(); choco.visible = false; esc.add(choco);
-      var cafe = new THREE.MeshPhysicalMaterial({ color: 0x4a2414, roughness: .35, clearcoat: .6, clearcoatRoughness: .3 });
-      choco.add(new THREE.Mesh(new RBox(1.6, .22, .9, 3, .05), cafe));
-      for (var cx = 0; cx < 4; cx++) for (var cz = 0; cz < 2; cz++) {
-        var pz = new THREE.Mesh(new RBox(.34, .1, .36, 2, .04), cafe); pz.position.set(-.6 + cx * .4, .14, -.2 + cz * .4); choco.add(pz);
-      }
-      var papel = new THREE.Mesh(new RBox(.86, .3, .96, 3, .05), oro); papel.position.x = .42; choco.add(papel);
-      var faja = new THREE.Mesh(new THREE.BoxGeometry(.5, .31, .98), vino); faja.position.x = .42; choco.add(faja);
-
+      var forma = new THREE.Shape();
+      forma.moveTo(0, -0.62);
+      forma.bezierCurveTo(-0.15, -0.45, -0.85, -0.05, -0.85, 0.32);
+      forma.bezierCurveTo(-0.85, 0.68, -0.48, 0.86, -0.25, 0.82);
+      forma.bezierCurveTo(-0.08, 0.79, 0, 0.62, 0, 0.55);
+      forma.bezierCurveTo(0, 0.62, 0.08, 0.79, 0.25, 0.82);
+      forma.bezierCurveTo(0.48, 0.86, 0.85, 0.68, 0.85, 0.32);
+      forma.bezierCurveTo(0.85, -0.05, 0.15, -0.45, 0, -0.62);
+      var geoC = new THREE.ExtrudeGeometry(forma, { depth: 0.22, bevelEnabled: true, bevelThickness: 0.12, bevelSize: 0.1, bevelSegments: 6, curveSegments: 32 });
+      geoC.center();
+      choco.add(new THREE.Mesh(geoC, oroClaro));
+      var anillo = new THREE.Mesh(new THREE.TorusGeometry(1.12, 0.035, 12, 64), oro); choco.add(anillo);
       // --- brillitos ---
       var nP = 90, posP = new Float32Array(nP * 3), velP = [];
       for (var i = 0; i < nP; i++) { posP[i * 3] = 0; posP[i * 3 + 1] = -99; posP[i * 3 + 2] = 0; velP.push(new THREE.Vector3()); }
@@ -1054,15 +1062,16 @@ window.PASAPORTE = {
         return Math.min(1, anchoVisible * .68 / 1.85);
       };
       var lim = function () { var h = Math.tan(THREE.MathUtils.degToRad(cam.fov / 2)) * 9; return { x: h * cam.aspect * .62, y: h * .5 }; };
-      var BASE = .62, obj = new THREE.Vector3(0, 0, 0), escala = 0, salto = 0, estado = "vivo", tAbre = 0, fin = null;
+      var BASE = .62, obj = new THREE.Vector3(0, 0, 0), escala = 0, salto = 0, estado = "vivo", tAbre = 0, fin = null, nivel = 0, proxEsquive = 0;
       regalo.position.set(0, 0, 0); regalo.scale.setScalar(.001);
       var reloj = new THREE.Clock(), vivo = true, tmp = new THREE.Vector3();
       function cuadro() {
         if (!vivo) return;
         var dt = Math.min(.05, reloj.getDelta()), t = reloj.elapsedTime;
-        escala += (BASE - escala) * Math.min(1, dt * 5);
+        escala += (BASE * (1 - .32 * nivel) - escala) * Math.min(1, dt * 5);
         if (estado === "vivo") {
-          regalo.position.lerp(obj, Math.min(1, dt * 6));
+          regalo.position.lerp(obj, Math.min(1, dt * (6 + 10 * nivel)));
+          if (nivel > .35 && t > proxEsquive) { var L2 = lim(); obj.set((Math.random() * 2 - 1) * L2.x, (Math.random() * 2 - 1) * L2.y, (Math.random() - .5) * 1.2); proxEsquive = t + 2.2 - 1.3 * nivel + Math.random() * .6; }
           salto = Math.max(0, salto - dt * 2.5);
           var s = escala * (1 + Math.sin(salto * Math.PI * 3) * .18 * salto);
           regalo.scale.set(s * (1 + salto * .15), s * (1 - salto * .2), s * (1 + salto * .15));
@@ -1104,8 +1113,9 @@ window.PASAPORTE = {
           var borde = regalo.position.clone().add(tmp.set(1.1 * regalo.scale.x, 0, 0)).project(cam);
           return { x: (v.x + 1) / 2 * W, y: (1 - v.y) / 2 * H, r: Math.max(56, Math.abs(borde.x - v.x) / 2 * W) };
         },
-        golpe: function () {
-          salto = 1; explotar(regalo.position.clone(), 18, 3.2);
+        golpe: function (nv) {
+          nivel = nv || 0; proxEsquive = reloj.elapsedTime + 1.5;
+          salto = 1; explotar(regalo.position.clone(), 18 + Math.round(nivel * 30), 3.2 + nivel * 2);
           var L = lim(); obj.set((Math.random() * 2 - 1) * L.x, (Math.random() * 2 - 1) * L.y, (Math.random() - .5) * 1.5);
         },
         abrir: function () {
@@ -1182,21 +1192,28 @@ window.PASAPORTE = {
       estado.textContent = "Abriendo la sorpresa…";
       (tres || Promise.reject()).then(function (R) { return R.crear(escena); }).then(function (ctl) {
         ctl3d = ctl; window.__regalo3d = ctl; radar.hidden = true;
-        estado.textContent = "¡Ahí está! Tócalo " + N + " veces para atraparlo ✨";
+        estado.textContent = "¡Ahí está! Tócalo " + N + " veces para atraparlo ✨"; avance(0, N);
         escena.addEventListener("pointerdown", function (e) {
           if (bloqueado) return;
           var r = escena.getBoundingClientRect(), g = ctl.pos();
           var dx = e.clientX - r.left - g.x, dy = e.clientY - r.top - g.y;
-          if (Math.sqrt(dx * dx + dy * dy) > g.r * 1.2) return;
-          toques++;
-          if (navigator.vibrate) try { navigator.vibrate(30); } catch (er) {}
-          if (toques < N) { ctl.golpe(); estado.textContent = frase(toques, N); return; }
+          if (Math.sqrt(dx * dx + dy * dy) > g.r * 1.35) return;
+          toques++; avance(toques, N);
+          if (navigator.vibrate) try { navigator.vibrate(toques % 5 === 0 ? [40, 30, 80] : 30); } catch (er) {}
+          if (toques % 5 === 0 && toques < N) confeti(40);
+          if (toques < N) { ctl.golpe(toques / N); estado.textContent = frase(toques, N); return; }
           bloqueado = true; estado.textContent = "¡Atrapado! Abriendo… ✨";
           ctl.abrir().then(function () { confeti(160); guardar(function () { escena.appendChild(exito()); }); });
         });
       }).catch(function () { aparecer2D(N); });   // si el 3D no carga, versión simple
     }
-    function frase(t, N) { var fr = C.frases || []; return (t === N - 1 ? fr[fr.length - 1] : fr[(t - 1) % Math.max(1, fr.length - 1)]) || "¡Se escapó! 💨"; }
+    function frase(t, N) { var fr = C.frases || []; if (!fr.length) return "¡Se escapó! 💨"; if (t === N - 1) return fr[fr.length - 1]; var k = Math.min(fr.length - 2, Math.floor((t - 1) / Math.max(1, (N - 1) / (fr.length - 1)))); return fr[k]; }
+    var barra = null;
+    function avance(t, N) {
+      if (!barra) { barra = el("div", { class: "caza-barra" }, el("i"), el("span")); estado.parentNode.insertBefore(barra, estado.nextSibling); }
+      barra.firstChild.style.width = Math.round(t / N * 100) + "%"; barra.lastChild.textContent = t + " / " + N + " toques";
+      if (t >= N) barra.remove();
+    }
     function guardar(listo) {
       apagar();
       post({ tipo: "sello", id: id, nombre: nombre, mision: "m8", clave: P.clave }).then(function (r) {
@@ -1207,13 +1224,13 @@ window.PASAPORTE = {
     }
     function aparecer2D(N) {
       var toques = 0;
-      estado.textContent = "¡Ahí está! Tócalo " + N + " veces para atraparlo ✨";
+      estado.textContent = "¡Ahí está! Tócalo " + N + " veces para atraparlo ✨"; avance(0, N);
       var b = el("button", { type: "button", class: "regalo2d", "aria-label": "Tócalo para atraparlo", text: "🎁" });
       b.style.left = "50%"; b.style.top = "45%"; escena.appendChild(b);
       b.addEventListener("click", function () {
-        toques++;
-        if (toques < N) { estado.textContent = frase(toques, N); b.style.left = (15 + Math.random() * 70) + "%"; b.style.top = (22 + Math.random() * 46) + "%"; return; }
-        b.disabled = true; b.textContent = "🍫"; confeti(160);
+        toques++; avance(toques, N);
+        if (toques < N) { estado.textContent = frase(toques, N); b.style.fontSize = Math.round(96 - 40 * toques / N) + "px"; b.style.transition = "left " + (.35 - .25 * toques / N) + "s ease, top " + (.35 - .25 * toques / N) + "s ease"; b.style.left = (15 + Math.random() * 70) + "%"; b.style.top = (22 + Math.random() * 46) + "%"; return; }
+        b.disabled = true; b.textContent = "💛"; confeti(160);
         setTimeout(function () { guardar(function () { escena.appendChild(exito()); }); }, 700);
       });
     }
@@ -1221,10 +1238,13 @@ window.PASAPORTE = {
       var b = el("button", { class: "boton", type: "button", text: "¡Listo! 🎉" });
       b.addEventListener("click", volverAlPasaporte);
       return el("div", { class: "puzzle caza-ok regalo-ok" },
-        el("h3", { text: "¡Encontraste " + (C.nombre || "el regalo perdido") + "!" }),
-        el("p", { class: "gano", text: "¡Adentro había un chocolate! 🍫 Acércate a Arturo, muéstrale esta pantalla y canjéalo." }), b);
+        el("h3", { text: "¡El regalo perdido eras tú! 💛" }),
+        el("p", { class: "gano", text: (nombre ? nombre.split(" ")[0] + ", buscaste" : "Buscaste") + " por toda la fiesta… y el regalo eras tú. Gracias por estar aquí esta noche: tu presencia es mi mejor regalo." }),
+        el("p", { style: "margin:6px 0 4px;font-family:var(--display);font-style:italic;color:#f3dca6;font-size:18px", text: "— Arturo ✨" }),
+        el("p", { style: "margin:0 0 6px;font-size:13.5px", text: "🎁 Ganaste el sello secreto del pasaporte." }), b);
     }
     tres = cargarRegalo3D(); tres.catch(function () {});
+    if (MODO_RELOJ) { var sim = el("button", { type: "button", class: "caza-sim", text: "🧪 Simular que encontré la tarjeta" }); sim.addEventListener("click", function () { sim.remove(); aparecer(); }); fondo.querySelector(".caza-top").after(sim); }
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { radar.hidden = true; mostrarRespaldo("Tu celular no permite abrir la cámara aquí. Escribe el código que está en la tarjeta dorada:"); return; }
     Promise.all([
       navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" }, width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false }),
